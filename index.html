@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trade Flow Disruptions</title>
+<meta name="description" content="Interactive globe of chemicals, plastics and raw-materials trade routes and current supply-chain disruptions.">
+<style>
+  :root {
+    --bg: #0b1016;
+    --panel: #121a24;
+    --panel-border: #22303f;
+    --ink: #e8edf2;
+    --ink-soft: #8fa0b0;
+    --ocean: #0e1a26;
+    --land: #1c2a38;
+    --land-edge: #2c3e50;
+    --graticule: #1a2530;
+    --critical: #e4574a;
+    --high: #e8973a;
+    --moderate: #d8c252;
+    --structural: #7c8fe0;
+    --avoided: #44525f;
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+  header {
+    padding: 22px 24px 14px;
+    border-bottom: 1px solid var(--panel-border);
+  }
+  header h1 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  header p {
+    margin: 6px 0 0;
+    color: var(--ink-soft);
+    font-size: 13.5px;
+    max-width: 70ch;
+  }
+  .meta-row {
+    margin-top: 8px;
+    font-size: 11.5px;
+    color: var(--ink-soft);
+    font-family: "Consolas", monospace;
+  }
+  main {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(300px, 1fr);
+    gap: 0;
+    align-items: start;
+  }
+  @media (max-width: 880px) {
+    main { grid-template-columns: 1fr; }
+  }
+  .globe-pane {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  #globe { width: 100%; max-width: 640px; height: auto; cursor: grab; }
+  #globe:active { cursor: grabbing; }
+  .hint {
+    color: var(--ink-soft);
+    font-size: 12px;
+    margin-top: 4px;
+  }
+  aside {
+    border-left: 1px solid var(--panel-border);
+    padding: 14px;
+    min-height: 100%;
+  }
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 16px;
+    font-size: 11.5px;
+    color: var(--ink-soft);
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--panel-border);
+  }
+  .legend span.dot {
+    display: inline-block;
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    margin-right: 5px;
+    vertical-align: -1px;
+  }
+  .route-card {
+    border: 1px solid var(--panel-border);
+    background: var(--panel);
+    border-radius: 6px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .route-card:hover { border-color: var(--land-edge); }
+  .route-card.active { border-color: var(--ink); background: #182230; }
+  .route-card .title-row {
+    display: flex;
+    align-items: baseline;
+    gap: 7px;
+  }
+  .route-card .sev-dot {
+    width: 8px; height: 8px; border-radius: 50%; flex: none;
+  }
+  .route-card h3 {
+    margin: 0;
+    font-size: 13.5px;
+    font-weight: 600;
+  }
+  .route-card .date-range {
+    margin: 3px 0 0 15px;
+    font-size: 11px;
+    color: var(--ink-soft);
+    font-family: "Consolas", monospace;
+  }
+  #detail {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid var(--panel-border);
+    font-size: 12.5px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+  #detail .source {
+    display: block;
+    margin-top: 8px;
+    font-size: 10.5px;
+    font-family: "Consolas", monospace;
+    color: #5c6b7a;
+  }
+  #detail .placeholder { color: #5c6b7a; font-style: italic; }
+  footer {
+    padding: 14px 24px 26px;
+    color: #5c6b7a;
+    font-size: 11px;
+    border-top: 1px solid var(--panel-border);
+    margin-top: 10px;
+  }
+  footer a { color: #8fa0b0; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Trade Flow Disruptions</h1>
+  <p>Chemicals, plastics and raw-materials trade routes, against the disruptions actually moving prices right now. Built while prepping for Tricon Energy's Commercial Development Program — kept here because the questions it answers outlast that one interview.</p>
+  <div class="meta-row" id="meta-row">loading data…</div>
+</header>
+
+<main>
+  <div class="globe-pane">
+    <svg id="globe" viewBox="0 0 640 640" role="img" aria-label="Rotatable globe showing chemical and plastics trade routes and current chokepoint disruptions"></svg>
+    <div class="hint">drag to rotate · click a route on the right to highlight it</div>
+  </div>
+  <aside>
+    <div class="legend">
+      <span><span class="dot" style="background:var(--critical)"></span>critical</span>
+      <span><span class="dot" style="background:var(--high)"></span>high</span>
+      <span><span class="dot" style="background:var(--moderate)"></span>moderate</span>
+      <span><span class="dot" style="background:var(--structural)"></span>structural shift</span>
+    </div>
+    <div id="route-list"></div>
+    <div id="detail"><span class="placeholder">Select a route to read the full story and sources.</span></div>
+  </aside>
+</main>
+
+<footer>
+  Data: <code>data/disruptions.json</code> — refreshed weekly via a scheduled agent. Chokepoint coordinates and waypoints are illustrative routing, not vessel-tracked AIS data.
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
