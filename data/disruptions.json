@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-10-02",
+  "lastUpdated": "2026-10-05",
   "updateCadence": "weekly",
   "focus": "Chemicals, plastics and raw-materials trade flows — built while prepping for Tricon Energy's Commercial Development Program",
   "chokepoints": [
@@ -15,55 +15,55 @@
       "title": "Strait of Hormuz closure risk",
       "category": "transport",
       "severity": "critical",
-      "dateRange": "Feb–May 2026",
+      "dateRange": "Feb 2026–ongoing, still escalating as of Oct 2026",
       "waypoints": [
         { "name": "Ras Tanura, Saudi Arabia", "lat": 26.64, "lon": 50.17 },
         { "name": "Strait of Hormuz", "lat": 26.57, "lon": 56.25 },
         { "name": "Mumbai, India", "lat": 19.08, "lon": 72.88 }
       ],
-      "summary": "Iran's restriction of traffic through Hormuz — called by the IEA the largest oil-supply disruption in the history of the global oil market — cut ~20% of global oil supply and major LNG volumes. Ethylene, propylene, benzene and polymer pellets move through Hormuz on dedicated tankers; downstream resin costs rose up to 40% in places. Trade press framing: \"Hormuz could reopen tomorrow. Resin still wouldn't arrive for 275 days\" — the re-contracting and pipeline-fill lag is itself the story. India is the most exposed buyer (60%+ of oil imports from the Middle East, fast-growing resin-consuming packaging sector).",
-      "source": "IEA; syntexamerica.com; plasticstoday.com, 2026"
+      "summary": "Iran's restriction of traffic through Hormuz — called by the IEA the largest oil-supply disruption in the history of the global oil market — cut ~20% of global oil supply and major LNG volumes. Rather than de-escalating, the crisis has widened through the summer: Iran's newly-formed Persian Gulf Strait Authority blacklisted 45 tankers in August for breaking its transit rules, expanding the list to 56 by early September, and several vessels have since been struck by projectiles or set on fire attempting the crossing. The US Navy is keeping roughly 8 million b/d flowing through naval escort, but ethylene, propylene, benzene and polymer pellets moving through Hormuz still carry elevated war-risk costs, and downstream resin costs remain up to 40% higher in places. Trade press framing: \"Hormuz could reopen tomorrow. Resin still wouldn't arrive for 275 days\" — the re-contracting and pipeline-fill lag is itself the story. India is the most exposed buyer (60%+ of oil imports from the Middle East, fast-growing resin-consuming packaging sector).",
+      "source": "IEA; syntexamerica.com; plasticstoday.com; marinelink.com; bairdmaritime.com, 2026"
     },
     {
       "id": "redsea-reroute-2026",
-      "title": "Red Sea avoidance — Cape of Good Hope reroute",
+      "title": "Red Sea reopening — Suez traffic recovering",
       "category": "transport",
-      "severity": "high",
-      "dateRange": "Ongoing since 2024, still live 2026",
+      "severity": "moderate",
+      "dateRange": "Houthi stand-down since Oct 2025 ceasefire; Suez recovery through Oct 2026",
       "waypoints": [
-        { "name": "Singapore", "lat": 1.35, "lon": 103.82 },
-        { "name": "Cape of Good Hope", "lat": -34.35, "lon": 18.47 },
-        { "name": "Rotterdam, Netherlands", "lat": 51.92, "lon": 4.48 }
-      ],
-      "avoidedWaypoints": [
         { "name": "Singapore", "lat": 1.35, "lon": 103.82 },
         { "name": "Bab-el-Mandeb", "lat": 12.6, "lon": 43.4 },
         { "name": "Suez Canal", "lat": 30.58, "lon": 32.27 },
         { "name": "Rotterdam, Netherlands", "lat": 51.92, "lon": 4.48 }
       ],
-      "summary": "Most Asia–Europe tanker and container traffic still routes around the Cape of Good Hope rather than through Suez/Bab-el-Mandeb. Adds 10–14 transit days Asia–Europe; freight rates still +25–40% versus pre-crisis. Chemical tankers specifically carry a 0.5–1.0%-of-vessel-value war-risk premium through the Red Sea corridor.",
-      "source": "UNCTAD; conquerornetwork.com; suaidglobal.com, 2025–2026"
+      "avoidedWaypoints": [
+        { "name": "Singapore", "lat": 1.35, "lon": 103.82 },
+        { "name": "Cape of Good Hope", "lat": -34.35, "lon": 18.47 },
+        { "name": "Rotterdam, Netherlands", "lat": 51.92, "lon": 4.48 }
+      ],
+      "summary": "The picture has flipped since early 2026: Houthi attacks that shut down the corridor from late 2023 have abated following the October 2025 Israel–Hamas ceasefire, with only scattered incidents since. Suez Canal traffic is recovering sharply — more than 200 ships returned in October 2026 alone, the highest monthly total since the crisis began, with canal revenue up 14% YoY (Jul–Oct). Vessels are gradually peeling back from the Cape of Good Hope detour, recovering the 10–14 transit days it added Asia–Europe. The recovery isn't guaranteed to hold — the Houthis have warned they'll resume attacks if the Gaza ceasefire breaks down — so chemical tankers are only partially unwinding the war-risk premium they'd been carrying through the corridor.",
+      "source": "UNCTAD; gtreview.com; hellenicshippingnews.com; freightwaves.com, 2025–2026"
     },
     {
       "id": "panama-2026",
-      "title": "Panama Canal — drought recovery, still tight",
+      "title": "Panama Canal — El Niño drought tightens transit limits",
       "category": "transport",
-      "severity": "moderate",
-      "dateRange": "2026, easing vs. 2023–24",
+      "severity": "high",
+      "dateRange": "El Niño restrictions escalating Aug–Oct 2026",
       "waypoints": [
         { "name": "Houston, USA", "lat": 29.76, "lon": -95.37 },
         { "name": "Panama Canal", "lat": 9.08, "lon": -79.68 },
         { "name": "Shanghai, China", "lat": 31.23, "lon": 121.47 }
       ],
-      "summary": "Drought-driven draft and transit restrictions have eased versus the acute 2023–2024 crisis, but capacity remains tighter than normal — relevant to any US Gulf Coast-to-Asia petrochemical routing question.",
-      "source": "UNCTAD, 2026"
+      "summary": "What looked like 2023–24-drought recovery has reversed: a severe El Niño (rainfall 34% below average, May–Aug) forced the Canal Authority to impose its first daily transit cap since the 2023–24 crisis — cut to 34 ships/day on Sep 3, then 32 from Sep 15, versus a normal ~36 — alongside progressive draft cuts at the Neopanamax locks, down to 47.5 ft by Oct 1. VLGC/LPG freight rates have hit record highs as US Gulf Coast propane and propylene shipments compete for scarce slots, directly squeezing the Houston-to-Asia petrochemical export route this entry tracks. Some easing is scheduled — Neopanamax daily transits rise from 9 to 10 (33 total daily slots) from Oct 15 — but capacity stays well below normal.",
+      "source": "UNCTAD; marineinsight.com; freightwaves.com; industrialinfo.com, 2026"
     },
     {
       "id": "china-export-flip-2026",
       "title": "China flips from PE/PP importer to exporter",
       "category": "structural",
       "severity": "structural",
-      "dateRange": "Through April 2026",
+      "dateRange": "April 2026 export surge; durability debated through Oct 2026",
       "waypoints": [
         { "name": "Ningbo, China", "lat": 29.87, "lon": 121.55 },
         { "name": "Ho Chi Minh City, Vietnam", "lat": 10.82, "lon": 106.63 }
@@ -72,8 +72,8 @@
         { "name": "Ningbo, China", "lat": 29.87, "lon": 121.55 },
         { "name": "Santos, Brazil", "lat": -23.96, "lon": -46.33 }
       ],
-      "summary": "China's PE/PP imports hit record lows in April 2026 while its own PE exports hit record highs (+122% YoY). This structurally squeezes the market US Gulf Coast exporters were counting on, landing right as ~3.3 million tonnes/year of new US PE capacity (Shell, Baystar, Nova, Dow) has come online since 2023 — a demand-side story compounding the transport-side disruptions above.",
-      "source": "itpweb.com; Argus Media; C&EN, 2026"
+      "summary": "China's PE/PP imports hit record lows in April 2026 while its own PE exports hit record highs (+122% YoY; +479% YoY in April alone). This structurally squeezes the market US Gulf Coast exporters were counting on, landing right as ~3.3 million tonnes/year of new US PE capacity (Shell, Baystar, Nova, Dow) has come online since 2023 — a demand-side story compounding the transport-side disruptions above. How durable it is remains an open question: Argus flags the surge as possibly reflecting domestic oversupply and weak demand rather than a lasting trade-flow reversal, and October data show China's PP trade still net-import, with both import and export legs cooling month-on-month.",
+      "source": "itpweb.com; Argus Media; C&EN; chemorbis.com, 2026"
     },
     {
       "id": "us-capacity-2026",
@@ -85,7 +85,7 @@
         { "name": "Orange, TX, USA", "lat": 30.09, "lon": -93.74 },
         { "name": "Ho Chi Minh City, Vietnam", "lat": 10.82, "lon": 106.63 }
       ],
-      "summary": "~2 million tonnes/year of new HDPE capacity starting up in Orange, TX by mid-2026 alone, almost entirely aimed at export, on top of 3.3M+ tonnes/year added since 2023 (Shell, Baystar, Nova, Dow) — landing in the same export markets China has just started competing for directly.",
+      "summary": "~2 million tonnes/year of new HDPE capacity — Golden Triangle Polymers, the Chevron Phillips Chemical–QatarEnergy joint venture — starting up in Orange, TX in H2 2026 alone, almost entirely aimed at export, on top of 3.3M+ tonnes/year added since 2023 (Shell, Baystar, Nova, Dow) — landing in the same export markets China has just started competing for directly.",
       "source": "Argus Media; polymerupdate.com, 2026"
     }
   ]
