@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Trade Flow Disruptions</title>
-<meta name="description" content="Interactive globe of chemicals, plastics and raw-materials trade routes and current supply-chain disruptions.">
+<title>Energy Trade Flows</title>
+<meta name="description" content="Interactive globe of the main crude oil, LNG and refined-product trade routes, their chokepoints, and the 2026 disruptions reshaping them.">
 <style>
   :root {
     --bg: #0b1016;
@@ -21,6 +21,7 @@
     --moderate: #d8c252;
     --structural: #7c8fe0;
     --avoided: #44525f;
+    --chokepoint: #f2d36b;
     font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
   }
   * { box-sizing: border-box; }
@@ -150,27 +151,82 @@
     margin-top: 10px;
   }
   footer a { color: #8fa0b0; }
+  .tabs { display: flex; gap: 6px; margin-bottom: 10px; }
+  .tab {
+    flex: 1; font: inherit; font-size: 12.5px; font-weight: 600;
+    padding: 8px 10px; border-radius: 6px; cursor: pointer;
+    background: var(--panel); color: var(--ink-soft); border: 1px solid var(--panel-border);
+  }
+  .tab.active { color: var(--ink); border-color: var(--ink); background: #182230; }
+  #mode-note { font-size: 11.5px; color: var(--ink-soft); line-height: 1.5; margin-bottom: 10px; }
+  #chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+  .chip {
+    font: inherit; font-size: 11.5px; padding: 4px 10px; border-radius: 14px; cursor: pointer;
+    background: transparent; color: var(--ink-soft); border: 1px solid var(--panel-border); opacity: .55;
+  }
+  .chip.on { opacity: 1; color: var(--ink); }
+  .chip i { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; }
+  .group-label {
+    font-size: 10.5px; text-transform: uppercase; letter-spacing: .08em;
+    color: var(--ink-soft); margin: 12px 0 6px;
+  }
+  #detail h4 { margin: 0 0 6px; font-size: 14px; color: var(--ink); }
+  #detail .figure { color: var(--chokepoint); font-size: 12px; margin-bottom: 8px; }
+  #detail .through { margin-top: 8px; font-size: 11.5px; }
+  details.primer {
+    margin: 0 24px; padding: 10px 14px; border: 1px solid var(--panel-border);
+    border-radius: 6px; background: var(--panel); font-size: 13px; line-height: 1.55; color: var(--ink-soft);
+  }
+  details.primer summary { cursor: pointer; color: var(--ink); font-weight: 600; }
+  details.primer ol { padding-left: 18px; }
+  details.primer dl { display: grid; grid-template-columns: max-content 1fr; gap: 4px 14px; margin: 8px 0 4px; }
+  details.primer dt { color: var(--ink); font-weight: 600; }
+  details.primer dd { margin: 0; }
+  @media (max-width: 600px) { details.primer dl { grid-template-columns: 1fr; } header, details.primer { margin-left: 0; margin-right: 0; } }
 </style>
 </head>
 <body>
 
 <header>
-  <h1>Trade Flow Disruptions</h1>
-  <p>Chemicals, plastics and raw-materials trade routes, against the disruptions actually moving prices right now. Built while prepping for Tricon Energy's Commercial Development Program — kept here because the questions it answers outlast that one interview.</p>
+  <h1>Energy Trade Flows</h1>
+  <p>Where crude oil, LNG and refined products normally move by sea, the chokepoints they depend on, and what the 2026 disruptions (Hormuz, the Red Sea, Panama, Russian sanctions) have done to those flows. Start with <b>Main flows</b> to learn the map, then switch to <b>Disruptions now</b>.</p>
   <div class="meta-row" id="meta-row">loading data…</div>
 </header>
+
+<details class="primer">
+  <summary>How to read this map (2-minute primer)</summary>
+  <ol>
+    <li><b>Producers are far from consumers.</b> The Gulf, Russia, the US, West Africa, Brazil, Qatar and Australia export; China, India, Japan, Korea and Europe import. Almost all of it goes by sea.</li>
+    <li><b>Ships funnel through a handful of chokepoints</b> (yellow diamonds). Click one to see what passes through it and roughly how much. Hormuz and Malacca alone carry about 40% of seaborne oil.</li>
+    <li><b>Prices connect the routes.</b> A cargo goes where the price difference beats the freight cost (the "arbitrage"). When a chokepoint closes, ships take longer routes, freight jumps, and the regions that relied on that flow bid up the benchmark they buy on.</li>
+    <li><b>Line width</b> shows three rough size classes, not exact volumes. Routes are drawn through real ports and chokepoints but are illustrative, not ship-tracking data.</li>
+  </ol>
+  <dl id="glossary"></dl>
+</details>
 
 <main>
   <div class="globe-pane">
     <svg id="globe" viewBox="0 0 640 640" role="img" aria-label="Rotatable globe showing chemical and plastics trade routes and current chokepoint disruptions"></svg>
-    <div class="hint">drag to rotate · click a route on the right to highlight it</div>
+    <div class="hint">drag to rotate · click a route or a yellow chokepoint to focus on it</div>
   </div>
   <aside>
-    <div class="legend">
+    <div class="tabs">
+      <button class="tab active" type="button" data-mode="flows">Main flows</button>
+      <button class="tab" type="button" data-mode="disruptions">Disruptions now</button>
+    </div>
+    <div id="mode-note"></div>
+    <div id="chips"></div>
+    <div class="legend" id="legend-flows">
+      <span><span class="dot" style="background:var(--chokepoint);border-radius:1px;transform:rotate(45deg)"></span>chokepoint (click)</span>
+      <span><span class="dot" style="background:var(--ink)"></span>port / terminal</span>
+      <span>thicker line = bigger flow</span>
+    </div>
+    <div class="legend" id="legend-disruptions" style="display:none">
       <span><span class="dot" style="background:var(--critical)"></span>critical</span>
       <span><span class="dot" style="background:var(--high)"></span>high</span>
       <span><span class="dot" style="background:var(--moderate)"></span>moderate</span>
       <span><span class="dot" style="background:var(--structural)"></span>structural shift</span>
+      <span><span class="dot" style="background:var(--avoided)"></span>dashed = route avoided</span>
     </div>
     <div id="route-list"></div>
     <div id="detail"><span class="placeholder">Select a route to read the full story and sources.</span></div>
@@ -178,7 +234,7 @@
 </main>
 
 <footer>
-  Data: <code>data/disruptions.json</code> — refreshed weekly via a scheduled agent. Chokepoint coordinates and waypoints are illustrative routing, not vessel-tracked AIS data.
+  Data: <code>data/flows.json</code> (2025 baseline: EIA, IEA, GIIGNL, KSE Institute and others, cited per route) and <code>data/disruptions.json</code> (2026 events, cited per entry). Waypoints are illustrative routing through real ports and chokepoints, not vessel-tracked AIS data. Volumes are rounded. Built with an AI coding agent (Claude) and checked against the cited sources; <a href="https://github.com/JskifterJ/trade-flow-disruptions">source on GitHub</a>.
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
