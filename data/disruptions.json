@@ -1,13 +1,38 @@
 {
-  "lastUpdated": "2026-10-05",
+  "lastUpdated": "2026-10-07",
   "updateCadence": "weekly",
   "focus": "Energy and commodity trade flows: what has broken in 2026 and where the barrels and cargoes went instead",
   "chokepoints": [
-    { "id": "hormuz", "name": "Strait of Hormuz", "lat": 26.57, "lon": 56.25 },
-    { "id": "babelmandeb", "name": "Bab-el-Mandeb", "lat": 12.6, "lon": 43.4 },
-    { "id": "suez", "name": "Suez Canal", "lat": 30.58, "lon": 32.27 },
-    { "id": "capegoodhope", "name": "Cape of Good Hope", "lat": -34.35, "lon": 18.47 },
-    { "id": "panama", "name": "Panama Canal", "lat": 9.08, "lon": -79.68 }
+    {
+      "id": "hormuz",
+      "name": "Strait of Hormuz",
+      "lat": 26.57,
+      "lon": 56.25
+    },
+    {
+      "id": "babelmandeb",
+      "name": "Bab-el-Mandeb",
+      "lat": 12.6,
+      "lon": 43.4
+    },
+    {
+      "id": "suez",
+      "name": "Suez Canal",
+      "lat": 30.58,
+      "lon": 32.27
+    },
+    {
+      "id": "capegoodhope",
+      "name": "Cape of Good Hope",
+      "lat": -34.35,
+      "lon": 18.47
+    },
+    {
+      "id": "panama",
+      "name": "Panama Canal",
+      "lat": 9.08,
+      "lon": -79.68
+    }
   ],
   "routes": [
     {
@@ -15,84 +40,310 @@
       "title": "Strait of Hormuz effectively closed",
       "category": "transport",
       "severity": "critical",
-      "dateRange": "Feb 2026–ongoing, still escalating as of Oct 2026",
+      "dateRange": "Since late Feb / early Mar 2026, still live Oct 2026",
       "waypoints": [
-        { "name": "Ras Tanura, Saudi Arabia", "lat": 26.64, "lon": 50.17 },
-        { "name": "Strait of Hormuz", "lat": 26.57, "lon": 56.25 },
-        { "name": "Arabian Sea", "lat": 18.0, "lon": 63.0 },
-        { "name": "South of Sri Lanka", "lat": 5.6, "lon": 80.6 },
-        { "name": "Strait of Malacca", "lat": 2.5, "lon": 101.0 }
+        {
+          "name": "Ras Tanura, Saudi Arabia",
+          "lat": 26.64,
+          "lon": 50.17
+        },
+        {
+          "name": "Strait of Hormuz",
+          "lat": 26.57,
+          "lon": 56.25
+        },
+        {
+          "name": "Arabian Sea",
+          "lat": 18.0,
+          "lon": 63.0
+        },
+        {
+          "name": "South of Sri Lanka",
+          "lat": 5.6,
+          "lon": 80.6
+        },
+        {
+          "name": "Strait of Malacca",
+          "lat": 2.5,
+          "lon": 101.0
+        }
       ],
-      "summary": "Iran's restriction of traffic through Hormuz — called by the IEA the largest oil-supply disruption in the history of the global oil market — cut ~20% of global oil supply and major LNG volumes. Rather than de-escalating, the crisis has widened through the summer: Iran's newly-formed Persian Gulf Strait Authority blacklisted 45 tankers in August for breaking its transit rules, expanding the list to 56 by early September, and several vessels have since been struck by projectiles or set on fire attempting the crossing. The US Navy is keeping roughly 8 million b/d flowing through naval escort, but ethylene, propylene, benzene and polymer pellets moving through Hormuz still carry elevated war-risk costs, and downstream resin costs remain up to 40% higher in places. Trade press framing: \"Hormuz could reopen tomorrow. Resin still wouldn't arrive for 275 days\" — the re-contracting and pipeline-fill lag is itself the story. India is the most exposed buyer (60%+ of oil imports from the Middle East, fast-growing resin-consuming packaging sector).",
-      "source": "IEA; syntexamerica.com; plasticstoday.com; marinelink.com; bairdmaritime.com, 2026"
+      "summary": "The US–Iran war has shut most commercial traffic through Hormuz for about seven months. A June interim deal (the Islamabad MoU) briefly eased flows but did not hold. The IEA estimates oil flows through the strait averaged only 7.6 mb/d in August, 13.1 mb/d below pre-war levels, with cumulative lost exports approaching 2.8 billion barrels. More than 10 mb/d of Gulf output is shut in. Iran's new Persian Gulf Strait Authority blacklisted 45 tankers in August for breaking its transit rules (56 by early September), and US naval escorts keep part of the flow moving. Vessel transits were in single digits on several early-October days against a pre-crisis norm of ~85 a day, and tanker strikes resumed from late September. IEA members agreed a 400 million barrel emergency stock release. Brent has traded back above $100/bbl. For a trader, the questions are which barrels can still move (see the bypass pipelines entry), who replaces them (Atlantic Basin crude, Brazil, US, West Africa), and how freight and insurance reprice for the ships that do sail.",
+      "source": "IEA Oil Market Report, Sep 2026; CNBC 11 Sep 2026; IMF PortWatch via straits.live, Oct 2026; marinelink.com; bairdmaritime.com (2026)"
     },
     {
-      "id": "redsea-reroute-2026",
-      "title": "Red Sea reopening — Suez traffic recovering",
+      "id": "bypass-pipelines-2026",
+      "title": "Hormuz bypass pipelines: Yanbu and Fujairah",
       "category": "transport",
-      "severity": "moderate",
-      "dateRange": "Houthi stand-down since Oct 2025 ceasefire; Suez recovery through Oct 2026",
+      "severity": "high",
+      "dateRange": "Mar–Oct 2026; East-West line hit in early Sep",
       "waypoints": [
-        { "name": "Singapore", "lat": 1.35, "lon": 103.82 },
-        { "name": "Bab-el-Mandeb", "lat": 12.6, "lon": 43.4 },
-        { "name": "Suez Canal", "lat": 30.58, "lon": 32.27 },
-        { "name": "Rotterdam, Netherlands", "lat": 51.92, "lon": 4.0 }
+        {
+          "name": "Abqaiq, Saudi Arabia",
+          "lat": 25.94,
+          "lon": 49.68
+        },
+        {
+          "name": "Yanbu, Saudi Arabia (Red Sea)",
+          "lat": 24.09,
+          "lon": 38.06
+        }
+      ],
+      "secondaryWaypoints": [
+        {
+          "name": "Habshan, UAE",
+          "lat": 23.83,
+          "lon": 53.65
+        },
+        {
+          "name": "Fujairah, UAE (Gulf of Oman)",
+          "lat": 25.12,
+          "lon": 56.35
+        }
+      ],
+      "summary": "Only two pipelines get Gulf crude out without passing Hormuz. Saudi Arabia's East-West line to Yanbu on the Red Sea ramped up to about 5 mb/d (versus ~0.8 mb/d before the crisis), and the UAE's Habshan–Fujairah line exits below the strait. Analysts point to port loading capacity, not pipe capacity, as the binding limit. Then attacks shut the East-West pipeline in early September, cutting the main bypass. Barrels that do reach Yanbu must still pass a Red Sea where the Houthis are blockading Saudi-linked shipping (next entry), so the bypass is only as good as the next chokepoint.",
+      "source": "IEA Oil Market Report, Sep 2026; IEA Strait of Hormuz factsheet, Feb 2026; trade press, Oct 2026"
+    },
+    {
+      "id": "qatar-lng-2026",
+      "title": "Qatar LNG force majeure: a global gas shock",
+      "category": "transport",
+      "severity": "critical",
+      "dateRange": "Since Mar 2026",
+      "waypoints": [
+        {
+          "name": "Ras Laffan, Qatar",
+          "lat": 25.91,
+          "lon": 51.58
+        },
+        {
+          "name": "Strait of Hormuz",
+          "lat": 26.57,
+          "lon": 56.25
+        },
+        {
+          "name": "Arabian Sea",
+          "lat": 18.0,
+          "lon": 63.0
+        },
+        {
+          "name": "Dahej, India",
+          "lat": 21.7,
+          "lon": 72.55
+        }
+      ],
+      "summary": "About 93% of Qatar's and 96% of the UAE's LNG exports pass through Hormuz, roughly 19% of global LNG trade, and none of it has a pipeline bypass. Qatar declared force majeure in March, and its exports were down ~96% year on year by August. European gas (TTF) more than doubled to roughly €70–77/MWh in late August–early September, a three-year high. Asian buyers lost their largest long-term supplier and bid against Europe for spot cargoes. US Gulf Coast LNG (a record 109 Mt in 2025) became the marginal supplier to both, which is why Panama Canal slots and Atlantic freight suddenly matter so much.",
+      "source": "EIA Today in Energy (2026); IEA Strait of Hormuz factsheet; GIIGNL Annual Report 2026; trade press Sep 2026"
+    },
+    {
+      "id": "redsea-2026",
+      "title": "Red Sea: Houthi attacks resumed, Cape detour continues",
+      "category": "transport",
+      "severity": "high",
+      "dateRange": "Since 2024; attacks resumed Feb 2026; Saudi blockade since Jul 2026",
+      "waypoints": [
+        {
+          "name": "Singapore",
+          "lat": 1.25,
+          "lon": 104.0
+        },
+        {
+          "name": "Indian Ocean",
+          "lat": -20.0,
+          "lon": 70.0
+        },
+        {
+          "name": "Cape of Good Hope",
+          "lat": -34.35,
+          "lon": 18.47
+        },
+        {
+          "name": "Off Senegal",
+          "lat": 15.0,
+          "lon": -20.0
+        },
+        {
+          "name": "Rotterdam, Netherlands",
+          "lat": 51.92,
+          "lon": 4.0
+        }
       ],
       "avoidedWaypoints": [
-        { "name": "Singapore", "lat": 1.35, "lon": 103.82 },
-        { "name": "Cape of Good Hope", "lat": -34.35, "lon": 18.47 },
-        { "name": "Rotterdam, Netherlands", "lat": 51.92, "lon": 4.48 }
+        {
+          "name": "Singapore",
+          "lat": 1.25,
+          "lon": 104.0
+        },
+        {
+          "name": "South of Sri Lanka",
+          "lat": 5.6,
+          "lon": 80.6
+        },
+        {
+          "name": "Bab-el-Mandeb",
+          "lat": 12.6,
+          "lon": 43.4
+        },
+        {
+          "name": "Suez Canal",
+          "lat": 30.58,
+          "lon": 32.27
+        },
+        {
+          "name": "Rotterdam, Netherlands",
+          "lat": 51.92,
+          "lon": 4.0
+        }
       ],
-      "summary": "The picture has flipped since early 2026: Houthi attacks that shut down the corridor from late 2023 have abated following the October 2025 Israel–Hamas ceasefire, with only scattered incidents since. Suez Canal traffic is recovering sharply — more than 200 ships returned in October 2026 alone, the highest monthly total since the crisis began, with canal revenue up 14% YoY (Jul–Oct). Vessels are gradually peeling back from the Cape of Good Hope detour, recovering the 10–14 transit days it added Asia–Europe. The recovery isn't guaranteed to hold — the Houthis have warned they'll resume attacks if the Gaza ceasefire breaks down — so chemical tankers are only partially unwinding the war-risk premium they'd been carrying through the corridor.",
-      "source": "UNCTAD; gtreview.com; hellenicshippingnews.com; freightwaves.com, 2025–2026"
+      "summary": "The Houthis' 2025 pause ended at the end of February 2026, when they announced renewed attacks on Red Sea shipping, linked to the strikes on Iran. In July they declared a complete naval blockade on Saudi Arabia, aimed squarely at the oil Saudi Arabia was rerouting to Yanbu to avoid Hormuz. In September they seized the port of Mokha, Perim island inside the Bab-el-Mandeb strait and the Hanish islands. On 4 October Saudi-backed Yemeni forces launched a counter-offensive and claimed control of the strait, so the situation is fluid. Around 30 tankers near Yanbu sit within Houthi strike range. Most Asia–Europe tankers and container ships still go round the Cape, adding about 10–14 days. That ties up ships and lifts freight rates on every route, not just this one.",
+      "source": "CNN (4 Oct 2026); Euronews (14 Sep 2026); CNBC (22 Jul 2026); CFR; Lloyd's List Intelligence Red Sea brief (Aug 2026)"
     },
     {
       "id": "panama-2026",
-      "title": "Panama Canal — El Niño drought tightens transit limits",
+      "title": "Panama Canal: El Niño drought caps transits",
       "category": "transport",
       "severity": "high",
-      "dateRange": "El Niño restrictions escalating Aug–Oct 2026",
+      "dateRange": "Restrictions Aug–Oct 2026; partial easing from 15 Oct",
       "waypoints": [
-        { "name": "Sabine Pass, USA", "lat": 29.73, "lon": -93.87 },
-        { "name": "Gulf of Mexico", "lat": 22.0, "lon": -86.0 },
-        { "name": "Panama Canal", "lat": 9.08, "lon": -79.68 },
-        { "name": "North Pacific", "lat": 25.0, "lon": -150.0 },
-        { "name": "Tokyo Bay, Japan", "lat": 35.3, "lon": 139.9 }
+        {
+          "name": "Sabine Pass, USA",
+          "lat": 29.73,
+          "lon": -93.87
+        },
+        {
+          "name": "Gulf of Mexico",
+          "lat": 22.0,
+          "lon": -86.0
+        },
+        {
+          "name": "Panama Canal",
+          "lat": 9.08,
+          "lon": -79.68
+        },
+        {
+          "name": "North Pacific",
+          "lat": 25.0,
+          "lon": -150.0
+        },
+        {
+          "name": "Tokyo Bay, Japan",
+          "lat": 35.3,
+          "lon": 139.9
+        }
       ],
-      "summary": "What looked like 2023–24-drought recovery has reversed: a severe El Niño (rainfall 34% below average, May–Aug) forced the Canal Authority to impose its first daily transit cap since the 2023–24 crisis — cut to 34 ships/day on Sep 3, then 32 from Sep 15, versus a normal ~36 — alongside progressive draft cuts at the Neopanamax locks, down to 47.5 ft by Oct 1. VLGC/LPG freight rates have hit record highs as US Gulf Coast propane and propylene shipments compete for scarce slots, directly squeezing the Houston-to-Asia petrochemical export route this entry tracks. Some easing is scheduled — Neopanamax daily transits rise from 9 to 10 (33 total daily slots) from Oct 15 — but capacity stays well below normal.",
-      "source": "UNCTAD; marineinsight.com; freightwaves.com; industrialinfo.com, 2026"
+      "summary": "A severe El Niño cut rainfall in the canal watershed roughly 34% below average from May to August. The canal authority imposed its first daily transit cap since the 2023–24 crisis: 34 ships a day from 3 September, then 32 from 15 September (versus a normal ~36), together with draught cuts. From 15 October the Neopanamax locks go from 9 to 10 daily transits (33 a day in total), but capacity stays below normal. Demand is unusually high: laden LNG transits hit a two-year high in June as US cargoes chased Asian prices after the loss of Qatari supply, and an LPG carrier slot sold at auction for a record $5.3 million on 1 September. VLGC (LPG) freight rates hit record highs.",
+      "source": "S&P Global Commodity Insights (Jul 2026); FreightWaves; Marine Insight; Maritime Executive; Hellenic Shipping News (Sep 2026)"
+    },
+    {
+      "id": "russia-shadow-2026",
+      "title": "Russian crude: shadow fleet to India and China",
+      "category": "structural",
+      "severity": "structural",
+      "dateRange": "Since 2022; 2026 sanctions tightening",
+      "waypoints": [
+        {
+          "name": "Primorsk, Russia",
+          "lat": 60.35,
+          "lon": 28.6
+        },
+        {
+          "name": "Danish Straits",
+          "lat": 55.6,
+          "lon": 10.9
+        },
+        {
+          "name": "English Channel",
+          "lat": 50.0,
+          "lon": -2.5
+        },
+        {
+          "name": "Strait of Gibraltar",
+          "lat": 35.95,
+          "lon": -5.6
+        },
+        {
+          "name": "Off Senegal",
+          "lat": 15.0,
+          "lon": -20.0
+        },
+        {
+          "name": "Cape of Good Hope",
+          "lat": -34.35,
+          "lon": 18.47
+        },
+        {
+          "name": "Indian Ocean",
+          "lat": -10.0,
+          "lon": 65.0
+        },
+        {
+          "name": "Sikka / Jamnagar, India",
+          "lat": 22.47,
+          "lon": 69.84
+        }
+      ],
+      "secondaryWaypoints": [
+        {
+          "name": "Kozmino, Russia",
+          "lat": 42.73,
+          "lon": 133.0
+        },
+        {
+          "name": "Korea Strait",
+          "lat": 34.5,
+          "lon": 129.5
+        },
+        {
+          "name": "Qingdao / Shandong, China",
+          "lat": 36.07,
+          "lon": 120.38
+        }
+      ],
+      "summary": "Russia ships roughly 3.8–4.1 mb/d of crude by sea; China takes ~51% and India ~38%. In March 2026 almost half of Russia's seaborne oil moved on sanctioned 'shadow' tankers, 92% of them over 15 years old, and Western governments have now sanctioned 651 tankers. The share exported by US-designated producers (Rosneft, Lukoil, Gazpromneft, Surgutneftegaz) fell to 4–8% in Q1 2026, then recovered to 57% by mid-May. India's imports of Russian crude doubled month on month in March, as Gulf supply was shut in. With the Red Sea unsafe, Baltic cargoes to India increasingly go round Africa.",
+      "source": "KSE Institute Russian Oil Tracker (May 2026); CREA monthly analysis (Mar 2026)"
     },
     {
       "id": "china-export-flip-2026",
       "title": "Petrochemicals: China flips from PE/PP importer to exporter",
       "category": "demand",
       "severity": "structural",
-      "dateRange": "April 2026 export surge; durability debated through Oct 2026",
+      "dateRange": "Through April 2026",
       "waypoints": [
-        { "name": "Ningbo, China", "lat": 29.87, "lon": 121.9 },
-        { "name": "Ho Chi Minh City, Vietnam", "lat": 10.6, "lon": 107.0 }
+        {
+          "name": "Ningbo, China",
+          "lat": 29.87,
+          "lon": 121.9
+        },
+        {
+          "name": "Ho Chi Minh City, Vietnam",
+          "lat": 10.6,
+          "lon": 107.0
+        }
       ],
       "secondaryWaypoints": [
-        { "name": "Ningbo, China", "lat": 29.87, "lon": 121.9 },
-        { "name": "Sunda Strait", "lat": -6.0, "lon": 105.5 },
-        { "name": "Cape of Good Hope", "lat": -34.35, "lon": 18.47 },
-        { "name": "Santos, Brazil", "lat": -23.96, "lon": -46.33 }
+        {
+          "name": "Ningbo, China",
+          "lat": 29.87,
+          "lon": 121.9
+        },
+        {
+          "name": "Sunda Strait",
+          "lat": -6.0,
+          "lon": 105.5
+        },
+        {
+          "name": "Cape of Good Hope",
+          "lat": -34.35,
+          "lon": 18.47
+        },
+        {
+          "name": "Santos, Brazil",
+          "lat": -23.96,
+          "lon": -46.33
+        }
       ],
-      "summary": "China's PE/PP imports hit record lows in April 2026 while its own PE exports hit record highs (+122% YoY; +479% YoY in April alone). This structurally squeezes the market US Gulf Coast exporters were counting on, landing right as ~3.3 million tonnes/year of new US PE capacity (Shell, Baystar, Nova, Dow) has come online since 2023 — a demand-side story compounding the transport-side disruptions above. How durable it is remains an open question: Argus flags the surge as possibly reflecting domestic oversupply and weak demand rather than a lasting trade-flow reversal, and October data show China's PP trade still net-import, with both import and export legs cooling month-on-month.",
-      "source": "itpweb.com; Argus Media; C&EN; chemorbis.com, 2026"
-    },
-    {
-      "id": "us-capacity-2026",
-      "title": "US Gulf Coast new PE capacity chasing a shrinking export pool",
-      "category": "structural",
-      "severity": "structural",
-      "dateRange": "2026, cumulative since 2023",
-      "waypoints": [
-        { "name": "Orange, TX, USA", "lat": 30.09, "lon": -93.74 },
-        { "name": "Ho Chi Minh City, Vietnam", "lat": 10.82, "lon": 106.63 }
-      ],
-      "summary": "~2 million tonnes/year of new HDPE capacity — Golden Triangle Polymers, the Chevron Phillips Chemical–QatarEnergy joint venture — starting up in Orange, TX in H2 2026 alone, almost entirely aimed at export, on top of 3.3M+ tonnes/year added since 2023 (Shell, Baystar, Nova, Dow) — landing in the same export markets China has just started competing for directly.",
-      "source": "Argus Media; polymerupdate.com, 2026"
+      "summary": "From the original Tricon-prep version of this map, kept because it is a demand-side story, not a transport one. China's PE/PP imports hit record lows in April 2026 while its PE exports hit record highs (+122% YoY), squeezing the export markets that ~3.3 Mt/yr of new US Gulf Coast PE capacity (Shell, Baystar, Nova, Dow) built since 2023 was counting on.",
+      "source": "itpweb.com; Argus Media; C&EN (2026)"
     }
   ]
 }
