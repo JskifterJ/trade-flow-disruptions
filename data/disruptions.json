@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-10-07",
+  "lastUpdated": "2026-10-12",
   "updateCadence": "weekly",
   "focus": "Energy and commodity trade flows: what has broken in 2026 and where the barrels and cargoes went instead",
   "chokepoints": [
@@ -40,7 +40,7 @@
       "title": "Strait of Hormuz effectively closed",
       "category": "transport",
       "severity": "critical",
-      "dateRange": "Since late Feb / early Mar 2026, still live Oct 2026",
+      "dateRange": "Since late Feb / early Mar 2026, still live Oct 2026; attacks spiked early Oct",
       "waypoints": [
         {
           "name": "Ras Tanura, Saudi Arabia",
@@ -68,8 +68,8 @@
           "lon": 101.0
         }
       ],
-      "summary": "The US–Iran war has shut most commercial traffic through Hormuz for about seven months. A June interim deal (the Islamabad MoU) briefly eased flows but did not hold. The IEA estimates oil flows through the strait averaged only 7.6 mb/d in August, 13.1 mb/d below pre-war levels, with cumulative lost exports approaching 2.8 billion barrels. More than 10 mb/d of Gulf output is shut in. Iran's new Persian Gulf Strait Authority blacklisted 45 tankers in August for breaking its transit rules (56 by early September), and US naval escorts keep part of the flow moving. Vessel transits were in single digits on several early-October days against a pre-crisis norm of ~85 a day, and tanker strikes resumed from late September. IEA members agreed a 400 million barrel emergency stock release. Brent has traded back above $100/bbl. For a trader, the questions are which barrels can still move (see the bypass pipelines entry), who replaces them (Atlantic Basin crude, Brazil, US, West Africa), and how freight and insurance reprice for the ships that do sail.",
-      "source": "IEA Oil Market Report, Sep 2026; CNBC 11 Sep 2026; IMF PortWatch via straits.live, Oct 2026; marinelink.com; bairdmaritime.com (2026)"
+      "summary": "The US–Iran war has shut most commercial traffic through Hormuz for about eight months, with no durable diplomatic fix in sight. A June interim deal (the Islamabad MoU) briefly eased flows but collapsed; Iran now wants a return to it plus US backing for a separate Iran-Oman coordinated shipping-route deal, while Trump rejected Iran's latest seven-day reopening proposal. Energy flows briefly surpassed pre-war levels at the start of October before tanker attacks dragged them back down: 11 commercial vessels were attacked in the week ending 4 October alone, the worst week of strikes since the war began, with roughly five more hit the following week. A senior IRGC official said this week that Iran will keep blocking all 'illicit routes' through the strait until its demands are met. Most traffic now uses a southern corridor along the Omani coast or goes dark on AIS. For a trader, the questions are which barrels can still move (see the bypass pipelines entry), who replaces them (Atlantic Basin crude, Brazil, US, West Africa), and how freight and insurance reprice for the ships that do sail.",
+      "source": "CNBC 9 Oct 2026; Al Jazeera 11 Oct 2026; IEA Oil Market Report, Sep 2026; IMF PortWatch via straits.live, Oct 2026; bairdmaritime.com (2026)"
     },
     {
       "id": "bypass-pipelines-2026",
@@ -109,7 +109,7 @@
       "title": "Qatar LNG force majeure: a global gas shock",
       "category": "transport",
       "severity": "critical",
-      "dateRange": "Since Mar 2026",
+      "dateRange": "Since Mar 2026; restart attempt set back by a Sep explosion",
       "waypoints": [
         {
           "name": "Ras Laffan, Qatar",
@@ -132,15 +132,15 @@
           "lon": 72.55
         }
       ],
-      "summary": "About 93% of Qatar's and 96% of the UAE's LNG exports pass through Hormuz, roughly 19% of global LNG trade, and none of it has a pipeline bypass. Qatar declared force majeure in March, and its exports were down ~96% year on year by August. European gas (TTF) more than doubled to roughly €70–77/MWh in late August–early September, a three-year high. Asian buyers lost their largest long-term supplier and bid against Europe for spot cargoes. US Gulf Coast LNG (a record 109 Mt in 2025) became the marginal supplier to both, which is why Panama Canal slots and Atlantic freight suddenly matter so much.",
+      "summary": "About 93% of Qatar's and 96% of the UAE's LNG exports pass through Hormuz, roughly 19% of global LNG trade, and none of it has a pipeline bypass. Qatar declared force majeure in March after Iranian strikes damaged the Ras Laffan complex, and its exports were down ~96% year on year by August. Qatar's PM said in June that normal output could return within weeks, but a restart attempt was set back by an explosion at the facility, pushing QatarEnergy to extend force majeure with some buyers into September with no public confirmation yet of a lift. European gas (TTF) more than doubled to roughly €70–77/MWh in late August–early September, a three-year high. Asian buyers lost their largest long-term supplier and bid against Europe for spot cargoes. US Gulf Coast LNG (a record 109 Mt in 2025) became the marginal supplier to both, which is why Panama Canal slots and Atlantic freight suddenly matter so much.",
       "source": "EIA Today in Energy (2026); IEA Strait of Hormuz factsheet; GIIGNL Annual Report 2026; trade press Sep 2026"
     },
     {
       "id": "redsea-2026",
       "title": "Red Sea: Houthi attacks resumed, Cape detour continues",
       "category": "transport",
-      "severity": "high",
-      "dateRange": "Since 2024; attacks resumed Feb 2026; Saudi blockade since Jul 2026",
+      "severity": "critical",
+      "dateRange": "Since 2024; attacks resumed Feb 2026; Saudi blockade since Jul 2026; airport strikes from Oct 2026",
       "waypoints": [
         {
           "name": "Singapore",
@@ -195,15 +195,15 @@
           "lon": 4.0
         }
       ],
-      "summary": "The Houthis' 2025 pause ended at the end of February 2026, when they announced renewed attacks on Red Sea shipping, linked to the strikes on Iran. In July they declared a complete naval blockade on Saudi Arabia, aimed squarely at the oil Saudi Arabia was rerouting to Yanbu to avoid Hormuz. In September they seized the port of Mokha, Perim island inside the Bab-el-Mandeb strait and the Hanish islands. On 4 October Saudi-backed Yemeni forces launched a counter-offensive and claimed control of the strait, so the situation is fluid. Around 30 tankers near Yanbu sit within Houthi strike range. Most Asia–Europe tankers and container ships still go round the Cape, adding about 10–14 days. That ties up ships and lifts freight rates on every route, not just this one.",
-      "source": "CNN (4 Oct 2026); Euronews (14 Sep 2026); CNBC (22 Jul 2026); CFR; Lloyd's List Intelligence Red Sea brief (Aug 2026)"
+      "summary": "The Houthis' 2025 pause ended at the end of February 2026, when they announced renewed attacks on Red Sea shipping, linked to the strikes on Iran. In July they declared a complete naval blockade on Saudi Arabia, aimed squarely at the oil Saudi Arabia was rerouting to Yanbu to avoid Hormuz, and in September seized the port of Mokha plus Mayun (Perim) island and the Hanish islands, giving them effective control of both shores of Bab-el-Mandeb despite a Saudi-backed counter-offensive claim on 4 October. The conflict escalated sharply in early October: Houthi missiles struck Riyadh's airport twice (9–10 Oct), killing at least 13 people, and the group has warned airlines and travelers to avoid all Saudi airports and airspace except Mecca and Medina — widening this from a shipping chokepoint into an aviation one too. Bab-el-Mandeb traffic has fallen to roughly 32 ships/day from a pre-blockade ~50. Around 30 tankers near Yanbu sit within Houthi strike range, and most Asia–Europe tankers and container ships still go round the Cape, adding about 10–14 days. That ties up ships and lifts freight rates on every route, not just this one.",
+      "source": "CNN (10 Oct 2026); PBS NewsHour (2026); Reuters via aaj.tv (11 Aug 2026); CNBC (22 Jul 2026); CFR; Lloyd's List Intelligence Red Sea brief (Aug 2026)"
     },
     {
       "id": "panama-2026",
       "title": "Panama Canal: El Niño drought caps transits",
       "category": "transport",
-      "severity": "high",
-      "dateRange": "Restrictions Aug–Oct 2026; partial easing from 15 Oct",
+      "severity": "moderate",
+      "dateRange": "Restrictions Aug–Sep 2026; easing from 15 Oct as rainfall recovers",
       "waypoints": [
         {
           "name": "Sabine Pass, USA",
@@ -231,8 +231,8 @@
           "lon": 139.9
         }
       ],
-      "summary": "A severe El Niño cut rainfall in the canal watershed roughly 34% below average from May to August. The canal authority imposed its first daily transit cap since the 2023–24 crisis: 34 ships a day from 3 September, then 32 from 15 September (versus a normal ~36), together with draught cuts. From 15 October the Neopanamax locks go from 9 to 10 daily transits (33 a day in total), but capacity stays below normal. Demand is unusually high: laden LNG transits hit a two-year high in June as US cargoes chased Asian prices after the loss of Qatari supply, and an LPG carrier slot sold at auction for a record $5.3 million on 1 September. VLGC (LPG) freight rates hit record highs.",
-      "source": "S&P Global Commodity Insights (Jul 2026); FreightWaves; Marine Insight; Maritime Executive; Hellenic Shipping News (Sep 2026)"
+      "summary": "A severe El Niño cut rainfall in the canal watershed roughly 34% below average from May to August, prompting the canal authority's first daily transit cap since the 2023–24 crisis: 34 ships a day from 3 September, then 32 from 15 September (versus a normal ~36). September rainfall came in close to average, so the expected 1 October draught cut to 47.5 ft was postponed, and from 15 October the canal is easing instead of tightening: Neopanamax daily transits rise from 9 to 10 (33 total) and the Neopanamax maximum draught rises to 49.0 ft (14.94 m). The watershed deficit hasn't fully closed, and the canal authority says September–November rainfall will decide whether slots get cut again in the January–March 2027 dry season. Demand stayed unusually high through the squeeze: laden LNG transits hit a two-year high in June as US cargoes chased Asian prices after the loss of Qatari supply, and an LPG carrier slot sold at auction for a record $5.3 million on 1 September.",
+      "source": "Ship & Bunker (30 Sep 2026); Seatrade Maritime (2026); S&P Global Commodity Insights (Jul 2026); Hellenic Shipping News (Sep 2026)"
     },
     {
       "id": "russia-shadow-2026",
@@ -299,8 +299,8 @@
           "lon": 120.38
         }
       ],
-      "summary": "Russia ships roughly 3.8–4.1 mb/d of crude by sea; China takes ~51% and India ~38%. In March 2026 almost half of Russia's seaborne oil moved on sanctioned 'shadow' tankers, 92% of them over 15 years old, and Western governments have now sanctioned 651 tankers. The share exported by US-designated producers (Rosneft, Lukoil, Gazpromneft, Surgutneftegaz) fell to 4–8% in Q1 2026, then recovered to 57% by mid-May. India's imports of Russian crude doubled month on month in March, as Gulf supply was shut in. With the Red Sea unsafe, Baltic cargoes to India increasingly go round Africa.",
-      "source": "KSE Institute Russian Oil Tracker (May 2026); CREA monthly analysis (Mar 2026)"
+      "summary": "Russia ships roughly 3.8–4.1 mb/d of crude by sea; China takes ~51% and India ~38%. The sanctioned 'shadow' fleet's share has kept climbing: from almost half of Russia's seaborne oil in March 2026 to 52% by August, per CREA, carried mostly on tankers over 15 years old. Western governments have now sanctioned over 650 tankers, and Washington added direct sanctions on Rosneft and Lukoil in October 2025, but enforcement gaps persist — re-flagging to Russia's own international register has accelerated, and some already-listed tankers keep loading regardless. India's imports of Russian crude doubled month on month in March, as Gulf supply was shut in. With the Red Sea unsafe, Baltic cargoes to India increasingly go round Africa.",
+      "source": "CREA monthly analysis (Sep 2026); KSE Institute Russian Oil Tracker (May 2026)"
     },
     {
       "id": "china-export-flip-2026",
