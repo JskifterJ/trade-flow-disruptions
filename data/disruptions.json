@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-10-12",
+  "lastUpdated": "2026-10-19",
   "updateCadence": "weekly",
   "focus": "Energy and commodity trade flows: what has broken in 2026 and where the barrels and cargoes went instead",
   "chokepoints": [
@@ -40,7 +40,7 @@
       "title": "Strait of Hormuz effectively closed",
       "category": "transport",
       "severity": "critical",
-      "dateRange": "Since late Feb / early Mar 2026, still live Oct 2026; attacks spiked early Oct",
+      "dateRange": "Since late Feb / early Mar 2026, still live Oct 2026; attacks spiked early Oct and stayed elevated through mid-Oct",
       "waypoints": [
         {
           "name": "Ras Tanura, Saudi Arabia",
@@ -68,8 +68,8 @@
           "lon": 101.0
         }
       ],
-      "summary": "The US–Iran war has shut most commercial traffic through Hormuz for about eight months, with no durable diplomatic fix in sight. A June interim deal (the Islamabad MoU) briefly eased flows but collapsed; Iran now wants a return to it plus US backing for a separate Iran-Oman coordinated shipping-route deal, while Trump rejected Iran's latest seven-day reopening proposal. Energy flows briefly surpassed pre-war levels at the start of October before tanker attacks dragged them back down: 11 commercial vessels were attacked in the week ending 4 October alone, the worst week of strikes since the war began, with roughly five more hit the following week. A senior IRGC official said this week that Iran will keep blocking all 'illicit routes' through the strait until its demands are met. Most traffic now uses a southern corridor along the Omani coast or goes dark on AIS. For a trader, the questions are which barrels can still move (see the bypass pipelines entry), who replaces them (Atlantic Basin crude, Brazil, US, West Africa), and how freight and insurance reprice for the ships that do sail.",
-      "source": "CNBC 9 Oct 2026; Al Jazeera 11 Oct 2026; IEA Oil Market Report, Sep 2026; IMF PortWatch via straits.live, Oct 2026; bairdmaritime.com (2026)"
+      "summary": "The US–Iran war has shut most commercial traffic through Hormuz for about eight months, with no durable diplomatic fix in sight. A June interim deal (the Islamabad MoU) briefly eased flows but collapsed; Iran now wants a return to it plus US backing for a separate Iran-Oman coordinated shipping-route deal, while Trump rejected Iran's latest seven-day reopening proposal. Attacks have stayed elevated rather than fading: Reuters counted at least 12 strikes on oil, LNG and LPG tankers in the week of 28 Sep-5 Oct, the highest weekly total since the war began, and UKMTO logged at least 11 further incidents in the Gulf between 11-14 October, including an Iranian-claimed strike on an ADNOC Logistics & Services VLCC. Harassment has widened beyond the strait itself to a container ship and sites off Qatar, Fujairah and Sohar, with the IRGC ordering at least one inbound tanker to turn back on 5 October. Yet despite the attacks, Kpler data show Middle East crude shipments through Hormuz recovered to roughly 80% of pre-war levels by September (~16 mb/d) as tankers sail on under US Navy-escorted convoys rather than diverting outright. For a trader, the questions are which barrels can still move (see the bypass pipelines entry), who replaces what doesn't (Atlantic Basin crude, Brazil, US, West Africa), and how freight and insurance reprice for ships that keep sailing into an active-strike zone.",
+      "source": "Reuters via gvwire (7 Oct 2026); Seatrade Maritime (2 & 13 Oct 2026); gCaptain (2 & 5 Oct 2026); Engine (15 Oct 2026); IEA Oil Market Report, Sep 2026; IMF PortWatch via straits.live, Oct 2026"
     },
     {
       "id": "bypass-pipelines-2026",
@@ -109,7 +109,7 @@
       "title": "Qatar LNG force majeure: a global gas shock",
       "category": "transport",
       "severity": "critical",
-      "dateRange": "Since Mar 2026; restart attempt set back by a Sep explosion",
+      "dateRange": "Since Mar 2026; force majeure now extended into mid-Oct; repair of damaged trains pushed to 3-5 years",
       "waypoints": [
         {
           "name": "Ras Laffan, Qatar",
@@ -132,8 +132,8 @@
           "lon": 72.55
         }
       ],
-      "summary": "About 93% of Qatar's and 96% of the UAE's LNG exports pass through Hormuz, roughly 19% of global LNG trade, and none of it has a pipeline bypass. Qatar declared force majeure in March after Iranian strikes damaged the Ras Laffan complex, and its exports were down ~96% year on year by August. Qatar's PM said in June that normal output could return within weeks, but a restart attempt was set back by an explosion at the facility, pushing QatarEnergy to extend force majeure with some buyers into September with no public confirmation yet of a lift. European gas (TTF) more than doubled to roughly €70–77/MWh in late August–early September, a three-year high. Asian buyers lost their largest long-term supplier and bid against Europe for spot cargoes. US Gulf Coast LNG (a record 109 Mt in 2025) became the marginal supplier to both, which is why Panama Canal slots and Atlantic freight suddenly matter so much.",
-      "source": "EIA Today in Energy (2026); IEA Strait of Hormuz factsheet; GIIGNL Annual Report 2026; trade press Sep 2026"
+      "summary": "About 93% of Qatar's and 96% of the UAE's LNG exports pass through Hormuz, roughly 19% of global LNG trade, and none of it has a pipeline bypass. Qatar declared force majeure in March after Iranian strikes damaged the Ras Laffan complex, and the disruption is proving far more durable than oil's: Kpler now estimates Qatari LNG exports will total just 0.6 Mt in October, against a normal cadence of roughly 6-7 Mt/month, even as Gulf crude shipments have recovered to ~80% of pre-war levels. QatarEnergy has pushed back its own repair estimate for the ~17% of capacity knocked out to three to five years, far beyond the 'weeks' timeline floated after June's ceasefire, and force majeure notices to several Asian and European buyers now run into mid-October with no public lift confirmed. The one bright spot is additive, not restorative: the first train of the North Field East expansion is due to begin commissioning in November 2026, targeting initial output in early 2027 — new supply arriving on top of an already-disrupted market rather than replacing the lost trains. European gas (TTF) more than doubled to roughly €70-77/MWh in late August-early September, a three-year high, and US Gulf Coast LNG remains the marginal supplier bidding against both Europe and Asia, which is why Panama Canal slots and Atlantic freight keep mattering so much.",
+      "source": "Cyprus Mail (12 Oct 2026); meobserver.news (12-13 Oct 2026); Zawya/Reuters Bousso column (Oct 2026); EIA Today in Energy; GIIGNL Annual Report 2026"
     },
     {
       "id": "redsea-2026",
@@ -203,7 +203,7 @@
       "title": "Panama Canal: El Niño drought caps transits",
       "category": "transport",
       "severity": "moderate",
-      "dateRange": "Restrictions Aug–Sep 2026; easing from 15 Oct as rainfall recovers",
+      "dateRange": "Restrictions Aug–Sep 2026; eased 15 Oct as rainfall recovered",
       "waypoints": [
         {
           "name": "Sabine Pass, USA",
@@ -231,7 +231,7 @@
           "lon": 139.9
         }
       ],
-      "summary": "A severe El Niño cut rainfall in the canal watershed roughly 34% below average from May to August, prompting the canal authority's first daily transit cap since the 2023–24 crisis: 34 ships a day from 3 September, then 32 from 15 September (versus a normal ~36). September rainfall came in close to average, so the expected 1 October draught cut to 47.5 ft was postponed, and from 15 October the canal is easing instead of tightening: Neopanamax daily transits rise from 9 to 10 (33 total) and the Neopanamax maximum draught rises to 49.0 ft (14.94 m). The watershed deficit hasn't fully closed, and the canal authority says September–November rainfall will decide whether slots get cut again in the January–March 2027 dry season. Demand stayed unusually high through the squeeze: laden LNG transits hit a two-year high in June as US cargoes chased Asian prices after the loss of Qatari supply, and an LPG carrier slot sold at auction for a record $5.3 million on 1 September.",
+      "summary": "A severe El Niño cut rainfall in the canal watershed roughly 34% below average from May to August, prompting the canal authority's first daily transit cap since the 2023–24 crisis: 34 ships a day from 3 September, then 32 from 15 September (versus a normal ~36). September rainfall came in close to average, so the expected 1 October draught cut to 47.5 ft was postponed, and as of 15 October the canal eased instead of tightening: Neopanamax daily transits rose from 9 to 10 (33 total) and the Neopanamax maximum draught rose to 49.0 ft (14.94 m), both now in effect. The watershed deficit hasn't fully closed, and the canal administrator has warned this El Niño could run longer than past cycles, so September–November rainfall will still decide whether slots get cut again in the January–March 2027 dry season. Demand stayed unusually high through the squeeze: laden LNG transits hit a two-year high in June as US cargoes chased Asian prices after the loss of Qatari supply, and an LPG carrier slot sold at auction for a record $5.3 million on 1 September.",
       "source": "Ship & Bunker (30 Sep 2026); Seatrade Maritime (2026); S&P Global Commodity Insights (Jul 2026); Hellenic Shipping News (Sep 2026)"
     },
     {
