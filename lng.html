@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LNG Supply Chain</title>
+<meta name="description" content="Interactive, zoomable globe of global LNG trade: every major liquefaction plant, import terminal, chokepoint and shipping leg with volumes and share of world trade, plus the 2026 Hormuz/Qatar disruption.">
+<style>
+  :root {
+    --bg: #0b1016;
+    --panel: #121a24;
+    --panel-2: #182230;
+    --panel-border: #22303f;
+    --ink: #e8edf2;
+    --ink-soft: #8fa0b0;
+    --ink-muted: #5c6b7a;
+    --ocean: #0e1a26;
+    --land: #1c2a38;
+    --leg: #3987e5;
+    --liq: #199e70;
+    --regas: #d55181;
+    --choke: #c98500;
+    --s2: #d95926;
+    --critical: #d03b3b;
+    --serious: #ec835a;
+    --warning: #fab219;
+    --good: #0ca30c;
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); min-height: 100vh; }
+  a { color: #8fc1f0; }
+  header { padding: 20px 24px 12px; border-bottom: 1px solid var(--panel-border); }
+  header .nav { font-size: 12px; margin-bottom: 6px; }
+  header h1 { margin: 0; font-size: 23px; font-weight: 700; letter-spacing: -0.01em; }
+  header p { margin: 6px 0 0; color: var(--ink-soft); font-size: 13.5px; max-width: 86ch; line-height: 1.5; }
+  .meta-row { margin-top: 8px; font-size: 11.5px; color: var(--ink-soft); font-family: Consolas, monospace; }
+
+  .kpis { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; padding: 14px 24px; }
+  @media (max-width: 1000px) { .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .kpi { background: var(--panel); border: 1px solid var(--panel-border); border-radius: 8px; padding: 12px 14px; }
+  .kpi .v { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+  .kpi .l { font-size: 12px; color: var(--ink-soft); margin-top: 3px; line-height: 1.4; }
+  .kpi .s { font-size: 10.5px; color: var(--ink-muted); margin-top: 6px; font-family: Consolas, monospace; }
+  .kpi.alert { border-color: #5a2a2a; }
+  .kpi.alert .v { color: #ff8a80; }
+
+  main { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(320px, 1fr); align-items: start; }
+  @media (max-width: 900px) { main { grid-template-columns: 1fr; } }
+  .globe-pane { padding: 6px 12px 12px; position: relative; }
+  .toolbar { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-bottom: 6px; }
+  .seg { display: inline-flex; border: 1px solid var(--panel-border); border-radius: 7px; overflow: hidden; }
+  .seg button, .btn {
+    font: inherit; font-size: 12px; padding: 6px 10px; cursor: pointer;
+    background: var(--panel); color: var(--ink-soft); border: 0;
+  }
+  .seg button + button { border-left: 1px solid var(--panel-border); }
+  .seg button.on { background: #22344a; color: var(--ink); font-weight: 600; }
+  .btn { border: 1px solid var(--panel-border); border-radius: 7px; min-width: 32px; }
+  .btn:hover, .seg button:hover { color: var(--ink); }
+  .layers { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 12px; color: var(--ink-soft); margin: 2px 0 6px; }
+  .layers label { cursor: pointer; display: inline-flex; align-items: center; gap: 5px; }
+  .globe-wrap { position: relative; }
+  #globe { width: 100%; max-width: 760px; display: block; margin: 0 auto; height: auto; cursor: grab; touch-action: none; }
+  #globe:active { cursor: grabbing; }
+  .hint { color: var(--ink-muted); font-size: 11.5px; text-align: center; margin-top: 2px; }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 11.5px; color: var(--ink-soft); margin-top: 8px; justify-content: center; }
+  .legend svg { vertical-align: -2px; margin-right: 4px; }
+  .scen-banner { font-size: 12px; line-height: 1.5; color: var(--ink-soft); background: var(--panel); border: 1px solid var(--panel-border); border-left: 3px solid var(--leg); border-radius: 6px; padding: 8px 10px; margin: 6px 0; }
+  .scen-banner.now { border-left-color: var(--critical); }
+
+  aside { padding: 12px 18px 18px 6px; }
+  @media (max-width: 900px) { aside { padding: 12px 16px; } }
+  .tabs { display: flex; gap: 4px; margin-bottom: 8px; }
+  .tab { flex: 1; font: inherit; font-size: 12px; font-weight: 600; padding: 7px 4px; border-radius: 6px; cursor: pointer;
+    background: var(--panel); color: var(--ink-soft); border: 1px solid var(--panel-border); }
+  .tab.on { color: var(--ink); border-color: var(--ink-soft); background: var(--panel-2); }
+  #list { max-height: 430px; overflow-y: auto; padding-right: 4px; }
+  .row { display: grid; grid-template-columns: 1fr auto; gap: 2px 10px; align-items: center; padding: 7px 9px; margin-bottom: 4px;
+    background: var(--panel); border: 1px solid var(--panel-border); border-radius: 6px; cursor: pointer; font-size: 12.5px; }
+  .row:hover { border-color: #3a4f66; }
+  .row.on { border-color: var(--ink); background: var(--panel-2); }
+  .row .t { font-weight: 600; line-height: 1.3; }
+  .row .n { font-variant-numeric: tabular-nums; color: var(--ink); text-align: right; white-space: nowrap; font-size: 12px; }
+  .row .sub { grid-column: 1 / -1; font-size: 11px; color: var(--ink-soft); display: flex; align-items: center; gap: 8px; }
+  .bar { height: 4px; background: #1f2b38; border-radius: 2px; flex: 1; overflow: hidden; }
+  .bar i { display: block; height: 100%; background: var(--leg); border-radius: 2px; }
+  .pill { display: inline-block; font-size: 10.5px; padding: 1px 7px; border-radius: 9px; border: 1px solid; white-space: nowrap; }
+  .group-label { font-size: 10.5px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-soft); margin: 10px 0 5px; }
+  #detail { margin-top: 12px; padding: 12px; background: var(--panel); border: 1px solid var(--panel-border); border-radius: 8px; font-size: 12.8px; line-height: 1.55; color: var(--ink-soft); min-height: 110px; }
+  #detail h4 { margin: 0 0 4px; font-size: 14.5px; color: var(--ink); }
+  #detail .fig { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 6px 0 8px; }
+  #detail .fig div { font-size: 11px; }
+  #detail .fig b { display: block; font-size: 17px; color: var(--ink); font-variant-numeric: tabular-nums; }
+  #detail .stat { margin-top: 8px; padding: 7px 9px; border-radius: 6px; background: #0f161f; border-left: 3px solid; }
+  #detail .src { display: block; margin-top: 8px; font-size: 10.5px; font-family: Consolas, monospace; color: var(--ink-muted); }
+  #detail .placeholder { color: var(--ink-muted); font-style: italic; }
+
+  section { padding: 26px 24px 8px; border-top: 1px solid var(--panel-border); margin-top: 18px; }
+  section h2 { margin: 0 0 4px; font-size: 18px; }
+  section > p.lead { margin: 0 0 14px; color: var(--ink-soft); font-size: 13.5px; max-width: 90ch; line-height: 1.55; }
+  .chain { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 0; align-items: stretch; }
+  @media (max-width: 1100px) { .chain { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 14px; } }
+  @media (max-width: 620px) { .chain { grid-template-columns: 1fr; } }
+  .step { position: relative; background: var(--panel); border: 1px solid var(--panel-border); border-radius: 8px; padding: 12px 12px 12px; margin-right: 18px; font-size: 12.3px; line-height: 1.5; color: var(--ink-soft); }
+  .step:not(:last-child)::after { content: "→"; position: absolute; right: -17px; top: 34px; color: var(--ink-muted); font-size: 16px; }
+  .step .num { font-size: 10.5px; color: var(--ink-muted); font-family: Consolas, monospace; }
+  .step h3 { margin: 2px 0 6px; font-size: 14px; color: var(--ink); }
+  .step .ico { height: 46px; margin: 4px 0 6px; }
+  .step .cost { margin-top: 8px; padding-top: 6px; border-top: 1px dashed var(--panel-border); font-size: 11.5px; }
+  .step .cost b { color: var(--ink); }
+  .step ul { margin: 4px 0 0; padding-left: 16px; }
+
+  .charts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  @media (max-width: 900px) { .charts { grid-template-columns: 1fr; } }
+  .card { background: var(--panel); border: 1px solid var(--panel-border); border-radius: 8px; padding: 14px 16px; }
+  .card h3 { margin: 0 0 2px; font-size: 14px; }
+  .card .cap { font-size: 11.5px; color: var(--ink-soft); margin-bottom: 10px; line-height: 1.45; }
+  .card .foot { font-size: 10.5px; color: var(--ink-muted); margin-top: 8px; font-family: Consolas, monospace; line-height: 1.45; }
+  .hb { display: grid; grid-template-columns: 128px 1fr 92px; gap: 5px 8px; align-items: center; font-size: 12px; }
+  .hb .lab { color: var(--ink); text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .hb .track { position: relative; height: 14px; }
+  .hb .fill { position: absolute; left: 0; top: 1px; height: 12px; border-radius: 0 4px 4px 0; }
+  .hb .fill.b { top: 8px; height: 6px; }
+  .hb .fill.a2 { height: 6px; }
+  .hb .val { color: var(--ink-soft); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .hb .row-hit { display: contents; }
+  .keyline { display: flex; gap: 14px; font-size: 11.5px; color: var(--ink-soft); margin-bottom: 8px; flex-wrap: wrap; }
+  .keyline i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 5px; vertical-align: -1px; }
+  .stack { display: flex; height: 22px; border-radius: 0 4px 4px 0; overflow: hidden; gap: 2px; }
+  .stack span { display: block; height: 100%; }
+
+  .arb { display: grid; grid-template-columns: minmax(250px, 320px) 1fr; gap: 18px; }
+  @media (max-width: 800px) { .arb { grid-template-columns: 1fr; } }
+  .arb label { display: grid; grid-template-columns: 1fr 64px; gap: 2px 8px; font-size: 12px; color: var(--ink-soft); margin-bottom: 8px; align-items: center; }
+  .arb label input[type=range] { grid-column: 1 / -1; width: 100%; accent-color: var(--leg); }
+  .arb label output { text-align: right; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .arb-row { margin-bottom: 26px; }
+  .arb-row .h { display: flex; justify-content: space-between; font-size: 12.5px; margin-bottom: 4px; gap: 10px; flex-wrap: wrap; }
+  .arb-row .h b { color: var(--ink); }
+  .arb-row .track { position: relative; }
+  .arb-row .price { position: absolute; top: -4px; bottom: -4px; width: 2px; background: var(--ink); }
+  .arb-row .price::after { content: attr(data-l); position: absolute; bottom: -16px; left: -18px; font-size: 10.5px; color: var(--ink); white-space: nowrap; }
+  .winner { color: #7ee07e; font-weight: 600; }
+  .arb-note { font-size: 12px; color: var(--ink-soft); line-height: 1.55; }
+
+  .timeline { list-style: none; margin: 0; padding: 0 0 0 4px; border-left: 2px solid var(--panel-border); max-width: 900px; }
+  .timeline li { position: relative; padding: 0 0 12px 16px; font-size: 13px; line-height: 1.5; color: var(--ink-soft); }
+  .timeline li::before { content: ""; position: absolute; left: -7px; top: 5px; width: 10px; height: 10px; border-radius: 50%; background: var(--bg); border: 2px solid var(--leg); }
+  .timeline li.war::before { border-color: var(--critical); }
+  .timeline li.future::before { border-style: dashed; border-color: var(--ink-muted); }
+  .timeline b { color: var(--ink); font-family: Consolas, monospace; font-size: 12px; margin-right: 8px; }
+
+  .primer { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+  @media (max-width: 1000px) { .primer { grid-template-columns: 1fr; } }
+  .primer .card { font-size: 13px; line-height: 1.6; color: var(--ink-soft); }
+  .primer .card b { color: var(--ink); }
+  dl.gloss { display: grid; grid-template-columns: max-content 1fr; gap: 5px 14px; margin: 6px 0 0; font-size: 12.5px; }
+  dl.gloss dt { color: var(--ink); font-weight: 600; }
+  dl.gloss dd { margin: 0; color: var(--ink-soft); }
+  @media (max-width: 600px) { dl.gloss { grid-template-columns: 1fr; } }
+  table.conv { border-collapse: collapse; font-size: 12.5px; width: 100%; }
+  table.conv td { padding: 4px 6px; border-bottom: 1px solid var(--panel-border); color: var(--ink-soft); }
+  table.conv td:first-child { color: var(--ink); white-space: nowrap; }
+
+  #tip { position: fixed; pointer-events: none; z-index: 10; background: #0a0f15f2; border: 1px solid #3a4f66; border-radius: 6px;
+    padding: 7px 9px; font-size: 12px; line-height: 1.45; color: var(--ink-soft); max-width: 300px; display: none; box-shadow: 0 4px 16px #0008; }
+  #tip b { color: var(--ink); }
+  footer { padding: 18px 24px 30px; color: var(--ink-muted); font-size: 11px; border-top: 1px solid var(--panel-border); margin-top: 24px; line-height: 1.6; }
+  footer ul { margin: 6px 0; padding-left: 18px; }
+  #legend-events { margin-top: 4px; }
+  #legend-events span { display: inline-flex; align-items: center; gap: 4px; }
+  .tabs { flex-wrap: wrap; }
+  .tab { flex: 1 1 30%; }
+  .row.ev-row { grid-template-columns: 20px 1fr; }
+  .row.nomap { opacity: .8; }
+  .ev-date { font-family: Consolas, monospace; font-size: 11px; color: var(--ink-soft); }
+  .ev-src { font-size: 10.5px; margin-top: 1px; }
+  .ev-tag { font-size: 10px; padding: 0 6px; border: 1px solid var(--panel-border); border-radius: 8px; color: var(--ink-soft); white-space: nowrap; }
+  #tip .src { font-size: 10.5px; font-family: Consolas, monospace; color: var(--ink-muted); }
+  ul.absorb { margin: 0; padding-left: 18px; font-size: 12.5px; line-height: 1.6; color: var(--ink-soft); }
+  ul.absorb b { color: var(--ink); }
+  svg.wave { width: 100%; height: auto; display: block; }
+  .voyage { display: grid; grid-template-columns: minmax(260px, 330px) 1fr; gap: 18px; }
+  @media (max-width: 860px) { .voyage { grid-template-columns: 1fr; } }
+  #voy-in label { display: grid; grid-template-columns: 1fr 74px; gap: 2px 8px; font-size: 12px; color: var(--ink-soft); margin-bottom: 8px; align-items: center; }
+  #voy-in label input[type=range] { grid-column: 1 / -1; width: 100%; accent-color: var(--leg); }
+  #voy-in label output { text-align: right; color: var(--ink); font-variant-numeric: tabular-nums; }
+  #voy-in label.sel { grid-template-columns: 1fr; }
+  #voy-in select { font: inherit; font-size: 12.5px; padding: 6px 8px; border-radius: 6px; background: var(--panel); color: var(--ink); border: 1px solid var(--panel-border); width: 100%; }
+  #voy-in .toggles { margin: 4px 0 10px; padding: 8px 10px; border: 1px solid var(--panel-border); border-radius: 8px; background: var(--panel); }
+  #voy-in .toggles .cap { font-size: 10.5px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-soft); margin-bottom: 4px; }
+  #voy-in label.chk { display: flex; gap: 8px; align-items: center; margin: 3px 0; }
+  #voy-in .presets { display: flex; gap: 6px; flex-wrap: wrap; }
+  table.voy { width: 100%; border-collapse: collapse; font-size: 12.3px; }
+  table.voy th { text-align: left; font-weight: 600; color: var(--ink-soft); font-size: 11px; padding: 6px; border-bottom: 1px solid var(--panel-border); }
+  table.voy td { padding: 7px 6px; border-bottom: 1px solid var(--panel-border); color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+  table.voy td b { color: var(--ink); }
+  table.voy tr.on td { background: var(--panel-2); }
+  table.voy tr.on td:first-child { box-shadow: inset 3px 0 0 #fff; }
+  @media (max-width: 700px) { table.voy th:nth-child(7), table.voy td:nth-child(7) { display: none; } }
+  .voy-note { font-size: 12.3px; color: var(--ink-soft); line-height: 1.6; margin-top: 10px; }
+  .voy-note .muted { color: var(--ink-muted); font-size: 11px; }
+  .voy-none { padding: 12px; border: 1px solid #5a2a2a; border-radius: 8px; background: #1a1012; color: var(--ink-soft); font-size: 13px; }
+  .voy-none b { color: #ff8a80; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav"><a href="index.html">← Energy trade flows (oil, LNG, products)</a></div>
+  <h1>LNG: the global supply chain and the 2026 shock</h1>
+  <p>Where liquefied natural gas is made, how it crosses the oceans, where it lands, and what the 2026 closure of the Strait of Hormuz did to it. Spin and zoom the globe: <b style="color:var(--liq)">▲ green triangles</b> are liquefaction (export) plants, <b style="color:var(--regas)">■ pink squares</b> are import terminals, <b style="color:var(--choke)">◇ amber diamonds</b> are chokepoints, and <b style="color:var(--leg)">blue lines</b> are shipping legs, drawn thicker for bigger flows. Each leg is labelled with million tonnes a year and its share of world trade.</p>
+  <div class="meta-row" id="meta-row">loading data…</div>
+</header>
+
+<div class="kpis" id="kpis"></div>
+
+<main>
+  <div class="globe-pane">
+    <div class="toolbar">
+      <div class="seg" id="scenario">
+        <button type="button" data-s="2025" class="on">2025 baseline</button>
+        <button type="button" data-s="2026">Now (Oct 2026)</button>
+      </div>
+      <button class="btn" type="button" id="zin" title="Zoom in">+</button>
+      <button class="btn" type="button" id="zout" title="Zoom out">−</button>
+      <button class="btn" type="button" id="zreset" title="Reset view">reset</button>
+      <button class="btn" type="button" id="spin" title="Auto-rotate">⟳ spin</button>
+    </div>
+    <div class="layers" id="layers">
+      <label><input type="checkbox" data-l="legs" checked> shipping legs</label>
+      <label><input type="checkbox" data-l="liq" checked> export plants</label>
+      <label><input type="checkbox" data-l="regas" checked> import terminals</label>
+      <label><input type="checkbox" data-l="choke" checked> chokepoints</label>
+      <label><input type="checkbox" data-l="labels" checked> volume labels</label>
+      <label><input type="checkbox" data-l="events" checked> 2026 events</label>
+      <label><input type="checkbox" data-l="proj"> under construction</label>
+      <label><input type="checkbox" data-l="seas" checked> sea names</label>
+    </div>
+    <div class="scen-banner" id="scen-banner"></div>
+    <div class="globe-wrap">
+      <svg id="globe" viewBox="0 0 760 760" role="img" aria-label="Rotatable, zoomable globe of LNG trade routes, liquefaction plants, import terminals and chokepoints"></svg>
+    </div>
+    <div class="hint">drag to rotate · scroll / pinch / +− to zoom · hover for details · click a line, marker or list row to focus</div>
+    <div class="legend" id="legend"></div>
+    <div class="legend" id="legend-events"></div>
+  </div>
+
+  <aside>
+    <div class="tabs" id="tabs">
+      <button class="tab on" type="button" data-t="legs">Shipping legs</button>
+      <button class="tab" type="button" data-t="liq">Export plants</button>
+      <button class="tab" type="button" data-t="regas">Import terminals</button>
+      <button class="tab" type="button" data-t="choke">Chokepoints</button>
+      <button class="tab" type="button" data-t="events">2026 events</button>
+      <button class="tab" type="button" data-t="proj">Pipeline</button>
+    </div>
+    <div id="list"></div>
+    <div id="detail"><span class="placeholder">Select a leg, plant, terminal or chokepoint.</span></div>
+  </aside>
+</main>
+
+<section>
+  <h2>1 · The supply chain: from gas field to burner tip</h2>
+  <p class="lead">LNG is natural gas (mostly methane) cooled to <b>−162 °C</b>, where it becomes a liquid taking up about <b>1/600th</b> of its gaseous volume. That lets gas cross oceans where pipelines can't reach, but every molecule needs a chain of very expensive, fixed assets. The cost row below shows an illustrative US cargo delivered to Europe, in $/MMBtu, using the defaults from the calculator further down.</p>
+  <div class="chain" id="chain"></div>
+</section>
+
+<section>
+  <h2>2 · Who sells, who buys, and what is exposed</h2>
+  <p class="lead">Three exporters (the US, Qatar and Australia) supplied <b>63%</b> of the world's LNG in 2025. Asia takes most of it, but Europe's share jumped to 30% after it lost Russian pipeline gas. The chokepoint and exposure charts show why a single strait matters so much. All 2025 figures are from GIIGNL's 2025 trade data.</p>
+  <div class="charts">
+    <div class="card"><h3>LNG exporters, 2025</h3><div class="cap">Million tonnes, with share of global trade (427.9 Mt)</div><div id="c-exp"></div><div class="foot" id="c-exp-src"></div></div>
+    <div class="card"><h3>LNG importers, 2025</h3><div class="cap">By region (stacked), then the biggest importing countries</div><div id="c-imp-reg"></div><div id="c-imp"></div><div class="foot" id="c-imp-src"></div></div>
+    <div class="card"><h3>Share of world LNG passing each chokepoint</h3><div class="cap">2025 baseline vs. Oct-2026 run-rate (as % of 2025 world trade), summed from the legs on the map</div><div class="keyline"><span><i style="background:var(--leg)"></i>2025</span><span><i style="background:var(--s2)"></i>Oct 2026 run-rate</span></div><div id="c-choke"></div><div class="foot">The Suez/Bab-el-Mandeb route carried ~8% of world LNG before 2024 and is now near zero. Run-rates are indicative.</div></div>
+    <div class="card"><h3>The supply hole, by exporter</h3><div class="cap">Estimated annualised flow on the map's legs: 2025 vs. Oct-2026 run-rate (Mt/yr)</div><div class="keyline"><span><i style="background:var(--leg)"></i>2025</span><span><i style="background:var(--s2)"></i>Oct 2026 run-rate</span></div><div id="c-gap"></div><div class="foot" id="c-gap-foot"></div></div>
+    <div class="card"><h3>Who is most exposed to Hormuz?</h3><div class="cap">Share of each importer's 2025 LNG that came from Qatar + UAE</div><div id="c-expo"></div><div class="foot" id="c-expo-src"></div></div>
+    <div class="card"><h3>How the shock gets absorbed</h3><div class="cap">Who lost supply, who replaced it, in one line each</div>
+      <ul class="absorb">
+        <li><b>South Asia</b> (Pakistan 99%, India 59%, Bangladesh) lost its main supplier and is cutting gas use or paying spot.</li>
+        <li><b>China, Taiwan, Korea</b> bid for Australian, Malaysian and US cargoes. China leans on Russian pipeline gas.</li>
+        <li><b>Europe</b> (only ~7% direct exposure) competes with Asia for US cargoes, so TTF rises with JKM.</li>
+        <li><b>US LNG</b> is the swing supplier: ~123 Mt in 2026 (+14%), with new trains at Plaquemines, Corpus Christi and Golden Pass.</li>
+        <li><b>Shipping</b> runs longer: Atlantic→Asia voyages and Cape detours tie up the ~800-ship fleet.</li>
+      </ul>
+      <div class="foot">Sources: GIIGNL Annual Report 2026; Reuters/Kpler (Oct 2026).</div></div>
+  </div>
+</section>
+
+<section>
+  <h2>3 · The supply wave, 2026–2031</h2>
+  <p class="lead">More than 200 Mtpa of liquefaction is under construction, most of it in the US and Qatar. Most of it arrives in 2027–2028. That matters for traders: once Hormuz reopens and North Field East starts, the market could swing from shortage to surplus quickly. Tick <b>under construction</b> on the globe, or open the <b>Pipeline</b> tab, to see every project.</p>
+  <div class="charts">
+    <div class="card"><h3>New liquefaction capacity by target start year</h3><div class="cap">Mtpa, stacked by region. The red bar below zero is the capacity damaged at Ras Laffan in March 2026.</div><div id="c-wave"></div><div class="foot" id="c-wave-foot"></div></div>
+    <div class="card"><h3>2026 world LNG supply: GIIGNL scenarios</h3><div class="cap">Million tonnes. A long Hormuz closure would take 2026 supply below 2025's record.</div><div id="c-scen"></div>
+      <div class="foot">GIIGNL Annual Report 2026. The partial-recovery case assumes the strait reopens but the damaged trains stay out. The prolonged case has no Qatar/UAE supply through end-2026.</div>
+      <p class="arb-note" style="margin-top:12px"><b>Why start dates matter:</b> the US wave (Golden Pass, Plaquemines Phase 2, Rio Grande, CP2, Port Arthur) is mostly 2027. Qatar's 48 Mtpa of North Field East and South expansions is now 2027–2028, and only reaches buyers if Hormuz is open. Start years usually slip, so treat them as targets.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>4 · Voyage calculator: how far, how long, how many ships?</h2>
+  <p class="lead">Pick any export plant and import terminal. The route follows the map's sea lanes, and you can open or close Hormuz, the Red Sea, Panama and the Arctic route. The table compares the alternatives: distance, days at sea, round trip, how many ships a contract needs and a rough freight cost. Click a row to draw it on the globe.</p>
+  <div class="voyage">
+    <div id="voy-in"></div>
+    <div><div id="voy-out"></div><button class="btn" type="button" id="voy-clear" style="display:none;margin-top:8px">clear route from globe</button></div>
+  </div>
+</section>
+
+<section>
+  <h2>5 · The arbitrage: where does a US cargo go?</h2>
+  <p class="lead">Most US LNG is sold <b>FOB</b> (free on board) at about <b>115% of Henry Hub plus a fixed liquefaction fee</b>, so whoever owns the cargo sends it wherever the delivered margin is highest. That decision moves ships between the Atlantic and the Pacific every month. Move the sliders to see how the spread between JKM (Asia) and TTF (Europe), freight and the Panama Canal decide it. Price defaults are a 5 Oct 2026 snapshot. Freight, canal and regas defaults are illustrative.</p>
+  <div class="arb">
+    <div id="arb-inputs"></div>
+    <div><div id="arb-out"></div><div class="arb-note" id="arb-note"></div></div>
+  </div>
+</section>
+
+<section>
+  <h2>6 · What happened, and what's next</h2>
+  <p class="lead">Red dots are the 2026 war and its knock-on effects. The dashed dot is a scheduled change.</p>
+  <ul class="timeline" id="timeline"></ul>
+</section>
+
+<section>
+  <h2>7 · Primer: the ten things to know</h2>
+  <div class="primer">
+    <div class="card">
+      <b>1. Liquefaction is the bottleneck.</b> The world had 524 Mtpa of liquefaction capacity at end-2025 but 1,247 Mtpa of import (regas) capacity, about 2.4× more. Supply, not import terminals, limits trade, so when Qatar's 77 Mtpa vanished nobody could replace it quickly. More than 200 Mtpa is under construction, mainly in the US and Qatar (section 3).<br><br>
+      <b>2. Trains, tanks and jetties.</b> A plant is built in "trains" (parallel liquefaction units of ~1–8 Mtpa each). Qatar's mega-trains are 7.8 Mtpa. Newer US plants use many small modular trains. Each plant also needs pre-treatment (removing CO₂, water and sulphur), cryogenic storage tanks and a loading jetty.<br><br>
+      <b>3. Ships are a scarce asset.</b> Only ~800 large LNG carriers exist, far fewer than oil tankers. A standard ship carries ~174,000 m³, about 3.6 million MMBtu or 0.1 bcm of gas. Qatar's Q-Max ships carry 266,000 m³. When voyages lengthen (Cape detours, Asia instead of Europe), ships get tied up and charter rates spike.
+    </div>
+    <div class="card">
+      <b>4. Boil-off.</b> About 0.1–0.15% of the cargo warms and evaporates each day. Most carriers burn it as fuel, so long voyages literally cost cargo.<br><br>
+      <b>5. Regas: onshore vs. floating.</b> Onshore terminals take 3–5 years to build. A <b>FSRU</b> (floating storage and regasification unit) is a converted ship that can be moored in months: Germany went from zero to three after 2022, and Egypt, Pakistan and Bangladesh rely on them.<br><br>
+      <b>6. Three pricing worlds.</b> Henry Hub (US, ~$3), TTF (Europe) and JKM (Asia spot), all in $/MMBtu. Long-term Asian contracts are often oil-indexed (≈12–14% × Brent). The spread between hubs is what pays for shipping and what traders monetise.
+    </div>
+    <div class="card">
+      <b>7. Contracts vs. spot.</b> 57% of 2025 trade was on long or medium-term contracts and 43% on spot or short-term deals (35% spot alone), a share that is rising fast because US volumes are destination-free.<br><br>
+      <b>8. FOB vs. DES.</b> With FOB the buyer lifts the cargo at the plant and controls the ship (and the destination). With DES (delivered ex-ship) the seller delivers to the buyer's terminal. FOB US cargoes are what make LNG a "global" market.<br><br>
+      <b>9. Chokepoints matter more for gas than oil.</b> Oil has strategic reserves and bypass pipelines. Qatari LNG has neither, and storage at both ends is small (days to weeks in Asia), so a closed strait hits power grids within weeks.<br><br>
+      <b>10. Watch these:</b> Hormuz transit counts, Qatar's monthly loadings, the JKM–TTF spread, Panama slot auctions, EU storage fill, Golden Pass and Plaquemines ramp-ups, and the 1 Jan 2027 EU ban on Russian LNG.
+    </div>
+  </div>
+  <div class="charts" style="margin-top:16px">
+    <div class="card"><h3>Conversions you will need</h3>
+      <table class="conv">
+        <tr><td>1 Mt LNG</td><td>≈ 1.36 bcm of gas ≈ 52 million MMBtu (TBtu)</td></tr>
+        <tr><td>1 bcf/d</td><td>≈ 7.6 Mt/yr of LNG</td></tr>
+        <tr><td>1 m³ LNG</td><td>≈ 600 m³ of gas; ≈ 0.45 tonnes</td></tr>
+        <tr><td>1 standard cargo</td><td>174,000 m³ ≈ 78,000 t ≈ 3.6 TBtu ≈ 0.1 bcm</td></tr>
+        <tr><td>$1/MMBtu</td><td>≈ $3.6 million per standard cargo</td></tr>
+        <tr><td>€/MWh → $/MMBtu</td><td>divide by ≈ 3.1 (at €1 ≈ $1.10). TTF €75/MWh ≈ $24/MMBtu</td></tr>
+      </table>
+    </div>
+    <div class="card"><h3>Glossary</h3><dl class="gloss" id="gloss"></dl></div>
+  </div>
+</section>
+
+<footer>
+  <b>Data and caveats.</b> 2025 volumes: GIIGNL Annual Report 2026 (with Kpler), including its exporter-by-importer matrix. The split of Australia's exports across its WA, Queensland and NT plants, and all 2026 run-rates, are estimates (marked ≈). Paths go through real ports and straits but are illustrative, not AIS tracks. Plant capacities are approximate nameplate figures. Prices are an indicative snapshot. Last updated <span id="upd"></span>.
+  <ul id="sources"></ul>
+  <a href="index.html">Back to the energy flows globe</a> · <a href="https://github.com/JskifterJ/trade-flow-disruptions">source on GitHub</a>
+</footer>
+
+<div id="tip"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
+<script src="lng.js"></script>
+</body>
+</html>

@@ -183,6 +183,31 @@
   details.primer dt { color: var(--ink); font-weight: 600; }
   details.primer dd { margin: 0; }
   @media (max-width: 600px) { details.primer dl { grid-template-columns: 1fr; } header, details.primer { margin-left: 0; margin-right: 0; } }
+  #zoombar { display: flex; gap: 6px; margin-bottom: 6px; }
+  #zoombar button { font: inherit; font-size: 12px; min-width: 32px; padding: 5px 9px; border-radius: 6px; cursor: pointer;
+    background: var(--panel); color: var(--ink-soft); border: 1px solid var(--panel-border); }
+  #zoombar button:hover { color: var(--ink); }
+  #globe { touch-action: none; }
+  #legend-events { display: flex; flex-wrap: wrap; gap: 6px 12px; width: 100%; padding-top: 6px; border-top: 1px dashed var(--panel-border); }
+  #legend-events span { display: inline-flex; align-items: center; gap: 4px; }
+  #detail .ev-head { font-size: 10.5px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-soft); margin: 4px 0 6px; }
+  #detail ul.ev-list { list-style: none; margin: 0 0 10px; padding: 0; max-height: 330px; overflow-y: auto; position: relative; }
+  #detail ul.ev-list li { display: grid; grid-template-columns: 20px 1fr; gap: 8px; padding: 6px 8px; margin-bottom: 4px; border: 1px solid var(--panel-border);
+    border-radius: 6px; background: var(--panel); cursor: pointer; font-size: 12px; line-height: 1.45; }
+  #detail ul.ev-list li:hover { border-color: var(--land-edge); }
+  #detail ul.ev-list li.on { border-color: var(--ink); background: #182230; }
+  #detail ul.ev-list li.nomap { cursor: default; opacity: .85; }
+  #detail .ev-ico { margin-top: 1px; }
+  #detail .ev-date { font-family: Consolas, monospace; font-size: 11px; color: var(--ink-soft); }
+  #detail .ev-list b { color: var(--ink); }
+  #detail .ev-text { color: var(--ink-soft); }
+  #detail .ev-src { font-size: 10.5px; margin-top: 2px; opacity: .9; }
+  #detail .ev-tag { font-size: 10px; padding: 0 6px; border: 1px solid var(--panel-border); border-radius: 8px; color: var(--ink-soft); white-space: nowrap; }
+  #detail .story { margin-top: 4px; }
+  #tip { position: fixed; pointer-events: none; z-index: 10; background: #0a0f15f2; border: 1px solid #3a4f66; border-radius: 6px;
+    padding: 7px 9px; font-size: 12px; line-height: 1.45; color: var(--ink-soft); max-width: 300px; display: none; box-shadow: 0 4px 16px #0008; }
+  #tip b { color: var(--ink); }
+  #tip .src { font-size: 10.5px; font-family: Consolas, monospace; color: #5c6b7a; }
 </style>
 </head>
 <body>
@@ -191,6 +216,7 @@
   <h1>Energy Trade Flows</h1>
   <p>Where crude oil, LNG and refined products normally move by sea, the chokepoints they depend on, and what the 2026 disruptions (Hormuz, the Red Sea, Panama, Russian sanctions) have done to those flows. Start with <b>Main flows</b> to learn the map, then switch to <b>Disruptions now</b>.</p>
   <div class="meta-row" id="meta-row">loading data…</div>
+  <div class="meta-row"><a href="lng.html" style="color:#4fb3d9">→ Deep dive: the LNG supply chain globe (plants, terminals, legs, 2026 shock)</a></div>
 </header>
 
 <details class="primer">
@@ -206,8 +232,9 @@
 
 <main>
   <div class="globe-pane">
+    <div id="zoombar"><button type="button" id="zin" title="Zoom in">+</button><button type="button" id="zout" title="Zoom out">−</button><button type="button" id="zreset" title="Reset view">reset</button></div>
     <svg id="globe" viewBox="0 0 640 640" role="img" aria-label="Rotatable globe showing chemical and plastics trade routes and current chokepoint disruptions"></svg>
-    <div class="hint">drag to rotate · click a route or a yellow chokepoint to focus on it</div>
+    <div class="hint">drag to rotate · scroll / pinch / +− to zoom · click a route, chokepoint or event marker to focus on it</div>
   </div>
   <aside>
     <div class="tabs">
@@ -227,6 +254,7 @@
       <span><span class="dot" style="background:var(--moderate)"></span>moderate</span>
       <span><span class="dot" style="background:var(--structural)"></span>structural shift</span>
       <span><span class="dot" style="background:var(--avoided)"></span>dashed = route avoided</span>
+      <div id="legend-events"></div>
     </div>
     <div id="route-list"></div>
     <div id="detail"><span class="placeholder">Select a route to read the full story and sources.</span></div>
@@ -237,7 +265,9 @@
   Data: <code>data/flows.json</code> (2025 baseline: EIA, IEA, GIIGNL, KSE Institute and others, cited per route) and <code>data/disruptions.json</code> (2026 events, cited per entry). Waypoints are illustrative routing through real ports and chokepoints, not vessel-tracked AIS data. Volumes are rounded. Built with an AI coding agent (Claude) and checked against the cited sources; <a href="https://github.com/JskifterJ/trade-flow-disruptions">source on GitHub</a>.
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+<div id="tip"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
 <script src="app.js"></script>
 </body>
