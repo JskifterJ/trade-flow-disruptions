@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-10-07",
+  "lastUpdated": "2026-10-14",
   "updateCadence": "weekly",
   "focus": "Energy and commodity trade flows: what has broken in 2026 and where the barrels and cargoes went instead",
   "chokepoints": [
@@ -69,7 +69,174 @@
         }
       ],
       "summary": "The US–Iran war has shut most commercial traffic through Hormuz for about seven months. A June interim deal (the Islamabad MoU) briefly eased flows but did not hold. The IEA estimates oil flows through the strait averaged only 7.6 mb/d in August, 13.1 mb/d below pre-war levels, with cumulative lost exports approaching 2.8 billion barrels. More than 10 mb/d of Gulf output is shut in. Iran's new Persian Gulf Strait Authority blacklisted 45 tankers in August for breaking its transit rules (56 by early September), and US naval escorts keep part of the flow moving. Vessel transits were in single digits on several early-October days against a pre-crisis norm of ~85 a day, and tanker strikes resumed from late September. IEA members agreed a 400 million barrel emergency stock release. Brent has traded back above $100/bbl. For a trader, the questions are which barrels can still move (see the bypass pipelines entry), who replaces them (Atlantic Basin crude, Brazil, US, West Africa), and how freight and insurance reprice for the ships that do sail.",
-      "source": "IEA Oil Market Report, Sep 2026; CNBC 11 Sep 2026; IMF PortWatch via straits.live, Oct 2026; marinelink.com; bairdmaritime.com (2026)"
+      "source": "IEA Oil Market Report, Sep 2026; CNBC 11 Sep 2026; IMF PortWatch via straits.live, Oct 2026; marinelink.com; bairdmaritime.com (2026)",
+      "focus": {
+        "lat": 26.4,
+        "lon": 56.3,
+        "zoom": 12
+      },
+      "regions": [
+        {
+          "name": "PERSIAN GULF",
+          "lat": 27.6,
+          "lon": 51.2
+        },
+        {
+          "name": "GULF OF OMAN",
+          "lat": 24.4,
+          "lon": 58.9
+        },
+        {
+          "name": "STRAIT OF HORMUZ",
+          "lat": 27.15,
+          "lon": 56.75,
+          "small": true
+        },
+        {
+          "name": "IRAN",
+          "lat": 28.6,
+          "lon": 55.5,
+          "land": true
+        },
+        {
+          "name": "UAE",
+          "lat": 23.9,
+          "lon": 54.3,
+          "land": true
+        },
+        {
+          "name": "OMAN",
+          "lat": 22.6,
+          "lon": 57.2,
+          "land": true
+        },
+        {
+          "name": "ARABIAN SEA",
+          "lat": 18.5,
+          "lon": 62.5
+        }
+      ],
+      "zones": [
+        {
+          "name": "Strait effectively closed",
+          "kind": "closure",
+          "polygon": [
+            [
+              55.2,
+              25.6
+            ],
+            [
+              55.8,
+              26.6
+            ],
+            [
+              56.3,
+              27.2
+            ],
+            [
+              57.3,
+              27.0
+            ],
+            [
+              57.6,
+              25.9
+            ],
+            [
+              56.9,
+              25.0
+            ],
+            [
+              56.2,
+              25.1
+            ]
+          ],
+          "label": "Closed"
+        }
+      ],
+      "events": [
+        {
+          "date": "28 Feb 2026",
+          "type": "blockade",
+          "title": "Strait closes",
+          "text": "US–Iran war begins and most commercial traffic through Hormuz stops. Pre-crisis norm: ~85 transits a day.",
+          "lat": 26.72,
+          "lon": 56.12,
+          "labelSide": "left",
+          "source": "EIA (Jul 2026)"
+        },
+        {
+          "date": "Early Mar 2026",
+          "type": "attack",
+          "title": "Tanker hit off Khasab",
+          "text": "Oman's maritime security centre reported a tanker targeted ~5 nm north of Khasab port (Musandam). It was the first tanker attack of the war.",
+          "lat": 26.27,
+          "lon": 56.25,
+          "source": "Oman Maritime Security Centre via Reuters (Mar 2026)"
+        },
+        {
+          "date": "Aug–Sep 2026",
+          "type": "policy",
+          "title": "Iran's 'Strait Authority' blacklist",
+          "text": "Iran's new Persian Gulf Strait Authority blacklisted 45 tankers in August for breaking its transit rules, and 56 by early September.",
+          "lat": 27.15,
+          "lon": 56.2,
+          "source": "CNBC (11 Sep 2026)"
+        },
+        {
+          "date": "Since spring 2026",
+          "type": "response",
+          "title": "US naval escorts",
+          "text": "US Navy escorts keep part of the flow moving. LNG carriers switch off AIS while crossing.",
+          "lat": 25.2,
+          "lon": 57.9,
+          "labelSide": "left",
+          "source": "Reuters (12 Oct 2026)"
+        },
+        {
+          "date": "Aug 2026",
+          "type": "info",
+          "title": "Oil flow 7.6 mb/d",
+          "text": "IEA: oil through Hormuz averaged 7.6 mb/d in August, 13.1 mb/d below pre-war. Cumulative lost exports are approaching 2.8 bn barrels.",
+          "source": "IEA OMR (Sep 2026)"
+        },
+        {
+          "date": "Sep 2026",
+          "type": "info",
+          "title": "Partial recovery under escort",
+          "text": "Kpler: Middle East crude shipments through Hormuz rose to ~80% of pre-war (~16 mb/d) in September with US Navy support.",
+          "source": "Kpler via Reuters (12 Oct 2026)"
+        },
+        {
+          "date": "1–11 Oct 2026",
+          "type": "attack",
+          "title": "≥18 ships attacked",
+          "text": "The FT counted at least 18 vessels attacked between 1 and 11 October, with European security sources recording 6 more. Transits fell to single digits on several days.",
+          "lat": 26.15,
+          "lon": 56.85,
+          "approx": true,
+          "source": "Financial Times via Sunday Guardian (Oct 2026)"
+        },
+        {
+          "date": "11 Oct 2026",
+          "type": "attack",
+          "title": "Outbound tanker hit, fire",
+          "text": "UKMTO: an outbound tanker was struck on its port side by an unknown projectile and caught fire. Crew safe.",
+          "lat": 26.78,
+          "lon": 56.5,
+          "approx": true,
+          "source": "UKMTO via GMA/Reuters (11 Oct 2026)"
+        },
+        {
+          "date": "13 Oct 2026",
+          "type": "attack",
+          "title": "Tanker + 2 container ships hit",
+          "text": "UKMTO: a tanker was struck by a projectile (Iran says it hit a mine after switching off its transponder), and two container ships were hit in separate incidents with minor damage.",
+          "lat": 26.48,
+          "lon": 56.95,
+          "approx": true,
+          "source": "UKMTO via TASS / Ynet (13 Oct 2026)"
+        }
+      ]
     },
     {
       "id": "bypass-pipelines-2026",
@@ -102,7 +269,100 @@
         }
       ],
       "summary": "Only two pipelines get Gulf crude out without passing Hormuz. Saudi Arabia's East-West line to Yanbu on the Red Sea ramped up to about 5 mb/d (versus ~0.8 mb/d before the crisis), and the UAE's Habshan–Fujairah line exits below the strait. Analysts point to port loading capacity, not pipe capacity, as the binding limit. Then attacks shut the East-West pipeline in early September, cutting the main bypass. Barrels that do reach Yanbu must still pass a Red Sea where the Houthis are blockading Saudi-linked shipping (next entry), so the bypass is only as good as the next chokepoint.",
-      "source": "IEA Oil Market Report, Sep 2026; IEA Strait of Hormuz factsheet, Feb 2026; trade press, Oct 2026"
+      "source": "IEA Oil Market Report, Sep 2026; IEA Strait of Hormuz factsheet, Feb 2026; trade press, Oct 2026",
+      "focus": {
+        "lat": 24.5,
+        "lon": 47.0,
+        "zoom": 2.8
+      },
+      "regions": [
+        {
+          "name": "SAUDI ARABIA",
+          "lat": 23.0,
+          "lon": 45.0,
+          "land": true
+        },
+        {
+          "name": "RED SEA",
+          "lat": 21.5,
+          "lon": 37.6
+        },
+        {
+          "name": "PERSIAN GULF",
+          "lat": 27.6,
+          "lon": 51.2
+        },
+        {
+          "name": "GULF OF OMAN",
+          "lat": 24.4,
+          "lon": 58.9
+        },
+        {
+          "name": "East-West pipeline (~1,200 km)",
+          "lat": 25.4,
+          "lon": 43.2,
+          "small": true
+        },
+        {
+          "name": "Habshan–Fujairah (ADCOP)",
+          "lat": 24.1,
+          "lon": 55.6,
+          "small": true
+        }
+      ],
+      "zones": [],
+      "events": [
+        {
+          "date": "Mar–Aug 2026",
+          "type": "info",
+          "title": "East-West line ramps to ~5 mb/d",
+          "text": "Saudi Arabia pushed its East-West line to about 5 mb/d (vs ~0.8 mb/d pre-crisis). Port loading at Yanbu, not the pipe, is the binding limit.",
+          "lat": 24.09,
+          "lon": 38.06,
+          "labelSide": "left",
+          "source": "IEA OMR (Sep 2026)"
+        },
+        {
+          "date": "10 Sep 2026",
+          "type": "strike",
+          "title": "Pumping stations hit",
+          "text": "Drones hit several East-West pumping stations, and satellite images showed fire damage near Al Mesba'ah and Al Dhekra. A US official said the drones came from Iraq. The line was shut on 11 Sep.",
+          "lat": 24.6,
+          "lon": 44.3,
+          "approx": true,
+          "source": "CNN / Oman Observer (12 Sep 2026)"
+        },
+        {
+          "date": "Sep 2026",
+          "type": "strike",
+          "title": "Khurais station hit again",
+          "text": "An AFP source said the line was hit again at a station at Khurais, east of Riyadh, halting flows again. Reuters satellite imagery on 22 Sep showed repairs near Dhekra.",
+          "lat": 25.07,
+          "lon": 48.18,
+          "approx": true,
+          "labelSide": "left",
+          "source": "AFP; Reuters (Sep 2026)"
+        },
+        {
+          "date": "24 Aug 2026",
+          "type": "attack",
+          "title": "Tanker hit 63 nm west of Yanbu",
+          "text": "UKMTO: a Bahri tanker was struck by an unknown projectile ~63 nm west of Yanbu. Crew safe. Around 30 tankers near Yanbu sit within Houthi strike range.",
+          "lat": 24.09,
+          "lon": 36.95,
+          "labelSide": "left",
+          "source": "UKMTO via Al Jazeera (24 Aug 2026)"
+        },
+        {
+          "date": "Mar–Oct 2026",
+          "type": "info",
+          "title": "Fujairah: the UAE's exit below Hormuz",
+          "text": "The Habshan–Fujairah line loads tankers in the Gulf of Oman, outside the strait. Capacity is ~1.5 mb/d and port capacity is again the limit.",
+          "lat": 25.12,
+          "lon": 56.35,
+          "source": "IEA Strait of Hormuz factsheet"
+        }
+      ]
     },
     {
       "id": "qatar-lng-2026",
@@ -133,7 +393,127 @@
         }
       ],
       "summary": "About 93% of Qatar's and 96% of the UAE's LNG exports pass through Hormuz, roughly 19% of global LNG trade, and none of it has a pipeline bypass. Qatar declared force majeure in March, and its exports were down ~96% year on year by August. European gas (TTF) more than doubled to roughly €70–77/MWh in late August–early September, a three-year high. Asian buyers lost their largest long-term supplier and bid against Europe for spot cargoes. US Gulf Coast LNG (a record 109 Mt in 2025) became the marginal supplier to both, which is why Panama Canal slots and Atlantic freight suddenly matter so much.",
-      "source": "EIA Today in Energy (2026); IEA Strait of Hormuz factsheet; GIIGNL Annual Report 2026; trade press Sep 2026"
+      "source": "EIA Today in Energy (2026); IEA Strait of Hormuz factsheet; GIIGNL Annual Report 2026; trade press Sep 2026",
+      "focus": {
+        "lat": 25.8,
+        "lon": 53.5,
+        "zoom": 4.0
+      },
+      "regions": [
+        {
+          "name": "PERSIAN GULF",
+          "lat": 27.6,
+          "lon": 50.6
+        },
+        {
+          "name": "QATAR",
+          "lat": 25.2,
+          "lon": 51.2,
+          "land": true,
+          "small": true
+        },
+        {
+          "name": "STRAIT OF HORMUZ",
+          "lat": 26.9,
+          "lon": 56.9
+        },
+        {
+          "name": "GULF OF OMAN",
+          "lat": 24.4,
+          "lon": 58.9
+        },
+        {
+          "name": "KUWAIT",
+          "lat": 29.3,
+          "lon": 47.6,
+          "land": true,
+          "small": true
+        }
+      ],
+      "zones": [
+        {
+          "name": "No LNG exit: Hormuz closed",
+          "kind": "closure",
+          "polygon": [
+            [
+              55.2,
+              25.6
+            ],
+            [
+              55.8,
+              26.6
+            ],
+            [
+              56.3,
+              27.2
+            ],
+            [
+              57.3,
+              27.0
+            ],
+            [
+              57.6,
+              25.9
+            ],
+            [
+              56.9,
+              25.0
+            ],
+            [
+              56.2,
+              25.1
+            ]
+          ],
+          "label": "Closed to LNG"
+        }
+      ],
+      "events": [
+        {
+          "date": "2 Mar 2026",
+          "type": "strike",
+          "title": "Ras Laffan + Mesaieed struck",
+          "text": "Iranian missiles hit Ras Laffan and Mesaieed Industrial City. QatarEnergy halted all LNG production and declared force majeure. ~17% of export capacity is damaged, with repairs taking 3–5 years.",
+          "lat": 25.91,
+          "lon": 51.58,
+          "source": "Qatar MoD; QatarEnergy; Reuters (Oct 2026)"
+        },
+        {
+          "date": "Sep 2026",
+          "type": "info",
+          "title": "1.6 Mt shipped: a third to Kuwait",
+          "text": "September exports were 1.6 Mt, under a quarter of normal. A third went to Kuwait's Al-Zour terminal, which never crosses Hormuz.",
+          "lat": 28.72,
+          "lon": 48.38,
+          "labelSide": "left",
+          "source": "Kpler via Reuters (12 Oct 2026)"
+        },
+        {
+          "date": "7 Oct 2026",
+          "type": "attack",
+          "title": "Tanker Acers hit near Ras Laffan",
+          "text": "The Antigua-flagged tanker Acers was hit by multiple projectiles ~50 nm north of Madinat ash Shamal, close to the Ras Laffan LNG complex.",
+          "lat": 26.96,
+          "lon": 51.2,
+          "source": "Iran Dossier / Reuters (Oct 2026)"
+        },
+        {
+          "date": "Oct 2026",
+          "type": "info",
+          "title": "~0.6 Mt expected in October",
+          "text": "Kpler expects Qatari LNG exports to drop to ~0.6 Mt in October as attacks on ships intensify (pre-war ≈6.7 Mt a month).",
+          "source": "Kpler via Reuters (12 Oct 2026)"
+        },
+        {
+          "date": "Since Mar 2026",
+          "type": "blockade",
+          "title": "No bypass for LNG",
+          "text": "~93% of Qatar's and 96% of the UAE's LNG must pass Hormuz, about 19% of world LNG trade.",
+          "lat": 26.57,
+          "lon": 56.25,
+          "labelSide": "left",
+          "source": "IEA Strait of Hormuz factsheet"
+        }
+      ]
     },
     {
       "id": "redsea-2026",
@@ -196,7 +576,274 @@
         }
       ],
       "summary": "The Houthis' 2025 pause ended at the end of February 2026, when they announced renewed attacks on Red Sea shipping, linked to the strikes on Iran. In July they declared a complete naval blockade on Saudi Arabia, aimed squarely at the oil Saudi Arabia was rerouting to Yanbu to avoid Hormuz. In September they seized the port of Mokha, Perim island inside the Bab-el-Mandeb strait and the Hanish islands. On 4 October Saudi-backed Yemeni forces launched a counter-offensive and claimed control of the strait, so the situation is fluid. Around 30 tankers near Yanbu sit within Houthi strike range. Most Asia–Europe tankers and container ships still go round the Cape, adding about 10–14 days. That ties up ships and lifts freight rates on every route, not just this one.",
-      "source": "CNN (4 Oct 2026); Euronews (14 Sep 2026); CNBC (22 Jul 2026); CFR; Lloyd's List Intelligence Red Sea brief (Aug 2026)"
+      "source": "CNN (4 Oct 2026); Euronews (14 Sep 2026); CNBC (22 Jul 2026); CFR; Lloyd's List Intelligence Red Sea brief (Aug 2026)",
+      "focus": {
+        "lat": 17.0,
+        "lon": 41.5,
+        "zoom": 4.6
+      },
+      "regions": [
+        {
+          "name": "RED SEA",
+          "lat": 20.5,
+          "lon": 38.6
+        },
+        {
+          "name": "GULF OF ADEN",
+          "lat": 12.0,
+          "lon": 49.6
+        },
+        {
+          "name": "BAB-EL-MANDEB",
+          "lat": 12.2,
+          "lon": 43.75,
+          "small": true
+        },
+        {
+          "name": "YEMEN",
+          "lat": 15.6,
+          "lon": 47.0,
+          "land": true
+        },
+        {
+          "name": "SAUDI ARABIA",
+          "lat": 22.5,
+          "lon": 44.5,
+          "land": true
+        },
+        {
+          "name": "ERITREA",
+          "lat": 15.6,
+          "lon": 38.6,
+          "land": true,
+          "small": true
+        },
+        {
+          "name": "DJIBOUTI",
+          "lat": 11.6,
+          "lon": 42.4,
+          "land": true,
+          "small": true
+        },
+        {
+          "name": "SUEZ CANAL",
+          "lat": 30.4,
+          "lon": 33.6,
+          "small": true
+        }
+      ],
+      "zones": [
+        {
+          "name": "Houthi blockade on Saudi shipping (declared Jul 2026)",
+          "kind": "blockade",
+          "polygon": [
+            [
+              34.6,
+              27.6
+            ],
+            [
+              35.8,
+              27.9
+            ],
+            [
+              37.6,
+              25.6
+            ],
+            [
+              39.5,
+              21.8
+            ],
+            [
+              41.6,
+              17.6
+            ],
+            [
+              42.9,
+              14.8
+            ],
+            [
+              43.5,
+              12.7
+            ],
+            [
+              42.7,
+              13.6
+            ],
+            [
+              40.5,
+              15.9
+            ],
+            [
+              38.4,
+              18.8
+            ],
+            [
+              36.6,
+              21.9
+            ],
+            [
+              35.2,
+              24.8
+            ]
+          ],
+          "label": "Blockade on Saudi shipping",
+          "labelAt": [
+            37.6,
+            23.2
+          ]
+        },
+        {
+          "name": "Main attack zone: southern Red Sea, Bab-el-Mandeb, Gulf of Aden",
+          "kind": "attack",
+          "polygon": [
+            [
+              40.0,
+              17.8
+            ],
+            [
+              42.4,
+              17.2
+            ],
+            [
+              43.2,
+              14.2
+            ],
+            [
+              43.6,
+              12.75
+            ],
+            [
+              45.5,
+              13.2
+            ],
+            [
+              48.5,
+              13.9
+            ],
+            [
+              49.5,
+              12.0
+            ],
+            [
+              44.5,
+              11.0
+            ],
+            [
+              43.3,
+              11.6
+            ],
+            [
+              42.5,
+              13.0
+            ],
+            [
+              41.0,
+              15.0
+            ]
+          ],
+          "label": "Main attack zone",
+          "labelAt": [
+            46.6,
+            12.95
+          ]
+        }
+      ],
+      "events": [
+        {
+          "date": "End Feb 2026",
+          "type": "attack",
+          "title": "Houthi attacks resume",
+          "text": "The 2025 pause ends: the Houthis announce renewed attacks on Red Sea shipping, linked to the strikes on Iran.",
+          "lat": 15.2,
+          "lon": 41.6,
+          "approx": true,
+          "labelSide": "left",
+          "source": "CFR; Lloyd's List (2026)"
+        },
+        {
+          "date": "5 Jul 2026",
+          "type": "attack",
+          "title": "Skiff attack SW of Hodeidah",
+          "text": "UKMTO: a cargo ship reported being 'under attack by unknown armed assailants' 30 nm south-west of Hodeidah. Ship and crew safe.",
+          "lat": 14.4,
+          "lon": 42.5,
+          "source": "UKMTO via CBS (Jul 2026)"
+        },
+        {
+          "date": "22 Jul 2026",
+          "type": "attack",
+          "title": "Saudi tankers Encelia & Layla",
+          "text": "The Houthis claimed attacks on two Saudi tankers after declaring a total naval blockade on Saudi Arabia, aimed at oil diverted to Yanbu.",
+          "lat": 16.5,
+          "lon": 40.8,
+          "approx": true,
+          "source": "Al Jazeera; CNBC (22 Jul 2026)"
+        },
+        {
+          "date": "11 Aug 2026",
+          "type": "attack",
+          "title": "Tihamah hit, 6 killed",
+          "text": "Two ballistic missiles hit the cargo ship Tihamah in Bab-el-Mandeb, killing four sailors. A second strike on a Yemeni coast-guard rescue boat killed two rescuers.",
+          "lat": 12.75,
+          "lon": 43.3,
+          "labelSide": "left",
+          "source": "UPI; Africa Center (Aug 2026)"
+        },
+        {
+          "date": "24 Aug 2026",
+          "type": "attack",
+          "title": "Tanker hit 63 nm W of Yanbu",
+          "text": "UKMTO: a Bahri tanker was struck by a projectile ~63 nm west of Yanbu, far north of the usual attack zone.",
+          "lat": 24.09,
+          "lon": 36.95,
+          "labelSide": "left",
+          "source": "UKMTO via Al Jazeera (24 Aug 2026)"
+        },
+        {
+          "date": "Sep 2026",
+          "type": "seizure",
+          "title": "Mokha port seized",
+          "text": "Houthi forces seized the port of Mokha on the Red Sea coast.",
+          "lat": 13.32,
+          "lon": 43.25,
+          "source": "Euronews (14 Sep 2026)"
+        },
+        {
+          "date": "Sep 2026",
+          "type": "seizure",
+          "title": "Perim island seized",
+          "text": "Perim island, inside the Bab-el-Mandeb strait itself, taken by Houthi forces.",
+          "lat": 12.66,
+          "lon": 43.42,
+          "source": "Euronews (14 Sep 2026)"
+        },
+        {
+          "date": "Sep 2026",
+          "type": "seizure",
+          "title": "Hanish islands seized",
+          "text": "The Hanish islands in the southern Red Sea, astride the shipping lane, seized.",
+          "lat": 13.72,
+          "lon": 42.73,
+          "labelSide": "left",
+          "source": "Euronews (14 Sep 2026)"
+        },
+        {
+          "date": "4 Oct 2026",
+          "type": "response",
+          "title": "Saudi-backed counter-offensive",
+          "text": "Saudi-backed Yemeni forces launched a counter-offensive and claimed control of the strait. The situation is fluid.",
+          "lat": 12.95,
+          "lon": 43.6,
+          "source": "CNN (4 Oct 2026)"
+        },
+        {
+          "date": "Since Jul 2026",
+          "type": "info",
+          "title": "12 attacks in the south",
+          "text": "12 Houthi attacks or attempted attacks on commercial vessels in the southern Red Sea since July. Most Asia–Europe tankers and boxships still go round the Cape (+10–14 days).",
+          "source": "Africa Center for Strategic Studies (2026)"
+        }
+      ]
     },
     {
       "id": "panama-2026",
@@ -232,7 +879,98 @@
         }
       ],
       "summary": "A severe El Niño cut rainfall in the canal watershed roughly 34% below average from May to August. The canal authority imposed its first daily transit cap since the 2023–24 crisis: 34 ships a day from 3 September, then 32 from 15 September (versus a normal ~36), together with draught cuts. From 15 October the Neopanamax locks go from 9 to 10 daily transits (33 a day in total), but capacity stays below normal. Demand is unusually high: laden LNG transits hit a two-year high in June as US cargoes chased Asian prices after the loss of Qatari supply, and an LPG carrier slot sold at auction for a record $5.3 million on 1 September. VLGC (LPG) freight rates hit record highs.",
-      "source": "S&P Global Commodity Insights (Jul 2026); FreightWaves; Marine Insight; Maritime Executive; Hellenic Shipping News (Sep 2026)"
+      "source": "S&P Global Commodity Insights (Jul 2026); FreightWaves; Marine Insight; Maritime Executive; Hellenic Shipping News (Sep 2026)",
+      "focus": {
+        "lat": 9.15,
+        "lon": -79.75,
+        "zoom": 30
+      },
+      "regions": [
+        {
+          "name": "CARIBBEAN SEA",
+          "lat": 9.75,
+          "lon": -79.4
+        },
+        {
+          "name": "GULF OF PANAMA",
+          "lat": 8.55,
+          "lon": -79.3
+        },
+        {
+          "name": "Gatun Lake",
+          "lat": 9.18,
+          "lon": -79.95,
+          "small": true
+        },
+        {
+          "name": "PANAMA",
+          "lat": 8.75,
+          "lon": -80.35,
+          "land": true,
+          "small": true
+        }
+      ],
+      "zones": [
+        {
+          "name": "Gatun Lake watershed: rainfall −34% (May–Aug)",
+          "kind": "restriction",
+          "circle": [
+            -79.85,
+            9.2,
+            0.22
+          ],
+          "label": "Gatun watershed: rain −34%"
+        }
+      ],
+      "events": [
+        {
+          "date": "May–Aug 2026",
+          "type": "restriction",
+          "title": "Rainfall −34%",
+          "text": "A severe El Niño cut rainfall in the canal watershed ~34% below average. Gatun Lake feeds every lock transit.",
+          "lat": 9.2,
+          "lon": -79.9,
+          "labelSide": "left",
+          "source": "Panama Canal Authority via Marine Insight (2026)"
+        },
+        {
+          "date": "Jun 2026",
+          "type": "info",
+          "title": "Laden LNG transits 2-yr high",
+          "text": "US LNG cargoes chased Asian prices after Qatar's outage.",
+          "lat": 9.4,
+          "lon": -79.92,
+          "source": "S&P Global (Jul 2026)"
+        },
+        {
+          "date": "1 Sep 2026",
+          "type": "info",
+          "title": "Record $5.3m slot auction",
+          "text": "An LPG carrier paid a record $5.3m for a transit slot. VLGC freight hit record highs.",
+          "lat": 8.85,
+          "lon": -79.45,
+          "source": "FreightWaves (Sep 2026)"
+        },
+        {
+          "date": "3 & 15 Sep 2026",
+          "type": "restriction",
+          "title": "Daily cap: 34 → 32 transits",
+          "text": "First daily transit cap since the 2023–24 crisis (normal ~36), plus draught cuts.",
+          "lat": 9.08,
+          "lon": -79.68,
+          "source": "Maritime Executive (Sep 2026)"
+        },
+        {
+          "date": "15 Oct 2026",
+          "type": "response",
+          "title": "Partial easing: 33/day",
+          "text": "Neopanamax locks go from 9 to 10 daily slots (Agua Clara and Cocolí), still below normal.",
+          "lat": 8.97,
+          "lon": -79.58,
+          "labelSide": "left",
+          "source": "Hellenic Shipping News (Sep 2026)"
+        }
+      ]
     },
     {
       "id": "russia-shadow-2026",
@@ -300,7 +1038,95 @@
         }
       ],
       "summary": "Russia ships roughly 3.8–4.1 mb/d of crude by sea; China takes ~51% and India ~38%. In March 2026 almost half of Russia's seaborne oil moved on sanctioned 'shadow' tankers, 92% of them over 15 years old, and Western governments have now sanctioned 651 tankers. The share exported by US-designated producers (Rosneft, Lukoil, Gazpromneft, Surgutneftegaz) fell to 4–8% in Q1 2026, then recovered to 57% by mid-May. India's imports of Russian crude doubled month on month in March, as Gulf supply was shut in. With the Red Sea unsafe, Baltic cargoes to India increasingly go round Africa.",
-      "source": "KSE Institute Russian Oil Tracker (May 2026); CREA monthly analysis (Mar 2026)"
+      "source": "KSE Institute Russian Oil Tracker (May 2026); CREA monthly analysis (Mar 2026)",
+      "focus": {
+        "lat": 45.0,
+        "lon": 25.0,
+        "zoom": 1.3
+      },
+      "regions": [
+        {
+          "name": "BALTIC SEA",
+          "lat": 57.5,
+          "lon": 19.5
+        },
+        {
+          "name": "DANISH STRAITS",
+          "lat": 56.4,
+          "lon": 11.4,
+          "small": true
+        },
+        {
+          "name": "NORTH SEA",
+          "lat": 56.0,
+          "lon": 3.0
+        },
+        {
+          "name": "ATLANTIC OCEAN",
+          "lat": 25.0,
+          "lon": -35.0
+        },
+        {
+          "name": "INDIAN OCEAN",
+          "lat": -12.0,
+          "lon": 72.0
+        },
+        {
+          "name": "SEA OF JAPAN",
+          "lat": 40.0,
+          "lon": 134.5
+        }
+      ],
+      "zones": [],
+      "events": [
+        {
+          "date": "2026",
+          "type": "policy",
+          "title": "Baltic loading: Primorsk, Ust-Luga",
+          "text": "Russia ships ~3.8–4.1 mb/d of crude by sea. In March 2026 almost half moved on sanctioned shadow tankers, 92% of them over 15 years old.",
+          "lat": 60.35,
+          "lon": 28.6,
+          "source": "KSE Institute (May 2026)"
+        },
+        {
+          "date": "2026",
+          "type": "policy",
+          "title": "Shadow fleet transits",
+          "text": "Old, under-insured tankers pass the Danish straits and the Channel, a growing concern for coastal states. The West has now sanctioned 651 tankers.",
+          "lat": 55.6,
+          "lon": 10.9,
+          "labelSide": "left",
+          "source": "KSE Institute (May 2026)"
+        },
+        {
+          "date": "Mar 2026",
+          "type": "info",
+          "title": "India's Russian imports double",
+          "text": "India's imports of Russian crude doubled month on month in March as Gulf supply was shut in. India takes ~38% of Russia's seaborne crude.",
+          "lat": 22.47,
+          "lon": 69.84,
+          "labelSide": "left",
+          "source": "CREA (Mar 2026)"
+        },
+        {
+          "date": "2026",
+          "type": "info",
+          "title": "Kozmino → China",
+          "text": "Pacific ESPO crude, a few days to Shandong. China takes ~51% of Russian seaborne crude.",
+          "lat": 42.73,
+          "lon": 133.0,
+          "source": "KSE Institute (May 2026)"
+        },
+        {
+          "date": "2026",
+          "type": "info",
+          "title": "Red Sea shut → round Africa",
+          "text": "With the Red Sea unsafe, Baltic cargoes to India increasingly sail round the Cape.",
+          "lat": -34.35,
+          "lon": 18.47,
+          "source": "KSE Institute (May 2026)"
+        }
+      ]
     },
     {
       "id": "china-export-flip-2026",
@@ -343,7 +1169,45 @@
         }
       ],
       "summary": "From the original Tricon-prep version of this map, kept because it is a demand-side story, not a transport one. China's PE/PP imports hit record lows in April 2026 while its PE exports hit record highs (+122% YoY), squeezing the export markets that ~3.3 Mt/yr of new US Gulf Coast PE capacity (Shell, Baystar, Nova, Dow) built since 2023 was counting on.",
-      "source": "itpweb.com; Argus Media; C&EN (2026)"
+      "source": "itpweb.com; Argus Media; C&EN (2026)",
+      "focus": {
+        "lat": 15.0,
+        "lon": 112.0,
+        "zoom": 1.6
+      },
+      "regions": [
+        {
+          "name": "SOUTH CHINA SEA",
+          "lat": 13.5,
+          "lon": 113.5
+        },
+        {
+          "name": "EAST CHINA SEA",
+          "lat": 29.0,
+          "lon": 125.5
+        }
+      ],
+      "zones": [],
+      "events": [
+        {
+          "date": "Apr 2026",
+          "type": "info",
+          "title": "Record PE exports (+122% YoY)",
+          "text": "China's PE/PP imports hit record lows while PE exports hit record highs.",
+          "lat": 29.87,
+          "lon": 121.9,
+          "source": "Argus Media; itpweb.com (2026)"
+        },
+        {
+          "date": "2023–26",
+          "type": "info",
+          "title": "New US Gulf PE capacity squeezed",
+          "text": "~3.3 Mt/yr of new US Gulf Coast PE capacity (Shell, Baystar, Nova, Dow) loses export markets to Chinese material.",
+          "lat": 29.7,
+          "lon": -95.0,
+          "source": "C&EN (2026)"
+        }
+      ]
     }
   ]
 }
