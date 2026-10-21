@@ -1,0 +1,3580 @@
+{
+  "lastUpdated": "2026-10-15",
+  "globalTrade2025Mt": 427.9,
+  "notes": "2025 volumes come from GIIGNL's Annual Report 2026 (exporter-by-importer matrix, with Kpler). Each leg groups the reported flows from one exporter to the destinations named. Where a country's exports are split across several of its plants (Australia's WA / Queensland / NT legs), the split is an estimate (marked ≈). Paths are illustrative routing through real ports and straits, not AIS tracks. 2026 run-rates are rough indications of current flow, not forecasts.",
+  "points": {
+    "rasLaffan": [
+      25.91,
+      51.58,
+      "Ras Laffan, Qatar"
+    ],
+    "das": [
+      25.15,
+      52.87,
+      "Das Island, UAE"
+    ],
+    "hormuz": [
+      26.57,
+      56.25,
+      "Strait of Hormuz"
+    ],
+    "gulfOman": [
+      24.6,
+      58.6,
+      "Gulf of Oman"
+    ],
+    "qalhat": [
+      22.7,
+      59.38,
+      "Qalhat (Sur), Oman"
+    ],
+    "arabSea": [
+      18.0,
+      63.0,
+      "Arabian Sea"
+    ],
+    "sriLanka": [
+      5.6,
+      80.6,
+      "South of Sri Lanka"
+    ],
+    "aceh": [
+      5.8,
+      95.0,
+      "Off Aceh"
+    ],
+    "malacca": [
+      2.5,
+      101.0,
+      "Strait of Malacca"
+    ],
+    "singapore": [
+      1.25,
+      104.0,
+      "Singapore Strait"
+    ],
+    "scs": [
+      10.0,
+      112.0,
+      "South China Sea"
+    ],
+    "luzon": [
+      20.5,
+      121.0,
+      "Luzon Strait"
+    ],
+    "tokyo": [
+      35.3,
+      139.9,
+      "Tokyo Bay, Japan"
+    ],
+    "shanghai": [
+      31.0,
+      122.2,
+      "Shanghai / Jiangsu, China"
+    ],
+    "dapeng": [
+      22.6,
+      114.47,
+      "Guangdong (Dapeng), China"
+    ],
+    "pyeongtaek": [
+      37.0,
+      126.6,
+      "Pyeongtaek / Incheon, Korea"
+    ],
+    "tongyeong": [
+      34.8,
+      128.4,
+      "Tongyeong, Korea"
+    ],
+    "yellowSea": [
+      34.5,
+      124.0,
+      "Yellow Sea"
+    ],
+    "dahej": [
+      21.7,
+      72.55,
+      "Dahej, India"
+    ],
+    "qasim": [
+      24.77,
+      67.33,
+      "Port Qasim, Pakistan"
+    ],
+    "alZour": [
+      28.72,
+      48.38,
+      "Al-Zour, Kuwait"
+    ],
+    "gulfAden": [
+      12.6,
+      47.0,
+      "Gulf of Aden"
+    ],
+    "babelmandeb": [
+      12.6,
+      43.4,
+      "Bab-el-Mandeb"
+    ],
+    "redSea": [
+      20.0,
+      38.5,
+      "Red Sea"
+    ],
+    "suez": [
+      30.58,
+      32.27,
+      "Suez Canal"
+    ],
+    "portSaid": [
+      31.6,
+      32.3,
+      "Port Said"
+    ],
+    "ainSokhna": [
+      29.6,
+      32.35,
+      "Ain Sokhna FSRUs, Egypt"
+    ],
+    "medE": [
+      33.5,
+      27.0,
+      "Eastern Mediterranean"
+    ],
+    "sicily": [
+      37.3,
+      11.5,
+      "Strait of Sicily"
+    ],
+    "ionian": [
+      38.0,
+      18.5,
+      "Ionian Sea"
+    ],
+    "otranto": [
+      40.3,
+      19.0,
+      "Strait of Otranto"
+    ],
+    "adriatic": [
+      45.1,
+      12.6,
+      "Adriatic LNG, Italy"
+    ],
+    "somalia": [
+      2.0,
+      53.0,
+      "Off Somalia"
+    ],
+    "mozChannel": [
+      -12.0,
+      44.0,
+      "Mozambique Channel"
+    ],
+    "mozSouth": [
+      -25.0,
+      36.5,
+      "Off southern Mozambique"
+    ],
+    "capeS": [
+      -36.0,
+      20.0,
+      "Cape of Good Hope"
+    ],
+    "namibia": [
+      -22.0,
+      8.0,
+      "Off Namibia"
+    ],
+    "gulfGuinea": [
+      0.0,
+      -8.0,
+      "Gulf of Guinea"
+    ],
+    "capeVerde": [
+      15.0,
+      -22.0,
+      "Off Cape Verde"
+    ],
+    "iberia": [
+      37.0,
+      -12.0,
+      "Off Portugal"
+    ],
+    "finisterre": [
+      44.0,
+      -10.0,
+      "Off Cape Finisterre"
+    ],
+    "ushant": [
+      48.6,
+      -6.0,
+      "Ushant"
+    ],
+    "channel": [
+      50.2,
+      -1.0,
+      "English Channel"
+    ],
+    "zeebrugge": [
+      51.34,
+      3.2,
+      "Zeebrugge, Belgium"
+    ],
+    "rotterdam": [
+      51.95,
+      4.03,
+      "Gate terminal, Rotterdam"
+    ],
+    "montoir": [
+      47.3,
+      -2.15,
+      "Montoir-de-Bretagne, France"
+    ],
+    "gibraltar": [
+      35.95,
+      -5.6,
+      "Strait of Gibraltar"
+    ],
+    "huelva": [
+      37.15,
+      -6.93,
+      "Huelva, Spain"
+    ],
+    "dardanelles": [
+      40.2,
+      26.4,
+      "Dardanelles"
+    ],
+    "marmara": [
+      40.97,
+      27.95,
+      "Marmara Ereğlisi, Turkey"
+    ],
+    "sabine": [
+      29.73,
+      -93.87,
+      "Sabine Pass, Louisiana"
+    ],
+    "gom": [
+      25.5,
+      -88.0,
+      "Gulf of Mexico"
+    ],
+    "floridaS": [
+      24.2,
+      -81.5,
+      "Straits of Florida"
+    ],
+    "floridaExit": [
+      26.8,
+      -79.6,
+      "Off Florida"
+    ],
+    "natl": [
+      40.0,
+      -40.0,
+      "North Atlantic"
+    ],
+    "yucatan": [
+      21.5,
+      -86.0,
+      "Yucatán Channel"
+    ],
+    "carib": [
+      13.5,
+      -79.0,
+      "Caribbean Sea"
+    ],
+    "colon": [
+      9.35,
+      -79.92,
+      "Colón (Panama Canal, Atlantic side)"
+    ],
+    "panamaPac": [
+      8.0,
+      -79.5,
+      "Panama Canal, Pacific side"
+    ],
+    "pacE": [
+      10.0,
+      -100.0,
+      "Eastern Pacific"
+    ],
+    "pacN": [
+      25.0,
+      -150.0,
+      "North Pacific"
+    ],
+    "guanabara": [
+      -22.9,
+      -43.15,
+      "Guanabara Bay FSRU, Brazil"
+    ],
+    "karratha": [
+      -20.6,
+      116.8,
+      "Karratha / Pilbara, W. Australia"
+    ],
+    "lombok": [
+      -8.7,
+      115.7,
+      "Lombok Strait"
+    ],
+    "makassar": [
+      -2.0,
+      118.0,
+      "Makassar Strait"
+    ],
+    "celebes": [
+      3.5,
+      122.0,
+      "Celebes Sea"
+    ],
+    "sangihe": [
+      5.0,
+      126.2,
+      "South of Mindanao"
+    ],
+    "sunda": [
+      -6.0,
+      105.8,
+      "Sunda Strait"
+    ],
+    "karimata": [
+      -2.0,
+      108.6,
+      "Karimata Strait"
+    ],
+    "gladstone": [
+      -23.84,
+      151.26,
+      "Gladstone (Curtis Island), Queensland"
+    ],
+    "darwin": [
+      -12.47,
+      130.85,
+      "Darwin (Ichthys, Darwin LNG)"
+    ],
+    "bintulu": [
+      3.27,
+      113.07,
+      "Bintulu, Malaysia"
+    ],
+    "bontang": [
+      0.1,
+      117.5,
+      "Bontang, Indonesia"
+    ],
+    "cautionBay": [
+      -9.37,
+      147.0,
+      "PNG LNG, Port Moresby"
+    ],
+    "vitiaz": [
+      -5.9,
+      147.6,
+      "Vitiaz Strait"
+    ],
+    "prigorodnoye": [
+      46.62,
+      142.9,
+      "Prigorodnoye (Sakhalin-2), Russia"
+    ],
+    "bussol": [
+      46.5,
+      151.5,
+      "Bussol Strait (Kurils)"
+    ],
+    "sabetta": [
+      71.27,
+      72.07,
+      "Sabetta (Yamal LNG), Russia"
+    ],
+    "obExit": [
+      73.5,
+      73.0,
+      "Kara Sea"
+    ],
+    "karaGates": [
+      70.4,
+      58.0,
+      "Kara Gates"
+    ],
+    "northCape": [
+      72.0,
+      26.0,
+      "Off North Cape"
+    ],
+    "norwegianSea": [
+      68.0,
+      12.0,
+      "Norwegian Sea"
+    ],
+    "northSea": [
+      58.0,
+      3.5,
+      "North Sea"
+    ],
+    "vilkitsky": [
+      77.8,
+      104.0,
+      "Vilkitsky Strait (Northern Sea Route)"
+    ],
+    "bering": [
+      65.8,
+      -169.0,
+      "Bering Strait"
+    ],
+    "utrenneye": [
+      70.9,
+      74.6,
+      "Utrenneye (Arctic LNG 2), Russia"
+    ],
+    "beihai": [
+      21.45,
+      109.1,
+      "Beihai, China"
+    ],
+    "hammerfest": [
+      70.69,
+      23.6,
+      "Hammerfest (Melkøya), Norway"
+    ],
+    "bonny": [
+      4.42,
+      7.15,
+      "Bonny Island, Nigeria"
+    ],
+    "soyo": [
+      -6.12,
+      12.35,
+      "Soyo (Angola LNG)"
+    ],
+    "arzew": [
+      35.85,
+      -0.3,
+      "Arzew, Algeria"
+    ],
+    "pointFortin": [
+      10.18,
+      -61.7,
+      "Point Fortin, Trinidad"
+    ],
+    "kitimat": [
+      54.0,
+      -128.68,
+      "Kitimat (LNG Canada)"
+    ],
+    "coralSul": [
+      -10.4,
+      41.4,
+      "Coral Sul FLNG, Mozambique"
+    ],
+    "pampa": [
+      -13.25,
+      -76.3,
+      "Pampa Melchorita (Peru LNG)"
+    ],
+    "comorin": [
+      7.0,
+      76.5,
+      "Off Cape Comorin"
+    ],
+    "westIndia": [
+      14.0,
+      72.5,
+      "Off Goa"
+    ],
+    "gulfThai": [
+      8.8,
+      102.6,
+      "Gulf of Thailand"
+    ],
+    "mapTaPhut": [
+      12.65,
+      101.15,
+      "Map Ta Phut, Thailand"
+    ],
+    "skagerrak": [
+      57.9,
+      8.0,
+      "Skagerrak"
+    ],
+    "kattegat": [
+      57.4,
+      11.2,
+      "Kattegat"
+    ],
+    "oresund": [
+      55.6,
+      12.75,
+      "Øresund"
+    ],
+    "balticS": [
+      55.0,
+      14.6,
+      "Southern Baltic"
+    ],
+    "balticE": [
+      55.9,
+      19.6,
+      "Eastern Baltic"
+    ],
+    "gulfFinland": [
+      59.7,
+      23.2,
+      "Gulf of Finland"
+    ],
+    "bayBengal": [
+      15.0,
+      88.5,
+      "Bay of Bengal"
+    ],
+    "kaohsiung": [
+      22.6,
+      120.25,
+      "Kaohsiung, Taiwan"
+    ]
+  },
+  "chokepoints": [
+    {
+      "id": "hormuz",
+      "name": "Strait of Hormuz",
+      "lat": 26.57,
+      "lon": 56.25,
+      "why": "Every cargo from Qatar (14 trains at Ras Laffan) and the UAE's Das Island leaves through it, and there is no pipeline bypass for LNG. Oman's plant at Qalhat sits outside the strait, which is why it kept shipping in 2026.",
+      "status2026": "Effectively closed to LNG since 28 Feb 2026. Qatar exported 1.6 Mt in September (a third to Kuwait, inside the Gulf) and Kpler expects ~0.6 Mt in October.",
+      "source": "IEA Strait of Hormuz factsheet; EIA (Jul 2026); Kpler via Reuters/Cyprus Mail (12 Oct 2026)"
+    },
+    {
+      "id": "malacca",
+      "name": "Strait of Malacca / Singapore",
+      "lat": 2.5,
+      "lon": 101.0,
+      "why": "The short way from the Gulf, Africa and the Atlantic into China, Korea and Japan. Most Qatari, Omani and Cape-routed Atlantic cargoes for North-East Asia pass here.",
+      "status2026": "Open. Volumes through it fell with Qatar's outage.",
+      "source": "EIA World Oil Transit Chokepoints; route estimates in this file"
+    },
+    {
+      "id": "babelmandeb",
+      "name": "Bab-el-Mandeb",
+      "lat": 12.6,
+      "lon": 43.4,
+      "why": "Southern gate of the Red Sea. Before 2024 roughly 8% of world LNG trade went through Bab-el-Mandeb and Suez, mostly Qatar to Europe. Since the Houthi attacks LNG carriers have almost entirely stopped using it.",
+      "status2026": "Houthi attacks resumed in Feb 2026, they declared a blockade on Saudi shipping in July, and a Saudi-backed counter-offensive began on 4 Oct. LNG still goes round the Cape.",
+      "source": "EIA; CNN (4 Oct 2026); Lloyd's List Intelligence"
+    },
+    {
+      "id": "suez",
+      "name": "Suez Canal",
+      "lat": 30.58,
+      "lon": 32.27,
+      "why": "Used to be the Qatar-to-Europe shortcut. It now mostly sees northbound-to-southbound cargoes for Egypt's floating import terminals (FSRUs) at Ain Sokhna, which are reached through the canal.",
+      "status2026": "Open, but very few LNG transits to or from the Red Sea.",
+      "source": "Suez Canal Authority; trade press"
+    },
+    {
+      "id": "cape",
+      "name": "Cape of Good Hope",
+      "lat": -35.5,
+      "lon": 20.0,
+      "why": "The detour for Middle East to Europe and for US Gulf to Asia cargoes that don't use Panama. It costs no canal fees, but Qatar to North-West Europe takes ~10–12 extra days, which ties up ships.",
+      "status2026": "The default Europe-to-Asia LNG route for Atlantic cargoes and for the few Qatari cargoes heading west.",
+      "source": "UNCTAD; industry voyage estimates"
+    },
+    {
+      "id": "panama",
+      "name": "Panama Canal",
+      "lat": 9.08,
+      "lon": -79.68,
+      "why": "Cuts a US Gulf to Japan voyage from about 35 days via the Cape to about 22–25 days. LNG carriers compete with container ships for scarce Neopanamax slots, and draught and slot limits bite in droughts.",
+      "status2026": "El Niño drought: transits capped at 34 a day from 3 Sep, then 32 from 15 Sep, easing to 33 from 15 Oct. Laden LNG transits hit a two-year high in June as US cargoes chased Asian prices.",
+      "source": "Panama Canal Authority; S&P Global (Jul 2026); Maritime Executive (Sep 2026)"
+    },
+    {
+      "id": "lombok",
+      "name": "Lombok / Makassar straits",
+      "lat": -8.7,
+      "lon": 115.7,
+      "why": "The deep-water route north from Western Australia to Japan and Korea, bypassing Malacca entirely. That makes Australian LNG one of the most chokepoint-safe supplies in the world.",
+      "status2026": "Open, no disruption.",
+      "source": "Route estimates in this file"
+    },
+    {
+      "id": "nsr",
+      "name": "Northern Sea Route (Vilkitsky Strait)",
+      "lat": 77.8,
+      "lon": 104.0,
+      "why": "The Arctic short cut from Yamal and Arctic LNG 2 to China. It is only navigable for conventional carriers from about July to November. In winter, Arc7 ice-breaking carriers go west to Europe, or trans-ship.",
+      "status2026": "Summer season active. Arctic LNG 2's sanctioned cargoes go this way to Beihai, China.",
+      "source": "Kpler; High North News"
+    },
+    {
+      "id": "turkish",
+      "name": "Dardanelles / Turkish Straits",
+      "lat": 40.2,
+      "lon": 26.4,
+      "why": "LNG for Turkey's Marmara Ereğlisi terminal (Algerian, US and Qatari cargoes). Daylight-only, one-way traffic rules apply.",
+      "status2026": "Open.",
+      "source": "BOTAŞ; route estimates in this file"
+    }
+  ],
+  "legs": [
+    {
+      "id": "us-europe",
+      "exporter": "United States",
+      "title": "US Gulf Coast → France, Netherlands, UK, Spain, Germany…",
+      "mt2025": 73.8,
+      "path": [
+        "sabine",
+        "gom",
+        "floridaS",
+        "floridaExit",
+        "natl",
+        "ushant",
+        "channel",
+        "rotterdam"
+      ],
+      "via": [],
+      "days": "≈ 12–14",
+      "why": "The biggest LNG flow in the world: 73.8 Mt in 2025, 58% of all European LNG. The US supplied 76% of Dutch and UK imports, 55% of Türkiye's and 45% of Spain's. US cargoes are mostly FOB at ~115% of Henry Hub plus a fixed liquefaction fee, so the offtaker sends each one wherever pays most after freight.",
+      "status": "good",
+      "statusText": "Growing. US exports were up 23% in H1 2026, and the 2026 forecast is ~123 Mt (+14%). This is Europe's replacement for both Russian pipeline gas and Qatar's cargoes.",
+      "mt2026": 80,
+      "source": "GIIGNL Annual Report 2026 (2025 matrix); EIA (Sep 2026)"
+    },
+    {
+      "id": "us-asia-panama",
+      "exporter": "United States",
+      "title": "US Gulf Coast → Japan, Korea, Taiwan (via Panama or Cape)",
+      "mt2025": 11.7,
+      "path": [
+        "sabine",
+        "yucatan",
+        "carib",
+        "colon",
+        "panamaPac",
+        "pacE",
+        "pacN",
+        "tokyo"
+      ],
+      "via": [
+        "panama"
+      ],
+      "days": "≈ 22–25",
+      "why": "Japan 4.7 Mt, South Korea 4.5 Mt and Taiwan 2.5 Mt in 2025. Almost no US LNG went to China in 2025 because of trade tensions (7% of China's supply in 2024, ~0 in 2025). Panama is the shortest way. It only pays when the JKM premium covers the extra freight plus the canal fee and the risk of waiting for a slot.",
+      "status": "serious",
+      "statusText": "In demand but constrained. Laden LNG transits hit a two-year high in June, then El Niño cut the canal to 32–33 transits a day. Slots are auctioned against container ships and LPG carriers (record $5.3m in Sep).",
+      "mt2026": 16,
+      "source": "GIIGNL Annual Report 2026; S&P Global (Jul 2026)"
+    },
+    {
+      "id": "us-asia-cape",
+      "exporter": "United States",
+      "title": "US Gulf Coast → India, Thailand, Bangladesh (via Cape)",
+      "mt2025": 6.2,
+      "path": [
+        "sabine",
+        "gom",
+        "floridaS",
+        "floridaExit",
+        [
+          20.0,
+          -45.0
+        ],
+        [
+          0.0,
+          -25.0
+        ],
+        [
+          -20.0,
+          -5.0
+        ],
+        "capeS",
+        [
+          -28.0,
+          45.0
+        ],
+        [
+          -8.0,
+          58.0
+        ],
+        [
+          10.0,
+          65.0
+        ],
+        "dahej"
+      ],
+      "via": [
+        "cape"
+      ],
+      "days": "≈ 33–36",
+      "why": "India took 3.0 Mt of US LNG in 2025 (down 2.0 Mt) and US cargoes are its main source of flexibility. Thailand, Bangladesh and others took the rest. It is a long voyage round Africa that ties up far more of the fleet than a Europe run.",
+      "status": "serious",
+      "statusText": "Busier in 2026. South Asia lost most of its Qatari supply and bids for Atlantic cargoes, at prices it struggles to afford.",
+      "mt2026": 9,
+      "source": "GIIGNL Annual Report 2026"
+    },
+    {
+      "id": "us-latam",
+      "exporter": "United States",
+      "title": "US Gulf Coast → Brazil, Argentina, Caribbean",
+      "mt2025": 7.3,
+      "path": [
+        "sabine",
+        "gom",
+        "floridaS",
+        "floridaExit",
+        [
+          18.0,
+          -58.0
+        ],
+        [
+          5.0,
+          -40.0
+        ],
+        [
+          -7.0,
+          -34.0
+        ],
+        [
+          -23.0,
+          -41.5
+        ],
+        "guanabara"
+      ],
+      "via": [],
+      "days": "≈ 14–18",
+      "why": "Brazil (89% US-supplied), the Dominican Republic, Colombia, Puerto Rico, Chile, Argentina and Panama. Demand is weather-driven: imports jump in droughts when hydropower falls, and fell 17% in 2025 as rains returned. Most of it lands at floating terminals (FSRUs).",
+      "status": "neutral",
+      "statusText": "Normal seasonal flow.",
+      "source": "GIIGNL Annual Report 2026"
+    },
+    {
+      "id": "us-egypt",
+      "exporter": "United States",
+      "title": "US Gulf Coast → Egypt, Jordan, Kuwait (Middle East)",
+      "mt2025": 10.1,
+      "path": [
+        "sabine",
+        "gom",
+        "floridaS",
+        "floridaExit",
+        "natl",
+        "iberia",
+        "gibraltar",
+        [
+          37.5,
+          10.0
+        ],
+        "medE",
+        "portSaid",
+        "suez",
+        "ainSokhna"
+      ],
+      "via": [
+        "suez"
+      ],
+      "days": "≈ 16–18",
+      "why": "Egypt went from exporter to major importer as its own gas output fell. Imports jumped from 2.5 Mt in 2024 to 9.2 Mt in 2025, 8.5 Mt of it from the US, landed through new FSRUs at Ain Sokhna (reached via the Suez Canal). The US supplied 56% of all Middle East and Africa LNG.",
+      "status": "neutral",
+      "statusText": "Rising imports. Egypt now competes with Europe for Atlantic cargoes.",
+      "source": "GIIGNL Annual Report 2026",
+      "mt2026": 11
+    },
+    {
+      "id": "qatar-neasia",
+      "exporter": "Qatar",
+      "title": "Qatar → China, Taiwan, Korea, Japan, Thailand",
+      "mt2025": 44.2,
+      "path": [
+        "rasLaffan",
+        "hormuz",
+        "gulfOman",
+        "arabSea",
+        "sriLanka",
+        "malacca",
+        "singapore",
+        "scs",
+        "luzon",
+        "shanghai"
+      ],
+      "via": [
+        "hormuz",
+        "malacca"
+      ],
+      "days": "≈ 15–18",
+      "why": "China 20.2 Mt, Taiwan 7.8, South Korea 7.3, Japan 3.4 and Thailand 2.1 in 2025. These are mostly long-term, oil-indexed contracts from the lowest-cost LNG in the world. Qatar supplied ~30% of China's LNG and was Taiwan's biggest supplier. Q-Flex and Q-Max carriers (up to 266,000 m³) were built for these runs.",
+      "status": "critical",
+      "statusText": "Largely halted. Force majeure since 2 Mar 2026 after Iranian strikes on Ras Laffan. Total Qatari exports were 1.6 Mt in Sep (under a quarter of normal), with ~0.6 Mt expected in Oct.",
+      "mt2026": 8,
+      "source": "GIIGNL Annual Report 2026; Kpler via Reuters (12 Oct 2026)"
+    },
+    {
+      "id": "qatar-sasia",
+      "exporter": "Qatar",
+      "title": "Qatar → India, Pakistan, Bangladesh",
+      "mt2025": 22.2,
+      "path": [
+        "rasLaffan",
+        "hormuz",
+        "gulfOman",
+        "dahej"
+      ],
+      "via": [
+        "hormuz"
+      ],
+      "days": "≈ 3–5",
+      "why": "India 11.6 Mt, Pakistan 6.6 Mt (99% of its LNG) and Bangladesh ~4 Mt in 2025, on a voyage of only 3–5 days. Qatar and the UAE supplied 59% of India's LNG. These are the most Hormuz-exposed buyers in the world, and also the most price-sensitive.",
+      "status": "critical",
+      "statusText": "Largely halted. South Asian buyers are cutting gas-fired power and fertiliser output, or paying spot prices they struggle to afford.",
+      "mt2026": 4,
+      "source": "GIIGNL Annual Report 2026",
+      "secondary": [
+        "hormuz",
+        "gulfOman",
+        "qasim"
+      ]
+    },
+    {
+      "id": "qatar-europe",
+      "exporter": "Qatar",
+      "title": "Qatar → Italy, Belgium, Poland, UK (via Cape since 2024)",
+      "mt2025": 9.0,
+      "path": [
+        "rasLaffan",
+        "hormuz",
+        "gulfOman",
+        [
+          15.0,
+          60.0
+        ],
+        "somalia",
+        "mozChannel",
+        "mozSouth",
+        "capeS",
+        "namibia",
+        "gulfGuinea",
+        "capeVerde",
+        "iberia",
+        "finisterre",
+        "ushant",
+        "channel",
+        "zeebrugge"
+      ],
+      "avoided": [
+        "rasLaffan",
+        "hormuz",
+        "gulfOman",
+        "gulfAden",
+        "babelmandeb",
+        "redSea",
+        "suez",
+        "portSaid",
+        "medE",
+        "sicily",
+        "ionian",
+        "otranto",
+        "adriatic"
+      ],
+      "via": [
+        "hormuz",
+        "cape"
+      ],
+      "days": "≈ 30 (≈ 18 via Suez)",
+      "why": "Italy 4.8 Mt (Adriatic LNG), Belgium 1.7 (Zeebrugge), Poland 1.6 and the UK 0.6 in 2025, only ~7% of Europe's LNG. Since early 2024 Qatari carriers avoid the Red Sea and sail round the Cape (dashed line = the old Suez route).",
+      "status": "critical",
+      "statusText": "Halted. Europe replaced the lost volume with US cargoes, which is one reason TTF more than doubled in Aug–Sep 2026.",
+      "mt2026": 0.5,
+      "source": "GIIGNL Annual Report 2026"
+    },
+    {
+      "id": "qatar-kuwait",
+      "exporter": "Qatar",
+      "title": "Qatar → Kuwait (inside the Gulf)",
+      "mt2025": 4.8,
+      "path": [
+        "rasLaffan",
+        [
+          27.5,
+          50.5
+        ],
+        "alZour"
+      ],
+      "via": [],
+      "days": "≈ 1",
+      "why": "Kuwait imported 6.8 Mt in 2025, 4.8 Mt of it from Qatar, at Al-Zour. It is a short run inside the Gulf that never needs to pass Hormuz.",
+      "status": "warning",
+      "statusText": "The one Qatari flow still moving. About a third of Qatar's September exports went to Kuwait, because those cargoes never have to cross Hormuz.",
+      "mt2026": 6,
+      "source": "GIIGNL Annual Report 2026; Kpler via Reuters (12 Oct 2026)"
+    },
+    {
+      "id": "uae",
+      "exporter": "UAE",
+      "title": "UAE (Das Island) → India, Japan",
+      "mt2025": 5.1,
+      "path": [
+        "das",
+        "hormuz",
+        "gulfOman",
+        "dahej"
+      ],
+      "via": [
+        "hormuz"
+      ],
+      "days": "≈ 4–5",
+      "why": "ADNOC's Das Island plant (5.8 Mtpa) inside the Gulf: India took 3.2 Mt and Japan 0.8 Mt in 2025. ADNOC's new 9.6 Mtpa Ruwais LNG (due 2028) is also inside Hormuz.",
+      "status": "critical",
+      "statusText": "Largely shut in behind Hormuz.",
+      "mt2026": 0.5,
+      "source": "GIIGNL Annual Report 2026"
+    },
+    {
+      "id": "oman",
+      "exporter": "Oman",
+      "title": "Oman (Qalhat) → Japan, Korea, India, China, Taiwan",
+      "mt2025": 11.5,
+      "path": [
+        "qalhat",
+        "arabSea",
+        "sriLanka",
+        "malacca",
+        "singapore",
+        "scs",
+        "luzon",
+        "yellowSea",
+        "pyeongtaek"
+      ],
+      "via": [
+        "malacca"
+      ],
+      "days": "≈ 14–16",
+      "why": "Oman exported 11.5 Mt in 2025, 91% to Asia: Japan 3.0, India 2.1, South Korea 2.1, China 1.4 and Taiwan 1.1 Mt. Oman LNG at Qalhat sits on the Arabian Sea coast, outside Hormuz. Its 1 Mtpa Marsa LNG (2028) is at Sohar, also outside.",
+      "status": "good",
+      "statusText": "Still flowing. Its cargoes earn a premium as the only Middle East LNG that avoids Hormuz.",
+      "mt2026": 11,
+      "source": "GIIGNL Annual Report 2026"
+    },
+    {
+      "id": "wa-north",
+      "exporter": "Australia",
+      "title": "Western Australia → Japan, Korea, Taiwan",
+      "mt2025": 28,
+      "path": [
+        "karratha",
+        [
+          -14.0,
+          117.0
+        ],
+        "lombok",
+        "makassar",
+        "celebes",
+        "sangihe",
+        [
+          15.0,
+          132.0
+        ],
+        "tokyo"
+      ],
+      "via": [
+        "lombok"
+      ],
+      "days": "≈ 8–10",
+      "why": "Gorgon, Wheatstone, North West Shelf, Pluto and Prelude. Australia exported 78.8 Mt in 2025 and was Japan's (40%), China's (32%) and Korea's (32%) biggest supplier. The route runs through deep Indonesian straits with no Middle East or Malacca exposure. Country totals are from GIIGNL; the split across WA, Queensland and NT is an estimate.",
+      "status": "good",
+      "statusText": "Unaffected and now highly valued. North West Shelf Train 2 was retired in 2025, and Pluto Train 2 (5 Mtpa) is due to start in 2026.",
+      "mt2026": 24,
+      "source": "GIIGNL Annual Report 2026; WA Govt LNG Profile (Jul 2026)"
+    },
+    {
+      "id": "wa-china",
+      "exporter": "Australia",
+      "title": "Western Australia → China & South-East Asia",
+      "mt2025": 16,
+      "path": [
+        "karratha",
+        [
+          -12.0,
+          112.0
+        ],
+        [
+          -8.2,
+          104.8
+        ],
+        "sunda",
+        "karimata",
+        [
+          5.0,
+          109.8
+        ],
+        [
+          15.0,
+          113.0
+        ],
+        "dapeng"
+      ],
+      "via": [],
+      "days": "≈ 8–9",
+      "why": "China took 21.2 Mt of Australian LNG in 2025 (down 5.5 Mt), split between WA and Queensland. Western Australia on its own was 10% of global LNG exports.",
+      "status": "good",
+      "statusText": "Unaffected.",
+      "mt2026": 19,
+      "source": "GIIGNL Annual Report 2026; WA Govt LNG Profile (Jul 2026); split estimated"
+    },
+    {
+      "id": "qld",
+      "exporter": "Australia",
+      "title": "Queensland (Gladstone) → China, Japan, Korea",
+      "mt2025": 23,
+      "path": [
+        "gladstone",
+        [
+          -15.0,
+          156.0
+        ],
+        [
+          -5.0,
+          158.0
+        ],
+        [
+          10.0,
+          145.0
+        ],
+        [
+          27.0,
+          126.0
+        ],
+        "shanghai"
+      ],
+      "via": [],
+      "days": "≈ 10–12",
+      "why": "Three coal-seam-gas plants on Curtis Island (QCLNG, APLNG, GLNG, ~25 Mtpa). From 2027 they must reserve 15–25% of gas for Australia's east coast under a new domestic reservation scheme.",
+      "status": "good",
+      "statusText": "Unaffected.",
+      "mt2026": 24,
+      "source": "GIIGNL Annual Report 2026; split estimated"
+    },
+    {
+      "id": "nt",
+      "exporter": "Australia",
+      "title": "Northern Territory (Ichthys, Darwin) → Japan, Taiwan",
+      "mt2025": 11.8,
+      "path": [
+        "darwin",
+        [
+          -9.5,
+          128.0
+        ],
+        [
+          -5.5,
+          127.5
+        ],
+        [
+          0.5,
+          126.6
+        ],
+        [
+          4.0,
+          127.5
+        ],
+        [
+          15.0,
+          132.0
+        ],
+        "tokyo"
+      ],
+      "via": [],
+      "days": "≈ 7–8",
+      "why": "INPEX's Ichthys (8.9 Mtpa, offline 52 days in Aug–Oct 2025) and Darwin LNG, which loaded its first Barossa cargo in January 2026 after Bayu-Undan ran dry.",
+      "status": "good",
+      "statusText": "Unaffected.",
+      "mt2026": 12,
+      "source": "GIIGNL Annual Report 2026; split estimated"
+    },
+    {
+      "id": "malaysia",
+      "exporter": "Malaysia",
+      "title": "Malaysia (Bintulu) → Japan, China, Korea, Taiwan",
+      "mt2025": 27.3,
+      "path": [
+        "bintulu",
+        [
+          10.0,
+          115.5
+        ],
+        "luzon",
+        [
+          26.0,
+          131.0
+        ],
+        "tokyo"
+      ],
+      "via": [],
+      "days": "≈ 5–6",
+      "why": "Petronas's Bintulu complex plus floating units (32 Mtpa in total). In 2025 Japan took 33%, China 23% and South Korea 13%.",
+      "status": "good",
+      "statusText": "Unaffected.",
+      "mt2026": 26,
+      "source": "GIIGNL Annual Report 2026"
+    },
+    {
+      "id": "indo-brunei",
+      "exporter": "Indonesia & Brunei",
+      "title": "Indonesia (Bontang, Tangguh) & Brunei → Korea, China, Japan",
+      "mt2025": 20.9,
+      "path": [
+        "bontang",
+        "celebes",
+        "sangihe",
+        [
+          15.0,
+          130.0
+        ],
+        [
+          30.0,
+          127.0
+        ],
+        "tongyeong"
+      ],
+      "via": [],
+      "days": "≈ 6–8",
+      "why": "Indonesia 15.9 Mt and Brunei 5.0 Mt in 2025. Indonesia is redirecting gas to its own market: Bontang runs only two trains, and the government asked producers to defer exports.",
+      "status": "good",
+      "statusText": "Unaffected.",
+      "mt2026": 18,
+      "source": "GIIGNL Annual Report 2026"
+    },
+    {
+      "id": "png",
+      "exporter": "Papua New Guinea",
+      "title": "PNG LNG → Japan, China, Taiwan",
+      "mt2025": 8.7,
+      "path": [
+        "cautionBay",
+        [
+          -10.5,
+          151.5
+        ],
+        [
+          -7.0,
+          149.0
+        ],
+        "vitiaz",
+        [
+          0.0,
+          142.0
+        ],
+        [
+          15.0,
+          137.0
+        ],
+        "tokyo"
+      ],
+      "via": [],
+      "days": "≈ 7–8",
+      "why": "ExxonMobil-led PNG LNG (8.3 Mtpa) ran above nameplate in 2025 after the Angore upstream project added gas. It delivered 1.8 Mt to Taiwan.",
+      "status": "good",
+      "statusText": "Unaffected.",
+      "mt2026": 8,
+      "source": "GIIGNL Annual Report 2026"
+    },
+    {
+      "id": "sakhalin",
+      "exporter": "Russia",
+      "title": "Russia (Sakhalin-2) → Japan, China, Korea",
+      "mt2025": 9.8,
+      "path": [
+        "prigorodnoye",
+        [
+          46.0,
+          145.5
+        ],
+        "bussol",
+        [
+          40.0,
+          148.0
+        ],
+        "tokyo"
+      ],
+      "via": [],
+      "days": "≈ 3–4",
+      "why": "Sakhalin-2 (~10.8 Mtpa including small units) is only days from Japan, which took 5.7 Mt in 2025. China took 2.4 Mt and Korea 1.7 Mt. Output was largely unaffected by sanctions.",
+      "status": "neutral",
+      "statusText": "Still flowing to Japan and China.",
+      "source": "GIIGNL Annual Report 2026"
+    },
+    {
+      "id": "yamal-europe",
+      "exporter": "Russia",
+      "title": "Russia (Yamal LNG) → France, Belgium, Spain",
+      "mt2025": 14.7,
+      "path": [
+        "sabetta",
+        "obExit",
+        "karaGates",
+        [
+          70.8,
+          48.0
+        ],
+        "northCape",
+        "norwegianSea",
+        "northSea",
+        "zeebrugge"
+      ],
+      "via": [],
+      "days": "≈ 10–14",
+      "why": "Yamal LNG (17.4 Mtpa) uses Arc7 ice-breaking carriers. Europe took ~75% of Yamal's 2025 volumes: France ~6.2 Mt, Belgium ~3.9 Mt, Spain ~2.8 Mt (17% of Spain's LNG). Trans-shipment in EU ports has been banned since March 2025, so cargoes are relayed at Murmansk.",
+      "status": "warning",
+      "statusText": "Still flowing for now. The EU bought a record 9.97 Mt from Yamal in H1 2026 (+16%). Short-term contracts have been banned since 25 Apr 2026, and all Russian LNG plus maritime services are banned from 1 Jan 2027.",
+      "mt2026": 19,
+      "source": "GIIGNL Annual Report 2026; Kpler via Reuters (Jul 2026); EU 19th sanctions package"
+    },
+    {
+      "id": "yamal-nsr",
+      "exporter": "Russia",
+      "title": "Russia (Yamal) → Asia (Northern Sea Route in summer)",
+      "mt2025": 5.0,
+      "path": [
+        "sabetta",
+        "obExit",
+        [
+          76.5,
+          88.0
+        ],
+        "vilkitsky",
+        [
+          76.0,
+          125.0
+        ],
+        [
+          73.5,
+          160.0
+        ],
+        "bering",
+        [
+          58.0,
+          -175.0
+        ],
+        [
+          45.0,
+          165.0
+        ],
+        [
+          35.0,
+          143.0
+        ],
+        [
+          30.5,
+          133.0
+        ],
+        "shanghai"
+      ],
+      "via": [
+        "nsr"
+      ],
+      "days": "≈ 18–20 (summer)",
+      "why": "About 5 Mt of Yamal LNG went to Asia in 2025. The Arctic short cut is only navigable from about July to November, and the closed Red Sea route complicates winter voyages east.",
+      "status": "warning",
+      "statusText": "Seasonal. It will matter more from 2027 when the EU ban fully bites.",
+      "mt2026": 3,
+      "source": "GIIGNL Annual Report 2026"
+    },
+    {
+      "id": "arctic2",
+      "exporter": "Russia",
+      "title": "Arctic LNG 2 → Beihai, China (sanctioned)",
+      "mt2025": 1.3,
+      "path": [
+        "utrenneye",
+        "obExit",
+        [
+          76.5,
+          88.0
+        ],
+        "vilkitsky",
+        [
+          76.0,
+          125.0
+        ],
+        [
+          73.5,
+          160.0
+        ],
+        "bering",
+        [
+          58.0,
+          -175.0
+        ],
+        [
+          45.0,
+          165.0
+        ],
+        [
+          35.0,
+          143.0
+        ],
+        "luzon",
+        [
+          18.0,
+          112.0
+        ],
+        [
+          17.3,
+          109.0
+        ],
+        [
+          19.5,
+          107.8
+        ],
+        "beihai"
+      ],
+      "via": [
+        "nsr"
+      ],
+      "days": "≈ 25 (summer)",
+      "why": "Arctic LNG 2 (Train 1 6.6 Mtpa; Train 2 started May 2025) is crippled by US sanctions and a lack of ice-class ships. It delivered 1.3 Mt in 2025, all to China, mostly to the Beihai terminal via a 'shadow' fleet.",
+      "status": "warning",
+      "statusText": "Sanctioned but moving. Kpler assumes ~5.7 Mt in 2026 (about 45% utilisation of two trains) with no sanctions relief.",
+      "mt2026": 5.7,
+      "source": "GIIGNL Annual Report 2026; Kpler 2026 outlook"
+    },
+    {
+      "id": "nigeria-europe",
+      "exporter": "Nigeria",
+      "title": "Nigeria LNG → France, Türkiye, Spain, Portugal",
+      "mt2025": 6.7,
+      "path": [
+        "bonny",
+        [
+          3.0,
+          5.0
+        ],
+        [
+          2.0,
+          -5.0
+        ],
+        "capeVerde",
+        "iberia",
+        "finisterre",
+        "montoir"
+      ],
+      "via": [],
+      "days": "≈ 8–10",
+      "why": "Bonny Island (22.2 Mtpa, six trains). Train 7 is over 80% complete and will lift it to 30 Mtpa. European-bound exports rose 2.3 Mt in 2025 as feed gas and pipeline security improved.",
+      "status": "neutral",
+      "statusText": "Flowing. Atlantic supply that is free of chokepoints.",
+      "source": "GIIGNL Annual Report 2026"
+    },
+    {
+      "id": "nigeria-asia",
+      "exporter": "Nigeria",
+      "title": "Nigeria LNG → India, China, Japan (via Cape)",
+      "mt2025": 6.1,
+      "path": [
+        "bonny",
+        [
+          0.0,
+          5.0
+        ],
+        [
+          -20.0,
+          6.0
+        ],
+        "capeS",
+        [
+          -25.0,
+          60.0
+        ],
+        [
+          -5.0,
+          90.0
+        ],
+        "aceh",
+        "malacca",
+        "singapore",
+        "scs",
+        "dapeng"
+      ],
+      "via": [
+        "cape",
+        "malacca"
+      ],
+      "days": "≈ 25–30",
+      "why": "West African cargoes swing between Europe and Asia on the JKM–TTF spread.",
+      "status": "neutral",
+      "statusText": "Flowing.",
+      "source": "GIIGNL Annual Report 2026"
+    },
+    {
+      "id": "wafrica",
+      "exporter": "Angola, Congo, Eq. Guinea, Cameroon, Senegal/Mauritania",
+      "title": "Angola, Eq. Guinea, Cameroon, Mauritania, Congo → Europe & Asia",
+      "mt2025": 11.0,
+      "path": [
+        "soyo",
+        [
+          -2.0,
+          5.0
+        ],
+        "gulfGuinea",
+        "capeVerde",
+        "iberia",
+        "gibraltar",
+        [
+          37.5,
+          10.0
+        ],
+        "sicily",
+        "ionian",
+        "otranto",
+        "adriatic"
+      ],
+      "via": [],
+      "days": "≈ 10–14",
+      "why": "Angola 4.9 Mt, Equatorial Guinea 2.8, Cameroon 1.4, Mauritania/Senegal 1.2 (GTA FLNG's first year) and Congo 0.7. Floating LNG is the growth story here: Congo's Nguya FLNG shipped its first cargo in Feb 2026, taking Congo to 3 Mtpa.",
+      "status": "neutral",
+      "statusText": "Flowing.",
+      "source": "GIIGNL Annual Report 2026"
+    },
+    {
+      "id": "algeria",
+      "exporter": "Algeria",
+      "title": "Algeria (Arzew, Skikda) → Türkiye, France, Italy, Spain",
+      "mt2025": 9.4,
+      "path": [
+        "arzew",
+        [
+          37.6,
+          6.0
+        ],
+        "sicily",
+        [
+          35.5,
+          20.0
+        ],
+        [
+          36.2,
+          23.4
+        ],
+        [
+          38.6,
+          25.2
+        ],
+        "dardanelles",
+        "marmara"
+      ],
+      "via": [
+        "turkish"
+      ],
+      "days": "≈ 3–5",
+      "why": "Algeria was the world's first LNG exporter (Arzew, 1964) and has 25.3 Mtpa of capacity, but feed-gas shortages cut exports for a second year (−2.2 Mt in 2025). It supplied 27% of Türkiye's LNG.",
+      "status": "good",
+      "statusText": "Flowing. Short-haul supply into a tight European market.",
+      "source": "GIIGNL Annual Report 2026"
+    },
+    {
+      "id": "trinidad",
+      "exporter": "Trinidad & Tobago",
+      "title": "Trinidad (Atlantic LNG) → Latin America, Europe, Asia",
+      "mt2025": 6.7,
+      "path": [
+        "pointFortin",
+        [
+          10.8,
+          -61.8
+        ],
+        [
+          12.5,
+          -60.0
+        ],
+        [
+          25.0,
+          -45.0
+        ],
+        "iberia",
+        "huelva"
+      ],
+      "via": [],
+      "days": "≈ 10–12",
+      "why": "Atlantic LNG (14.8 Mtpa nameplate) is feed-gas starved and Train 1 is shut. 2025 exports went to the Americas (3.3 Mt), Europe (1.9 Mt) and Asia (1.4 Mt). Shell's Aphrodite field adds gas from 2027.",
+      "status": "neutral",
+      "statusText": "Flowing.",
+      "source": "GIIGNL Annual Report 2026"
+    },
+    {
+      "id": "norway",
+      "exporter": "Norway",
+      "title": "Norway (Hammerfest) → NW Europe",
+      "mt2025": 3.2,
+      "path": [
+        "hammerfest",
+        [
+          71.1,
+          22.5
+        ],
+        "norwegianSea",
+        "northSea",
+        "rotterdam"
+      ],
+      "via": [],
+      "days": "≈ 4–5",
+      "why": "Equinor's Hammerfest/Snøhvit (4.2 Mtpa), Europe's only large LNG export plant. Output fell 40% in 2025 on a long planned shutdown.",
+      "status": "good",
+      "statusText": "Flowing.",
+      "source": "GIIGNL Annual Report 2026"
+    },
+    {
+      "id": "canada",
+      "exporter": "Canada",
+      "title": "LNG Canada (Kitimat) → Japan, Korea, China",
+      "mt2025": 2.0,
+      "path": [
+        "kitimat",
+        [
+          53.3,
+          -129.5
+        ],
+        [
+          52.0,
+          -130.5
+        ],
+        [
+          50.0,
+          -135.0
+        ],
+        [
+          45.0,
+          -170.0
+        ],
+        [
+          38.0,
+          150.0
+        ],
+        "tokyo"
+      ],
+      "via": [],
+      "days": "≈ 9–10",
+      "why": "LNG Canada (14 Mtpa) started Train 1 in June 2025 and Train 2 in October. Its 2.0 Mt went to Korea (0.7), Japan (0.6), China (0.4) and Taiwan (0.3), about 10 days to Japan with no Panama Canal.",
+      "status": "good",
+      "statusText": "Ramping up. Chokepoint-free supply arriving right when Asia needs it.",
+      "mt2026": 10,
+      "source": "GIIGNL Annual Report 2026"
+    },
+    {
+      "id": "mozambique",
+      "exporter": "Mozambique",
+      "title": "Mozambique (Coral Sul FLNG) → Asia",
+      "mt2025": 3.6,
+      "path": [
+        "coralSul",
+        [
+          0.0,
+          60.0
+        ],
+        "sriLanka",
+        "malacca",
+        "singapore",
+        "scs",
+        "dapeng"
+      ],
+      "via": [
+        "malacca"
+      ],
+      "days": "≈ 14–16",
+      "why": "Eni's Coral South FLNG ran above nameplate (3.6 Mt): Korea 0.9, Thailand 0.7, India 0.6, Singapore 0.5. Coral Norte FLNG (3.6 Mtpa, 2028) and TotalEnergies' restarted 12.8 Mtpa Mozambique LNG follow.",
+      "status": "good",
+      "statusText": "Flowing. More East African supply is coming later this decade.",
+      "source": "GIIGNL Annual Report 2026"
+    },
+    {
+      "id": "peru",
+      "exporter": "Peru",
+      "title": "Peru LNG → Asia & Europe",
+      "mt2025": 3.5,
+      "path": [
+        "pampa",
+        [
+          -15.0,
+          -90.0
+        ],
+        [
+          5.0,
+          -125.0
+        ],
+        [
+          25.0,
+          -160.0
+        ],
+        [
+          33.0,
+          165.0
+        ],
+        "tokyo"
+      ],
+      "via": [],
+      "days": "≈ 20–22",
+      "why": "Hunt-led Peru LNG (4.45 Mtpa), South America's only LNG exporter. 2025 volumes went to Asia (2.0 Mt) and Europe (1.3 Mt).",
+      "status": "neutral",
+      "statusText": "Flowing.",
+      "source": "GIIGNL Annual Report 2026"
+    }
+  ],
+  "liquefaction": [
+    {
+      "name": "Sabine Pass",
+      "country": "USA",
+      "lat": 29.74,
+      "lon": -93.87,
+      "mtpa": 30,
+      "owner": "Cheniere",
+      "status": "Operating; 6 trains, the largest US plant"
+    },
+    {
+      "name": "Corpus Christi (incl. Stage 3)",
+      "country": "USA",
+      "lat": 27.88,
+      "lon": -97.25,
+      "mtpa": 18,
+      "owner": "Cheniere",
+      "status": "18 Mtpa incl. 4 Stage 3 midscale trains in service; 3 more due by end-2026; Trains 8–9 (3 Mtpa) under construction"
+    },
+    {
+      "name": "Plaquemines",
+      "country": "USA",
+      "lat": 29.63,
+      "lon": -89.93,
+      "mtpa": 11.2,
+      "owner": "Venture Global",
+      "status": "Phase 1 ~11 Mtpa; full project ~20 Mtpa by mid-2027 (FERC deadline Dec 2027); running at capacity"
+    },
+    {
+      "name": "Golden Pass",
+      "country": "USA",
+      "lat": 29.76,
+      "lon": -93.93,
+      "mtpa": 18,
+      "owner": "QatarEnergy 70% / ExxonMobil 30%",
+      "status": "Train 1 first cargo 22 Apr 2026; Train 2 H2 2026; Train 3 H1 2027"
+    },
+    {
+      "name": "Freeport LNG",
+      "country": "USA",
+      "lat": 28.95,
+      "lon": -95.31,
+      "mtpa": 16.5,
+      "owner": "Freeport LNG",
+      "status": "Operating; history of outages"
+    },
+    {
+      "name": "Cameron LNG",
+      "country": "USA",
+      "lat": 30.05,
+      "lon": -93.33,
+      "mtpa": 13.5,
+      "owner": "Sempra et al.",
+      "status": "Operating"
+    },
+    {
+      "name": "Calcasieu Pass",
+      "country": "USA",
+      "lat": 29.78,
+      "lon": -93.34,
+      "mtpa": 10.2,
+      "owner": "Venture Global",
+      "status": "Commercial operations from 15 Apr 2025"
+    },
+    {
+      "name": "Cove Point",
+      "country": "USA",
+      "lat": 38.39,
+      "lon": -76.39,
+      "mtpa": 5.2,
+      "owner": "BHE",
+      "status": "Operating"
+    },
+    {
+      "name": "Elba Island",
+      "country": "USA",
+      "lat": 32.08,
+      "lon": -81.0,
+      "mtpa": 2.5,
+      "owner": "Kinder Morgan",
+      "status": "Operating"
+    },
+    {
+      "name": "LNG Canada",
+      "country": "Canada",
+      "lat": 54.0,
+      "lon": -128.68,
+      "mtpa": 14,
+      "owner": "Shell-led JV",
+      "status": "First cargo mid-2025; ramping"
+    },
+    {
+      "name": "Altamira FLNG",
+      "country": "Mexico",
+      "lat": 22.48,
+      "lon": -97.86,
+      "mtpa": 1.4,
+      "owner": "New Fortress",
+      "status": "Operating (small)"
+    },
+    {
+      "name": "Ras Laffan (14 trains)",
+      "country": "Qatar",
+      "lat": 25.91,
+      "lon": 51.58,
+      "mtpa": 77,
+      "owner": "QatarEnergy",
+      "status": "FORCE MAJEURE. Strikes on 2 Mar halted output; 18 Mar missiles damaged Trains 4 & 6 (−12.8 Mtpa, 3–5 yr repairs). North Field East first train now H1 2027"
+    },
+    {
+      "name": "Das Island",
+      "country": "UAE",
+      "lat": 25.15,
+      "lon": 52.87,
+      "mtpa": 5.8,
+      "owner": "ADNOC",
+      "status": "Shut in behind Hormuz"
+    },
+    {
+      "name": "Oman LNG (Qalhat)",
+      "country": "Oman",
+      "lat": 22.7,
+      "lon": 59.38,
+      "mtpa": 11.4,
+      "owner": "Oman LNG",
+      "status": "Operating, outside Hormuz"
+    },
+    {
+      "name": "Yemen LNG (Balhaf)",
+      "country": "Yemen",
+      "lat": 13.98,
+      "lon": 48.18,
+      "mtpa": 6.7,
+      "owner": "TotalEnergies-led",
+      "status": "Shut since 2015 (civil war)"
+    },
+    {
+      "name": "Gorgon",
+      "country": "Australia",
+      "lat": -20.79,
+      "lon": 115.45,
+      "mtpa": 15.6,
+      "owner": "Chevron",
+      "status": "Operating"
+    },
+    {
+      "name": "Wheatstone",
+      "country": "Australia",
+      "lat": -21.7,
+      "lon": 114.97,
+      "mtpa": 8.9,
+      "owner": "Chevron",
+      "status": "Operating"
+    },
+    {
+      "name": "North West Shelf",
+      "country": "Australia",
+      "lat": -20.6,
+      "lon": 116.78,
+      "mtpa": 14.3,
+      "owner": "Woodside",
+      "status": "Train 2 permanently shut in 2025 (16.9 → 14.3 Mtpa)"
+    },
+    {
+      "name": "Pluto",
+      "country": "Australia",
+      "lat": -20.62,
+      "lon": 116.77,
+      "mtpa": 4.9,
+      "owner": "Woodside",
+      "status": "Train 2 (+5 Mtpa, Scarborough gas) due 2026"
+    },
+    {
+      "name": "Prelude FLNG",
+      "country": "Australia",
+      "lat": -13.8,
+      "lon": 123.3,
+      "mtpa": 3.6,
+      "owner": "Shell",
+      "status": "Operating; world's largest floating plant"
+    },
+    {
+      "name": "Ichthys",
+      "country": "Australia",
+      "lat": -12.5,
+      "lon": 130.87,
+      "mtpa": 8.9,
+      "owner": "INPEX",
+      "status": "Operating"
+    },
+    {
+      "name": "Darwin LNG",
+      "country": "Australia",
+      "lat": -12.43,
+      "lon": 130.82,
+      "mtpa": 3.7,
+      "owner": "Santos",
+      "status": "First Barossa cargo Jan 2026"
+    },
+    {
+      "name": "Curtis Island (QCLNG, APLNG, GLNG)",
+      "country": "Australia",
+      "lat": -23.77,
+      "lon": 151.2,
+      "mtpa": 25.3,
+      "owner": "Shell / ConocoPhillips-Origin / Santos",
+      "status": "Operating; coal-seam gas"
+    },
+    {
+      "name": "Bintulu MLNG",
+      "country": "Malaysia",
+      "lat": 3.27,
+      "lon": 113.07,
+      "mtpa": 30,
+      "owner": "Petronas",
+      "status": "Malaysia total incl. floating units: 32 Mtpa"
+    },
+    {
+      "name": "Brunei LNG",
+      "country": "Brunei",
+      "lat": 4.67,
+      "lon": 114.45,
+      "mtpa": 7.2,
+      "owner": "Brunei LNG",
+      "status": "Operating"
+    },
+    {
+      "name": "Bontang",
+      "country": "Indonesia",
+      "lat": 0.1,
+      "lon": 117.48,
+      "mtpa": 11,
+      "owner": "Pertamina",
+      "status": "Running well below its old 22 Mtpa peak"
+    },
+    {
+      "name": "Tangguh",
+      "country": "Indonesia",
+      "lat": -2.43,
+      "lon": 133.1,
+      "mtpa": 11.4,
+      "owner": "BP",
+      "status": "Operating; Train 3 since 2023"
+    },
+    {
+      "name": "PNG LNG",
+      "country": "Papua New Guinea",
+      "lat": -9.37,
+      "lon": 147.0,
+      "mtpa": 8.3,
+      "owner": "ExxonMobil",
+      "status": "Operating"
+    },
+    {
+      "name": "Sakhalin-2",
+      "country": "Russia",
+      "lat": 46.62,
+      "lon": 142.9,
+      "mtpa": 9.6,
+      "owner": "Gazprom-led (Mitsui, Mitsubishi stakes)",
+      "status": "Operating"
+    },
+    {
+      "name": "Yamal LNG",
+      "country": "Russia",
+      "lat": 71.27,
+      "lon": 72.07,
+      "mtpa": 17.4,
+      "owner": "Novatek-led",
+      "status": "Operating; EU ban 1 Jan 2027"
+    },
+    {
+      "name": "Arctic LNG 2",
+      "country": "Russia",
+      "lat": 70.9,
+      "lon": 74.6,
+      "mtpa": 13.2,
+      "owner": "Novatek-led",
+      "status": "US-sanctioned. Train 1 (6.6 Mtpa) plus Train 2 from May 2025; 1.3 Mt shipped in 2025, all to China"
+    },
+    {
+      "name": "Hammerfest (Melkøya)",
+      "country": "Norway",
+      "lat": 70.69,
+      "lon": 23.6,
+      "mtpa": 4.2,
+      "owner": "Equinor",
+      "status": "Operating"
+    },
+    {
+      "name": "Arzew + Skikda",
+      "country": "Algeria",
+      "lat": 35.85,
+      "lon": -0.3,
+      "mtpa": 25,
+      "owner": "Sonatrach",
+      "status": "Operating below nameplate"
+    },
+    {
+      "name": "Idku + Damietta",
+      "country": "Egypt",
+      "lat": 31.4,
+      "lon": 31.0,
+      "mtpa": 12,
+      "owner": "Shell / Eni-led",
+      "status": "Mostly idle; Egypt is now a net importer"
+    },
+    {
+      "name": "Nigeria LNG (Bonny)",
+      "country": "Nigeria",
+      "lat": 4.42,
+      "lon": 7.15,
+      "mtpa": 22,
+      "owner": "NNPC / Shell / TotalEnergies / Eni",
+      "status": "Operating; Train 7 (+8 Mtpa) under construction"
+    },
+    {
+      "name": "Angola LNG",
+      "country": "Angola",
+      "lat": -6.12,
+      "lon": 12.35,
+      "mtpa": 5.2,
+      "owner": "Chevron-led",
+      "status": "Operating"
+    },
+    {
+      "name": "EG LNG (Bioko)",
+      "country": "Equatorial Guinea",
+      "lat": 3.78,
+      "lon": 8.72,
+      "mtpa": 3.7,
+      "owner": "Marathon / Chevron",
+      "status": "Operating"
+    },
+    {
+      "name": "Cameroon FLNG",
+      "country": "Cameroon",
+      "lat": 2.9,
+      "lon": 9.8,
+      "mtpa": 2.4,
+      "owner": "Golar / Perenco",
+      "status": "Operating"
+    },
+    {
+      "name": "Congo FLNG",
+      "country": "Rep. of Congo",
+      "lat": -4.8,
+      "lon": 11.8,
+      "mtpa": 3.0,
+      "owner": "Eni",
+      "status": "Tango FLNG 0.6 Mtpa + Nguya FLNG (first cargo Feb 2026) = 3 Mtpa"
+    },
+    {
+      "name": "GTA FLNG",
+      "country": "Senegal / Mauritania",
+      "lat": 16.05,
+      "lon": -16.9,
+      "mtpa": 2.4,
+      "owner": "BP / Kosmos",
+      "status": "First cargo Apr 2025; ramped to ~3 Mtpa peak late 2025"
+    },
+    {
+      "name": "Coral Sul FLNG",
+      "country": "Mozambique",
+      "lat": -10.4,
+      "lon": 41.4,
+      "mtpa": 3.4,
+      "owner": "Eni",
+      "status": "Operating; onshore Mozambique LNG (13 Mtpa) in construction"
+    },
+    {
+      "name": "Atlantic LNG",
+      "country": "Trinidad & Tobago",
+      "lat": 10.18,
+      "lon": -61.7,
+      "mtpa": 15,
+      "owner": "Shell / BP",
+      "status": "Feed-gas constrained"
+    },
+    {
+      "name": "Peru LNG",
+      "country": "Peru",
+      "lat": -13.25,
+      "lon": -76.3,
+      "mtpa": 4.5,
+      "owner": "Hunt-led",
+      "status": "Operating"
+    }
+  ],
+  "regas": [
+    {
+      "name": "Tokyo Bay terminals",
+      "country": "Japan",
+      "lat": 35.45,
+      "lon": 139.85,
+      "type": "onshore",
+      "imports2025": 65.9,
+      "note": "Japan: 65.9 Mt in 2025 (−0.5%), ~30 terminals. Suppliers: Australia 40%, Malaysia 15%, US 7%, Qatar 5%. Nuclear restarts and solar trimmed gas burn."
+    },
+    {
+      "name": "Guangdong (Dapeng)",
+      "country": "China",
+      "lat": 22.6,
+      "lon": 114.47,
+      "type": "onshore",
+      "imports2025": 67.0,
+      "note": "China: 67.0 Mt in 2025 (−15%) as Russian pipeline gas (Power of Siberia at 38 bcm/yr) and domestic output grew. Regas capacity 173 Mtpa. Suppliers: Australia 32%, Qatar ~30%, Russia 11%, US ~0."
+    },
+    {
+      "name": "Rudong / Shanghai",
+      "country": "China",
+      "lat": 32.4,
+      "lon": 121.4,
+      "type": "onshore",
+      "note": "East-coast hub for the Yangtze delta."
+    },
+    {
+      "name": "Tianjin",
+      "country": "China",
+      "lat": 38.97,
+      "lon": 117.8,
+      "type": "onshore",
+      "note": "Serves winter heating demand around Beijing."
+    },
+    {
+      "name": "Beihai",
+      "country": "China",
+      "lat": 21.45,
+      "lon": 109.1,
+      "type": "onshore",
+      "note": "Receives sanctioned Arctic LNG 2 cargoes since Aug 2025."
+    },
+    {
+      "name": "Pyeongtaek / Incheon",
+      "country": "South Korea",
+      "lat": 37.0,
+      "lon": 126.8,
+      "type": "onshore",
+      "imports2025": 48.7,
+      "note": "South Korea: 48.7 Mt in 2025 (+4%). Suppliers: Australia 32% (15.4 Mt), Malaysia 8.0, Qatar 7.3, US 4.5, Oman 2.0, Canada 0.7."
+    },
+    {
+      "name": "Tongyeong",
+      "country": "South Korea",
+      "lat": 34.8,
+      "lon": 128.4,
+      "type": "onshore",
+      "note": "KOGAS southern terminal."
+    },
+    {
+      "name": "Yong-An (Kaohsiung) + Taichung",
+      "country": "Taiwan",
+      "lat": 22.82,
+      "lon": 120.2,
+      "type": "onshore",
+      "imports2025": 23.5,
+      "note": "Taiwan: 23.5 Mt in 2025 (+11%) after the nuclear phase-out (May 2025) and the new Guantang terminal. Qatar 7.8 Mt and Australia 7.8 Mt are the top suppliers. Island grid with only days of storage."
+    },
+    {
+      "name": "Dahej",
+      "country": "India",
+      "lat": 21.7,
+      "lon": 72.55,
+      "type": "onshore",
+      "imports2025": 25.3,
+      "note": "India: 25.3 Mt in 2025 (−6%). Qatar 11.6 Mt, UAE 3.2, US 3.0, Oman 2.1. 59% from behind Hormuz. Petronet's Dahej is among the largest single regas sites in the world."
+    },
+    {
+      "name": "Port Qasim FSRUs",
+      "country": "Pakistan",
+      "lat": 24.77,
+      "lon": 67.33,
+      "type": "fsru",
+      "imports2025": 6.7,
+      "note": "Pakistan: 6.7 Mt in 2025, 6.6 Mt of it Qatari: the most Hormuz-dependent LNG importer anywhere."
+    },
+    {
+      "name": "Moheshkhali FSRUs",
+      "country": "Bangladesh",
+      "lat": 21.6,
+      "lon": 91.85,
+      "type": "fsru",
+      "imports2025": 7.0,
+      "note": "Two FSRUs; frequent power-sector shortages when spot LNG is expensive."
+    },
+    {
+      "name": "Map Ta Phut",
+      "country": "Thailand",
+      "lat": 12.65,
+      "lon": 101.15,
+      "type": "onshore",
+      "imports2025": 10.5,
+      "note": "Thailand's domestic Gulf of Thailand gas is declining, so LNG imports keep rising."
+    },
+    {
+      "name": "Singapore (Jurong)",
+      "country": "Singapore",
+      "lat": 1.27,
+      "lon": 103.7,
+      "type": "onshore",
+      "note": "Import plus bunkering and re-export hub.",
+      "imports2025": 5.7
+    },
+    {
+      "name": "Al-Zour",
+      "country": "Kuwait",
+      "lat": 28.72,
+      "lon": 48.38,
+      "type": "onshore",
+      "note": "Kuwait: 6.8 Mt in 2025, 4.8 Mt Qatari. It sits inside the Gulf, so in 2026 it is one of the few places Qatari cargoes can still reach.",
+      "imports2025": 6.8
+    },
+    {
+      "name": "Isle of Grain",
+      "country": "UK",
+      "lat": 51.45,
+      "lon": 0.72,
+      "type": "onshore",
+      "note": "UK: 9.6 Mt in 2025 (+21%), 76% from the US.",
+      "imports2025": 9.6
+    },
+    {
+      "name": "Milford Haven (South Hook, Dragon)",
+      "country": "UK",
+      "lat": 51.7,
+      "lon": -5.05,
+      "type": "onshore",
+      "note": "South Hook is part-owned by QatarEnergy and built for Q-Max carriers."
+    },
+    {
+      "name": "Gate (Rotterdam) + Eemshaven",
+      "country": "Netherlands",
+      "lat": 51.95,
+      "lon": 4.03,
+      "type": "onshore",
+      "note": "Netherlands: 16.9 Mt in 2025 (+28%), 76% from the US. These are the TTF hub's main LNG entry points.",
+      "imports2025": 16.9
+    },
+    {
+      "name": "Zeebrugge",
+      "country": "Belgium",
+      "lat": 51.34,
+      "lon": 3.2,
+      "type": "onshore",
+      "note": "Belgium: 10.2 Mt in 2025 (+85%). Russia ~3.9 Mt, US 3.8, Qatar 1.7. Was the Yamal trans-shipment hub until the EU ban in Mar 2025.",
+      "imports2025": 10.2
+    },
+    {
+      "name": "Dunkirk",
+      "country": "France",
+      "lat": 51.03,
+      "lon": 2.2,
+      "type": "onshore",
+      "note": "France: 22.8 Mt in 2025, Europe's largest LNG importer. US ~10.9 Mt, Russia ~6.2, Algeria 2.3. France has 4 onshore terminals plus Le Havre FSRU.",
+      "imports2025": 22.8
+    },
+    {
+      "name": "Montoir-de-Bretagne",
+      "country": "France",
+      "lat": 47.3,
+      "lon": -2.15,
+      "type": "onshore",
+      "note": "Key European receiver of Yamal LNG."
+    },
+    {
+      "name": "Fos (Cavaou, Tonkin)",
+      "country": "France",
+      "lat": 43.42,
+      "lon": 4.87,
+      "type": "onshore",
+      "note": "Mediterranean entry for southern France."
+    },
+    {
+      "name": "Spanish terminals (Barcelona, Huelva, Cartagena…)",
+      "country": "Spain",
+      "lat": 41.34,
+      "lon": 2.16,
+      "type": "onshore",
+      "note": "Spain has 6–7 terminals, the largest regas fleet in Europe, but weak pipeline links north to France limit how much it can pass on.",
+      "imports2025": 16.1
+    },
+    {
+      "name": "Huelva",
+      "country": "Spain",
+      "lat": 37.15,
+      "lon": -6.93,
+      "type": "onshore",
+      "note": "Atlantic-side Spanish terminal."
+    },
+    {
+      "name": "Sines",
+      "country": "Portugal",
+      "lat": 37.95,
+      "lon": -8.87,
+      "type": "onshore",
+      "note": "Portugal's only terminal; big Nigerian and US supply.",
+      "imports2025": 3.2
+    },
+    {
+      "name": "Wilhelmshaven FSRUs",
+      "country": "Germany",
+      "lat": 53.57,
+      "lon": 8.15,
+      "type": "fsru",
+      "note": "Germany built its first LNG import terminal in under a year (Dec 2022) after losing Russian pipeline gas. It now has FSRUs at Wilhelmshaven, Brunsbüttel and Mukran.",
+      "imports2025": 7.6
+    },
+    {
+      "name": "Brunsbüttel FSRU",
+      "country": "Germany",
+      "lat": 53.89,
+      "lon": 9.2,
+      "type": "fsru",
+      "note": "Elbe estuary."
+    },
+    {
+      "name": "Mukran FSRU",
+      "country": "Germany",
+      "lat": 54.53,
+      "lon": 13.65,
+      "type": "fsru",
+      "note": "Baltic coast (Rügen)."
+    },
+    {
+      "name": "Świnoujście",
+      "country": "Poland",
+      "lat": 53.92,
+      "lon": 14.27,
+      "type": "onshore",
+      "note": "Poland's gateway, supplied by Qatar and the US.",
+      "imports2025": 6.1
+    },
+    {
+      "name": "Klaipėda FSRU",
+      "country": "Lithuania",
+      "lat": 55.7,
+      "lon": 21.13,
+      "type": "fsru",
+      "note": "Named 'Independence': the Baltics' route away from Russian gas since 2014.",
+      "imports2025": 2.4
+    },
+    {
+      "name": "Inkoo FSRU",
+      "country": "Finland",
+      "lat": 60.05,
+      "lon": 24.0,
+      "type": "fsru",
+      "note": "Finland/Baltics supply after the Balticconnector pipeline damage.",
+      "imports2025": 0.9
+    },
+    {
+      "name": "Adriatic LNG (Rovigo)",
+      "country": "Italy",
+      "lat": 45.1,
+      "lon": 12.6,
+      "type": "offshore GBS",
+      "note": "An offshore gravity-based structure, historically Qatar-supplied. Italy also has FSRUs at Ravenna, Livorno (OLT) and Panigaglia.",
+      "imports2025": 14.5
+    },
+    {
+      "name": "Revithoussa + Alexandroupolis FSRU",
+      "country": "Greece",
+      "lat": 40.7,
+      "lon": 25.9,
+      "type": "fsru",
+      "note": "The gateway for US LNG into Bulgaria, the Balkans and (via the Vertical Corridor) Ukraine.",
+      "imports2025": 2.2
+    },
+    {
+      "name": "Marmara Ereğlisi",
+      "country": "Turkey",
+      "lat": 40.97,
+      "lon": 27.95,
+      "type": "onshore",
+      "note": "Türkiye: 12.0 Mt in 2025 (+32%). US 55%, Algeria 27%. 5+ terminals including FSRUs at Dörtyol and Saros.",
+      "imports2025": 12.0
+    },
+    {
+      "name": "Ain Sokhna FSRUs",
+      "country": "Egypt",
+      "lat": 29.6,
+      "lon": 32.35,
+      "type": "fsru",
+      "imports2025": 9.2,
+      "note": "Egypt: 9.2 Mt in 2025, up from 2.5 Mt, with 8.5 Mt from the US. It went from exporter to major importer in two years."
+    },
+    {
+      "name": "Guanabara Bay FSRU",
+      "country": "Brazil",
+      "lat": -22.85,
+      "lon": -43.15,
+      "type": "fsru",
+      "note": "Brazil imports in dry years when hydro is low.",
+      "imports2025": 1.9
+    },
+    {
+      "name": "Escobar FSRU",
+      "country": "Argentina",
+      "lat": -34.3,
+      "lon": -58.75,
+      "type": "fsru",
+      "note": "Winter-only imports; Argentina is building its own export FLNG on Vaca Muerta gas.",
+      "imports2025": 1.0
+    },
+    {
+      "name": "Quintero",
+      "country": "Chile",
+      "lat": -32.77,
+      "lon": -71.5,
+      "type": "onshore",
+      "note": "Central Chile's power and industry supply.",
+      "imports2025": 1.9
+    },
+    {
+      "name": "AES Andrés",
+      "country": "Dominican Rep.",
+      "lat": 18.43,
+      "lon": -69.62,
+      "type": "onshore",
+      "note": "Caribbean hub; small-scale re-distribution.",
+      "imports2025": 1.7
+    }
+  ],
+  "exporters2025": [
+    {
+      "name": "United States",
+      "mt": 109.1
+    },
+    {
+      "name": "Qatar",
+      "mt": 80.5
+    },
+    {
+      "name": "Australia",
+      "mt": 78.8
+    },
+    {
+      "name": "Russia",
+      "mt": 30.7
+    },
+    {
+      "name": "Malaysia",
+      "mt": 27.3
+    },
+    {
+      "name": "Indonesia",
+      "mt": 15.9
+    },
+    {
+      "name": "Nigeria",
+      "mt": 14.2
+    },
+    {
+      "name": "Oman",
+      "mt": 11.5
+    },
+    {
+      "name": "Algeria",
+      "mt": 9.4
+    },
+    {
+      "name": "Papua New Guinea",
+      "mt": 8.7
+    },
+    {
+      "name": "Trinidad & Tobago",
+      "mt": 6.7
+    },
+    {
+      "name": "UAE",
+      "mt": 5.1
+    },
+    {
+      "name": "Brunei",
+      "mt": 5.0
+    },
+    {
+      "name": "Angola",
+      "mt": 4.9
+    },
+    {
+      "name": "All others (10)",
+      "mt": 20.1
+    }
+  ],
+  "exportersSource": "GIIGNL Annual Report 2026 (with Kpler). Russia = Russia Europe (Yamal, Arctic LNG 2) 20.9 + Russia Asia (Sakhalin) 9.8.",
+  "importRegions2025": [
+    {
+      "name": "Asia",
+      "mt": 271.0
+    },
+    {
+      "name": "Europe",
+      "mt": 126.3
+    },
+    {
+      "name": "Middle East & Africa",
+      "mt": 18.2
+    },
+    {
+      "name": "Americas",
+      "mt": 12.3
+    }
+  ],
+  "importers2025": [
+    {
+      "name": "China",
+      "mt": 67.0
+    },
+    {
+      "name": "Japan",
+      "mt": 65.9
+    },
+    {
+      "name": "South Korea",
+      "mt": 48.7
+    },
+    {
+      "name": "India",
+      "mt": 25.3
+    },
+    {
+      "name": "Taiwan",
+      "mt": 23.5
+    },
+    {
+      "name": "France",
+      "mt": 22.8
+    },
+    {
+      "name": "Netherlands",
+      "mt": 16.9
+    },
+    {
+      "name": "Spain",
+      "mt": 16.1
+    },
+    {
+      "name": "Italy",
+      "mt": 14.5
+    },
+    {
+      "name": "Türkiye",
+      "mt": 12.0
+    },
+    {
+      "name": "Thailand",
+      "mt": 10.5
+    },
+    {
+      "name": "Belgium",
+      "mt": 10.2
+    },
+    {
+      "name": "UK",
+      "mt": 9.6
+    },
+    {
+      "name": "Egypt",
+      "mt": 9.2
+    }
+  ],
+  "importersSource": "GIIGNL Annual Report 2026 (with Kpler): 2025 imports net of re-exports.",
+  "timeline": [
+    {
+      "date": "Mar 2025",
+      "text": "EU bans trans-shipment of Russian LNG in EU ports (Zeebrugge)."
+    },
+    {
+      "date": "Jun–Oct 2025",
+      "text": "LNG Canada Trains 1 and 2 start: North America's first big Pacific export plant."
+    },
+    {
+      "date": "2025",
+      "text": "Record year: 427.9 Mt traded (+5.4%). US 109 Mt (+24). Europe +29% to 126 Mt, Asia −4%. China −15% to 67 Mt."
+    },
+    {
+      "date": "Jan–Feb 2026",
+      "text": "Darwin LNG restarts on Barossa gas; Congo's Nguya FLNG and Corpus Christi Stage 3 Train 5 start up."
+    },
+    {
+      "date": "28 Feb 2026",
+      "text": "US–Iran war closes the Strait of Hormuz. ~20% of global LNG supply sits behind it."
+    },
+    {
+      "date": "2 Mar 2026",
+      "text": "Iranian strikes hit Ras Laffan and Mesaieed. QatarEnergy halts LNG production and declares force majeure."
+    },
+    {
+      "date": "18 Mar 2026",
+      "text": "Missiles damage Ras Laffan Trains 4 and 6 (−12.8 Mtpa, 3–5 years to repair). EU bans new Russian gas contracts."
+    },
+    {
+      "date": "22 Apr 2026",
+      "text": "Golden Pass (Texas, 70% QatarEnergy) ships its first cargo. EU short-term Russian LNG ban starts 25 Apr."
+    },
+    {
+      "date": "Jun 2026",
+      "text": "Islamabad MoU briefly eases Hormuz but does not hold. Laden LNG transits through Panama hit a two-year high."
+    },
+    {
+      "date": "Jul 2026",
+      "text": "JKM front-month $21.45/MMBtu at end-July. EU took a record 9.97 Mt from Yamal in H1. Houthis declare a blockade on Saudi shipping."
+    },
+    {
+      "date": "Sep 2026",
+      "text": "Panama caps transits at 34, then 32 a day. Qatar ships 1.6 Mt (a third to Kuwait). 20 Sep: North Field East pushed to H1 2027. Late Sep: Asian and European LNG at highest since early 2023, ~3× pre-war."
+    },
+    {
+      "date": "7–13 Oct 2026",
+      "text": "A tanker is hit ~50 nm from Ras Laffan, and at least 18 ships are attacked around Hormuz in early October."
+    },
+    {
+      "date": "Oct 2026",
+      "text": "Kpler expects Qatari exports of only ~0.6 Mt this month."
+    },
+    {
+      "date": "15 Oct 2026",
+      "text": "Panama adds a Neopanamax slot (33 transits a day), still below normal."
+    },
+    {
+      "date": "1 Jan 2027",
+      "text": "EU ban on all Russian LNG imports and on maritime services to Russian LNG carriers takes effect."
+    },
+    {
+      "date": "2027",
+      "text": "Supply wave: North Field East (H1 start), Golden Pass T3, Plaquemines Phase 2, Rio Grande T1–3, CP2, Port Arthur T1."
+    }
+  ],
+  "sources": [
+    "GIIGNL Annual Report 2026: 2025 trade matrix, country imports and exports, plant capacities, project pipeline, 2026 scenarios",
+    "EIA Today in Energy: global LNG trade record in 2025 (Jul 2026); US LNG exports +23% H1 2026 (Sep 2026)",
+    "WA Government LNG Profile (Jul 2026)",
+    "Reuters / Cyprus Mail, 'Qatar LNG exports remain severely disrupted' (12 Oct 2026)",
+    "Bloomberg, Qatar energy chief sees LNG expansion start-up in 2027 (20 Sep 2026)",
+    "IEA Global LNG Capacity Tracker",
+    "Golden Pass first cargo: EIA, Enerdata (Apr 2026)",
+    "Yamal/EU: Kpler via Reuters, Engineering News (13 Jul 2026); Urgewald",
+    "Panama Canal: S&P Global (Jul 2026), Maritime Executive, FreightWaves (Sep 2026)",
+    "UKMTO / FT reports on Hormuz attacks (Oct 2026)",
+    "Prices (indicative): lnginsights.com/prices, 5 Oct 2026; pre-crisis Asian spot $9–11/MMBtu per GIIGNL"
+  ],
+  "exposure": {
+    "title": "Share of 2025 LNG imports from Qatar + UAE (behind Hormuz)",
+    "rows": [
+      {
+        "name": "Pakistan",
+        "pct": 99,
+        "mt": 6.6
+      },
+      {
+        "name": "India",
+        "pct": 59,
+        "mt": 14.8
+      },
+      {
+        "name": "Taiwan",
+        "pct": 34,
+        "mt": 8.0
+      },
+      {
+        "name": "Italy",
+        "pct": 33,
+        "mt": 4.8
+      },
+      {
+        "name": "China",
+        "pct": 31,
+        "mt": 20.6
+      },
+      {
+        "name": "Poland",
+        "pct": 26,
+        "mt": 1.6
+      },
+      {
+        "name": "Thailand",
+        "pct": 21,
+        "mt": 2.2
+      },
+      {
+        "name": "Belgium",
+        "pct": 17,
+        "mt": 1.7
+      },
+      {
+        "name": "South Korea",
+        "pct": 15,
+        "mt": 7.5
+      },
+      {
+        "name": "Japan",
+        "pct": 6,
+        "mt": 4.2
+      },
+      {
+        "name": "UK",
+        "pct": 6,
+        "mt": 0.6
+      },
+      {
+        "name": "Europe (all)",
+        "pct": 7,
+        "mt": 9.0
+      }
+    ],
+    "note": "Computed from GIIGNL's 2025 exporter-by-importer matrix. India 59%, China 31%, Taiwan 34%, Korea 15% and Europe ~7% match GIIGNL's own figures. Kuwait (71% Qatari) is left out because its cargoes never cross Hormuz."
+  },
+  "scenarios2026": {
+    "source": "GIIGNL Annual Report 2026 (LNG output scenarios)",
+    "rows": [
+      {
+        "name": "Pre-crisis 2026 estimate",
+        "mt": 475
+      },
+      {
+        "name": "Partial recovery (strait reopens, damaged trains stay out)",
+        "mt": 435
+      },
+      {
+        "name": "Prolonged: no Qatar/UAE supply through end-2026",
+        "mt": 410
+      },
+      {
+        "name": "2025 actual",
+        "mt": 427.9
+      }
+    ]
+  },
+  "capacityTotals": {
+    "liquefaction": 524,
+    "regas": 1247,
+    "flng": 16.5,
+    "underConstruction": 200,
+    "source": "GIIGNL Annual Report 2026 (end-2025)"
+  },
+  "projects": [
+    {
+      "name": "Golden Pass T1–T2",
+      "country": "USA",
+      "lat": 29.76,
+      "lon": -93.93,
+      "mtpa": 12,
+      "start": 2026,
+      "status": "starting",
+      "note": "T1 first LNG 30 Mar 2026, first cargo 22 Apr; T2 due H2 2026 (QatarEnergy 70% / ExxonMobil 30%)",
+      "group": "US",
+      "hormuz": false
+    },
+    {
+      "name": "Golden Pass T3",
+      "country": "USA",
+      "lat": 29.76,
+      "lon": -93.93,
+      "mtpa": 6,
+      "start": 2027,
+      "status": "construction",
+      "note": "Due H1 2027",
+      "group": "US",
+      "hormuz": false
+    },
+    {
+      "name": "Corpus Christi Stage 3 (T5–T7)",
+      "country": "USA",
+      "lat": 27.88,
+      "lon": -97.25,
+      "mtpa": 4.5,
+      "start": 2026,
+      "status": "starting",
+      "note": "T5 first LNG Feb 2026; remaining trains due by end-2026, ahead of schedule",
+      "group": "US",
+      "hormuz": false
+    },
+    {
+      "name": "Corpus Christi Midscale T8–T9",
+      "country": "USA",
+      "lat": 27.88,
+      "lon": -97.25,
+      "mtpa": 3,
+      "start": 2028,
+      "status": "construction",
+      "note": "FID Jun 2025",
+      "group": "US",
+      "hormuz": false
+    },
+    {
+      "name": "Plaquemines Phase 2",
+      "country": "USA",
+      "lat": 29.63,
+      "lon": -89.93,
+      "mtpa": 9,
+      "start": 2027,
+      "status": "starting",
+      "note": "Phase 2 target mid-2027 (full ~20 Mtpa; FERC in-service deadline Dec 2027)",
+      "group": "US",
+      "hormuz": false
+    },
+    {
+      "name": "Rio Grande LNG T1–T3",
+      "country": "USA",
+      "lat": 26.0,
+      "lon": -97.25,
+      "mtpa": 17.6,
+      "start": 2027,
+      "status": "construction",
+      "note": "NextDecade, Brownsville TX: ahead of schedule toward first LNG in 2027",
+      "group": "US",
+      "hormuz": false
+    },
+    {
+      "name": "Rio Grande LNG T4–T5",
+      "country": "USA",
+      "lat": 26.0,
+      "lon": -97.25,
+      "mtpa": 12,
+      "start": 2030,
+      "status": "construction",
+      "note": "FIDs Sep 2025 / late 2025; IEA tracker: 2030–31",
+      "group": "US",
+      "hormuz": false
+    },
+    {
+      "name": "CP2 Phase 1",
+      "country": "USA",
+      "lat": 29.8,
+      "lon": -93.3,
+      "mtpa": 10,
+      "start": 2027,
+      "status": "construction",
+      "note": "Venture Global; FID Jul 2025; first deliveries 2027; peak site capacity 28 Mtpa",
+      "group": "US",
+      "hormuz": false
+    },
+    {
+      "name": "Port Arthur LNG Phase 1",
+      "country": "USA",
+      "lat": 29.83,
+      "lon": -93.95,
+      "mtpa": 13,
+      "start": 2027,
+      "status": "construction",
+      "note": "Sempra: T1 end-2027, T2 2028",
+      "group": "US",
+      "hormuz": false
+    },
+    {
+      "name": "Port Arthur LNG Phase 2",
+      "country": "USA",
+      "lat": 29.83,
+      "lon": -93.95,
+      "mtpa": 13,
+      "start": 2030,
+      "status": "construction",
+      "note": "FID 2025; IEA tracker 2030",
+      "group": "US",
+      "hormuz": false
+    },
+    {
+      "name": "Woodside Louisiana LNG",
+      "country": "USA",
+      "lat": 30.13,
+      "lon": -93.29,
+      "mtpa": 16.5,
+      "start": 2029,
+      "status": "construction",
+      "note": "Former Driftwood; FID Apr 2025, first LNG 2029",
+      "group": "US",
+      "hormuz": false
+    },
+    {
+      "name": "Energía Costa Azul",
+      "country": "Mexico",
+      "lat": 32.05,
+      "lon": -116.87,
+      "mtpa": 3.25,
+      "start": 2026,
+      "status": "starting",
+      "note": "Sempra, Pacific coast of Mexico: >95% complete, first LNG targeted spring 2026. Pacific supply to Asia with no Panama",
+      "group": "Americas",
+      "hormuz": false
+    },
+    {
+      "name": "Woodfibre LNG",
+      "country": "Canada",
+      "lat": 49.67,
+      "lon": -123.25,
+      "mtpa": 2.1,
+      "start": 2027,
+      "status": "construction",
+      "note": "65% complete Mar 2026",
+      "group": "Americas",
+      "hormuz": false
+    },
+    {
+      "name": "Cedar LNG (FLNG)",
+      "country": "Canada",
+      "lat": 53.92,
+      "lon": -128.78,
+      "mtpa": 3.3,
+      "start": 2028,
+      "status": "construction",
+      "note": "Haisla Nation / Pembina, Kitimat",
+      "group": "Americas",
+      "hormuz": false
+    },
+    {
+      "name": "SESA FLNG: Hilli Episeyo",
+      "country": "Argentina",
+      "lat": -41.0,
+      "lon": -64.6,
+      "mtpa": 2.45,
+      "start": 2027,
+      "status": "construction",
+      "note": "Vaca Muerta gas, Golfo San Matías",
+      "group": "Americas",
+      "hormuz": false
+    },
+    {
+      "name": "SESA FLNG: MK II",
+      "country": "Argentina",
+      "lat": -41.1,
+      "lon": -64.4,
+      "mtpa": 3.5,
+      "start": 2028,
+      "status": "construction",
+      "note": "Second Golar unit",
+      "group": "Americas",
+      "hormuz": false
+    },
+    {
+      "name": "North Field East (4 trains)",
+      "country": "Qatar",
+      "lat": 25.95,
+      "lon": 51.53,
+      "mtpa": 32,
+      "start": 2027,
+      "status": "delayed",
+      "note": "Was end-2026; minister (20 Sep 2026): first train H1 2027, rest during 2027, but equipment deliveries are hit by the Hormuz crisis",
+      "group": "Middle East",
+      "hormuz": true
+    },
+    {
+      "name": "North Field South (2 trains)",
+      "country": "Qatar",
+      "lat": 25.95,
+      "lon": 51.53,
+      "mtpa": 16,
+      "start": 2028,
+      "status": "construction",
+      "note": "Scheduled 2028; behind Hormuz",
+      "group": "Middle East",
+      "hormuz": true
+    },
+    {
+      "name": "Ruwais LNG",
+      "country": "UAE",
+      "lat": 24.12,
+      "lon": 52.73,
+      "mtpa": 9.6,
+      "start": 2028,
+      "status": "construction",
+      "note": "ADNOC 60%; >80% contracted; inside the Gulf, so behind Hormuz",
+      "group": "Middle East",
+      "hormuz": true
+    },
+    {
+      "name": "Marsa LNG",
+      "country": "Oman",
+      "lat": 24.4,
+      "lon": 56.7,
+      "mtpa": 1,
+      "start": 2028,
+      "status": "construction",
+      "note": "TotalEnergies 80% / OQ; Sohar, outside Hormuz",
+      "group": "Middle East",
+      "hormuz": false
+    },
+    {
+      "name": "Nigeria LNG Train 7",
+      "country": "Nigeria",
+      "lat": 4.42,
+      "lon": 7.15,
+      "mtpa": 8,
+      "start": 2027,
+      "status": "construction",
+      "note": ">80% complete; lifts Bonny to 30 Mtpa (start year estimated)",
+      "group": "Africa",
+      "hormuz": false
+    },
+    {
+      "name": "Coral Norte FLNG",
+      "country": "Mozambique",
+      "lat": -10.6,
+      "lon": 41.1,
+      "mtpa": 3.6,
+      "start": 2028,
+      "status": "construction",
+      "note": "Eni; hull launched in Korea",
+      "group": "Africa",
+      "hormuz": false
+    },
+    {
+      "name": "Mozambique LNG",
+      "country": "Mozambique",
+      "lat": -10.83,
+      "lon": 40.55,
+      "mtpa": 12.8,
+      "start": 2029,
+      "status": "construction",
+      "note": "TotalEnergies; restarted after 5-yr force majeure (start year estimated)",
+      "group": "Africa",
+      "hormuz": false
+    },
+    {
+      "name": "Pluto Train 2 (Scarborough)",
+      "country": "Australia",
+      "lat": -20.62,
+      "lon": 116.77,
+      "mtpa": 5,
+      "start": 2026,
+      "status": "starting",
+      "note": "Woodside; first LNG planned H2 2026",
+      "group": "Asia-Pacific",
+      "hormuz": false
+    }
+  ],
+  "projectsSource": "GIIGNL Annual Report 2026; IEA Global LNG Capacity Tracker; Bloomberg (20 Sep 2026); company releases. Start years are the latest public targets and often slip.",
+  "events": [
+    {
+      "date": "Jan 2024 →",
+      "type": "info",
+      "title": "LNG abandons the Red Sea",
+      "text": "Houthi attacks pushed LNG carriers off the Suez/Bab-el-Mandeb route (~8% of world LNG before 2024). Attacks resumed in Feb 2026, and a Tihamah strike in Bab-el-Mandeb killed 6 on 11 Aug 2026.",
+      "lat": 14.6,
+      "lon": 41.9,
+      "source": "EIA; UPI (Aug 2026)"
+    },
+    {
+      "date": "Jun 2025",
+      "type": "supply",
+      "title": "LNG Canada first cargo",
+      "text": "Train 1 started June 2025 and Train 2 in October: the first big North American Pacific plant.",
+      "lat": 54.0,
+      "lon": -128.68,
+      "labelSide": "left",
+      "source": "GIIGNL Annual Report 2026"
+    },
+    {
+      "date": "Aug 2025 →",
+      "type": "policy",
+      "title": "Arctic LNG 2 → Beihai",
+      "text": "The sanctioned plant shipped 1.3 Mt in 2025, all to China, mostly via a shadow fleet into Beihai.",
+      "lat": 21.45,
+      "lon": 109.1,
+      "source": "GIIGNL Annual Report 2026"
+    },
+    {
+      "date": "Nov 2025",
+      "type": "supply",
+      "title": "Plaquemines at full capacity",
+      "text": "Venture Global's Plaquemines drove most of the +24 Mt US growth in 2025.",
+      "lat": 29.63,
+      "lon": -89.93,
+      "source": "GIIGNL Annual Report 2026"
+    },
+    {
+      "date": "Jan 2026",
+      "type": "supply",
+      "title": "Darwin restarts on Barossa",
+      "text": "First Barossa LNG cargo from Darwin LNG.",
+      "lat": -12.47,
+      "lon": 130.85,
+      "source": "GIIGNL Annual Report 2026"
+    },
+    {
+      "date": "Feb 2026",
+      "type": "supply",
+      "title": "Congo Nguya FLNG first cargo",
+      "text": "Congo LNG reaches 3 Mtpa.",
+      "lat": -4.8,
+      "lon": 11.8,
+      "source": "GIIGNL Annual Report 2026"
+    },
+    {
+      "date": "28 Feb 2026",
+      "type": "blockade",
+      "title": "Hormuz closes",
+      "text": "The US–Iran war closes the strait: ~20% of world LNG supply (Qatar + UAE) sits behind it.",
+      "lat": 26.72,
+      "lon": 56.12,
+      "labelSide": "left",
+      "source": "EIA (Jul 2026)"
+    },
+    {
+      "date": "2 Mar 2026",
+      "type": "strike",
+      "title": "Ras Laffan + Mesaieed hit",
+      "text": "Iranian strikes: QatarEnergy halts all LNG production and declares force majeure.",
+      "lat": 25.91,
+      "lon": 51.58,
+      "labelSide": "left",
+      "source": "Qatar MoD; QatarEnergy"
+    },
+    {
+      "date": "18 Mar 2026",
+      "type": "strike",
+      "title": "Trains 4 & 6 damaged",
+      "text": "Missiles damage Ras Laffan LNG Trains 4 and 6: −12.8 Mtpa (~16% of Qatar's 2025 exports), repairs 3–5 years. One Pearl GTL train is also hit.",
+      "lat": 25.86,
+      "lon": 51.5,
+      "approx": true,
+      "source": "GIIGNL Annual Report 2026 (QatarEnergy statement)"
+    },
+    {
+      "date": "25 Apr 2026",
+      "type": "policy",
+      "title": "EU bans short-term Russian LNG",
+      "text": "New Russian contracts banned since 18 Mar. Yet EU imports from Yamal hit a record 9.97 Mt in H1 2026. Full ban from 1 Jan 2027.",
+      "lat": 47.3,
+      "lon": -2.15,
+      "labelSide": "left",
+      "source": "Kpler via Reuters (Jul 2026); Urgewald"
+    },
+    {
+      "date": "22 Apr 2026",
+      "type": "supply",
+      "title": "Golden Pass first cargo",
+      "text": "The 18 Mtpa Texas plant, 70% owned by QatarEnergy, starts up just as Qatar's own exports stop.",
+      "lat": 29.76,
+      "lon": -93.93,
+      "labelSide": "left",
+      "source": "EIA; Enerdata (Apr 2026)"
+    },
+    {
+      "date": "Jun 2026",
+      "type": "info",
+      "title": "Panama: LNG transits 2-yr high",
+      "text": "US cargoes chase Asian prices after Qatar's outage.",
+      "lat": 9.4,
+      "lon": -79.92,
+      "source": "S&P Global (Jul 2026)"
+    },
+    {
+      "date": "Sep 2026",
+      "type": "restriction",
+      "title": "Panama caps: 34 → 32 a day",
+      "text": "El Niño drought: first daily transit cap since 2023–24 (normal ~36), easing to 33 from 15 Oct.",
+      "lat": 9.08,
+      "lon": -79.68,
+      "labelSide": "left",
+      "source": "Maritime Executive (Sep 2026)"
+    },
+    {
+      "date": "Sep 2026",
+      "type": "info",
+      "title": "Qatar ships 1.6 Mt: a third to Kuwait",
+      "text": "Under a quarter of normal. Kuwait's Al-Zour terminal is reachable without crossing Hormuz.",
+      "lat": 28.72,
+      "lon": 48.38,
+      "labelSide": "left",
+      "source": "Kpler via Reuters (12 Oct 2026)"
+    },
+    {
+      "date": "20 Sep 2026",
+      "type": "restriction",
+      "title": "North Field East slips to H1 2027",
+      "text": "Qatar's minister: first NFE train in H1 2027, others during 2027. Equipment deliveries are hit by the Hormuz crisis.",
+      "source": "Bloomberg (20 Sep 2026)"
+    },
+    {
+      "date": "7 Oct 2026",
+      "type": "attack",
+      "title": "Tanker hit near Ras Laffan",
+      "text": "The tanker Acers was hit by projectiles ~50 nm north of Madinat ash Shamal.",
+      "lat": 26.96,
+      "lon": 51.2,
+      "source": "Reuters (Oct 2026)"
+    },
+    {
+      "date": "1–13 Oct 2026",
+      "type": "attack",
+      "title": "≥18 ships attacked in Hormuz",
+      "text": "The FT counted ≥18 vessels attacked 1–11 Oct, with more on 11 and 13 Oct. LNG carriers cross with AIS switched off.",
+      "lat": 26.15,
+      "lon": 56.85,
+      "approx": true,
+      "source": "FT via Sunday Guardian; UKMTO (Oct 2026)"
+    },
+    {
+      "date": "Oct 2026",
+      "type": "info",
+      "title": "Qatar: ~0.6 Mt expected",
+      "text": "Kpler expects Qatari LNG exports of only ~0.6 Mt in October (pre-war ≈6.7 Mt a month).",
+      "source": "Kpler via Reuters (12 Oct 2026)"
+    }
+  ],
+  "zones": [
+    {
+      "name": "Strait of Hormuz: closed",
+      "label": "Closed",
+      "kind": "closure",
+      "polygon": [
+        [
+          55.2,
+          25.6
+        ],
+        [
+          55.8,
+          26.6
+        ],
+        [
+          56.3,
+          27.2
+        ],
+        [
+          57.3,
+          27.0
+        ],
+        [
+          57.6,
+          25.9
+        ],
+        [
+          56.9,
+          25.0
+        ],
+        [
+          56.2,
+          25.1
+        ]
+      ]
+    },
+    {
+      "name": "Red Sea / Bab-el-Mandeb / Gulf of Aden attack zone: LNG carriers avoid it since 2024",
+      "label": "Attack zone: avoided",
+      "kind": "attack",
+      "polygon": [
+        [
+          40.0,
+          17.8
+        ],
+        [
+          42.4,
+          17.2
+        ],
+        [
+          43.2,
+          14.2
+        ],
+        [
+          43.6,
+          12.75
+        ],
+        [
+          45.5,
+          13.2
+        ],
+        [
+          48.5,
+          13.9
+        ],
+        [
+          49.5,
+          12.0
+        ],
+        [
+          44.5,
+          11.0
+        ],
+        [
+          43.3,
+          11.6
+        ],
+        [
+          42.5,
+          13.0
+        ],
+        [
+          41.0,
+          15.0
+        ]
+      ],
+      "labelAt": [
+        46.6,
+        12.95
+      ]
+    },
+    {
+      "name": "Panama Canal: drought caps (32–33 transits/day)",
+      "label": "Capped",
+      "kind": "restriction",
+      "circle": [
+        -79.75,
+        9.15,
+        0.35
+      ]
+    }
+  ],
+  "seas": [
+    {
+      "name": "PERSIAN GULF",
+      "lat": 27.4,
+      "lon": 51.0
+    },
+    {
+      "name": "GULF OF OMAN",
+      "lat": 24.4,
+      "lon": 58.9
+    },
+    {
+      "name": "ARABIAN SEA",
+      "lat": 15.5,
+      "lon": 63.0
+    },
+    {
+      "name": "RED SEA",
+      "lat": 20.5,
+      "lon": 38.6
+    },
+    {
+      "name": "GULF OF ADEN",
+      "lat": 12.0,
+      "lon": 49.6
+    },
+    {
+      "name": "BAY OF BENGAL",
+      "lat": 15.0,
+      "lon": 88.5
+    },
+    {
+      "name": "SOUTH CHINA SEA",
+      "lat": 13.5,
+      "lon": 114.0
+    },
+    {
+      "name": "EAST CHINA SEA",
+      "lat": 29.0,
+      "lon": 125.8
+    },
+    {
+      "name": "SEA OF JAPAN",
+      "lat": 40.0,
+      "lon": 134.5
+    },
+    {
+      "name": "PHILIPPINE SEA",
+      "lat": 18.0,
+      "lon": 132.0
+    },
+    {
+      "name": "CORAL SEA",
+      "lat": -16.0,
+      "lon": 154.0
+    },
+    {
+      "name": "INDIAN OCEAN",
+      "lat": -15.0,
+      "lon": 78.0
+    },
+    {
+      "name": "PACIFIC OCEAN",
+      "lat": 20.0,
+      "lon": -150.0
+    },
+    {
+      "name": "ATLANTIC OCEAN",
+      "lat": 30.0,
+      "lon": -45.0
+    },
+    {
+      "name": "GULF OF MEXICO",
+      "lat": 25.3,
+      "lon": -90.5
+    },
+    {
+      "name": "CARIBBEAN SEA",
+      "lat": 15.0,
+      "lon": -75.0
+    },
+    {
+      "name": "NORTH SEA",
+      "lat": 56.0,
+      "lon": 3.0
+    },
+    {
+      "name": "MEDITERRANEAN",
+      "lat": 34.5,
+      "lon": 18.0
+    },
+    {
+      "name": "BALTIC",
+      "lat": 57.5,
+      "lon": 19.0
+    },
+    {
+      "name": "BARENTS SEA",
+      "lat": 73.5,
+      "lon": 40.0
+    },
+    {
+      "name": "KARA SEA",
+      "lat": 75.0,
+      "lon": 65.0
+    },
+    {
+      "name": "SEA OF OKHOTSK",
+      "lat": 53.0,
+      "lon": 148.0
+    },
+    {
+      "name": "MOZAMBIQUE CHANNEL",
+      "lat": -18.0,
+      "lon": 41.5,
+      "small": true
+    },
+    {
+      "name": "MALACCA",
+      "lat": 4.2,
+      "lon": 99.2,
+      "small": true
+    }
+  ],
+  "extraLanes": [
+    [
+      "sriLanka",
+      "comorin",
+      "westIndia",
+      "dahej"
+    ],
+    [
+      "westIndia",
+      "qasim"
+    ],
+    [
+      "singapore",
+      "gulfThai",
+      "mapTaPhut"
+    ],
+    [
+      "sriLanka",
+      "bayBengal"
+    ],
+    [
+      "aceh",
+      "bayBengal"
+    ],
+    [
+      "northSea",
+      "skagerrak",
+      "kattegat",
+      "oresund",
+      "balticS",
+      "balticE",
+      "gulfFinland"
+    ],
+    [
+      "luzon",
+      "kaohsiung"
+    ],
+    [
+      "gulfAden",
+      "arabSea"
+    ],
+    [
+      "gulfAden",
+      "somalia"
+    ],
+    [
+      "capeS",
+      "mozSouth"
+    ],
+    [
+      "natl",
+      "iberia"
+    ],
+    [
+      "capeVerde",
+      "gulfGuinea"
+    ],
+    [
+      "floridaExit",
+      [
+        31.0,
+        -79.8
+      ],
+      [
+        32.5,
+        -77.5
+      ],
+      [
+        35.3,
+        -74.8
+      ],
+      [
+        36.95,
+        -75.9
+      ]
+    ],
+    [
+      [
+        36.95,
+        -75.9
+      ],
+      "natl"
+    ],
+    [
+      "gom",
+      [
+        23.5,
+        -95.5
+      ]
+    ],
+    [
+      [
+        -14.0,
+        117.0
+      ],
+      [
+        -12.8,
+        123.6
+      ],
+      "darwin"
+    ],
+    [
+      [
+        -5.5,
+        127.5
+      ],
+      [
+        -3.2,
+        131.2
+      ]
+    ],
+    [
+      "capeVerde",
+      [
+        16.0,
+        -17.6
+      ]
+    ],
+    [
+      "yellowSea",
+      [
+        38.2,
+        121.5
+      ],
+      [
+        38.8,
+        118.6
+      ]
+    ],
+    [
+      "bayBengal",
+      [
+        20.6,
+        91.0
+      ]
+    ],
+    [
+      [
+        37.6,
+        6.0
+      ],
+      [
+        41.8,
+        4.2
+      ],
+      [
+        42.9,
+        5.0
+      ]
+    ],
+    [
+      [
+        -23.0,
+        -41.5
+      ],
+      [
+        -30.0,
+        -47.0
+      ],
+      [
+        -35.2,
+        -55.5
+      ],
+      [
+        -34.7,
+        -57.9
+      ]
+    ],
+    [
+      "panamaPac",
+      [
+        0.0,
+        -82.0
+      ],
+      [
+        -15.0,
+        -78.0
+      ],
+      [
+        -30.0,
+        -73.0
+      ],
+      [
+        -32.8,
+        -71.8
+      ]
+    ],
+    [
+      "pampa",
+      [
+        -15.0,
+        -78.0
+      ]
+    ],
+    [
+      "carib",
+      [
+        16.0,
+        -72.5
+      ],
+      [
+        17.6,
+        -69.3
+      ],
+      [
+        18.6,
+        -67.9
+      ],
+      [
+        18.0,
+        -58.0
+      ]
+    ],
+    [
+      "sabine",
+      [
+        28.4,
+        -95.6
+      ],
+      [
+        27.7,
+        -97.0
+      ]
+    ],
+    [
+      "gom",
+      [
+        28.9,
+        -89.4
+      ]
+    ]
+  ]
+}
