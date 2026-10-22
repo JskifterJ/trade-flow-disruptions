@@ -9,14 +9,14 @@ Rules for every run are in the routine prompt; the short version: work on branch
 
 ---
 
-- [ ] **1. Browser QA harness + bug fixes (do first: `lng.html` has never been opened in a browser).**
+- [x] **1. Browser QA harness + bug fixes (do first: `lng.html` has never been opened in a browser).**
   Add Playwright (`package.json`, `tests/smoke.mjs`, `npm test`) that serves the folder, loads
   `index.html` and `lng.html` at 1440×900 and 390×844, fails on any console error, and exercises:
   scenario toggle, every side-panel tab, selecting a leg/plant/terminal/chokepoint/event/project,
   zoom in/out, the voyage calculator (Sabine Pass→Tokyo; Ras Laffan→Tokyo with Hormuz closed shows
   "No open route"), the arbitrage sliders, and the disruptions view on the main page (select each
   disruption). Save screenshots to `tests/screenshots/` (gitignored). Look at the screenshots and
-  fix what's broken: overlapping labels, overflow, unreadable text, layout at phone width.
+  fix what's broken: overlapping labels, overflow, unreadable text, layout at phone width. (done 2026-10-22)
 
 - [ ] **2. Data validation + CI.** `scripts/validate.mjs`: schema checks for `data/lng.json`,
   `data/disruptions.json`, `data/flows.json` (required fields, every named point exists, lat/lon in

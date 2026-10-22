@@ -97,6 +97,16 @@ const gChoke = svg.append('g');
 const gEvents = svg.append('g');
 const gText = svg.append('g').style('pointer-events', 'none');
 
+// On narrow screens the 760-unit viewBox is drawn at ~370px, which would put
+// labels at ~5px. TS scales label text (and its offsets), MS the markers, so
+// both stay readable on a phone; placement then simply shows fewer labels.
+let TS = 1, MS = 1;
+function updateScreenScale() {
+  const w = svg.node().getBoundingClientRect().width || W;
+  TS = Math.max(1, Math.min(1.9, (W / w) * 0.85));
+  MS = 1 + (TS - 1) * 0.6;
+}
+
 const tip = d3.select('#tip');
 function showTip(event, html) {
   tip.html(html).style('display', 'block');
@@ -366,6 +376,8 @@ function buildTexts() {
           .attr('font-style', d.kind === 'proj' ? 'italic' : null);
         d.size = d.kind === 'choke' ? 10.5 : 9.8;
       }
+      d.size *= TS;
+      t.attr('font-size', d.size).attr('stroke-width', (d.kind === 'leg' ? 3.2 : 3) * TS);
     });
   updateLegTexts();
 }
@@ -430,19 +442,19 @@ function placeTexts() {
   gEvents.selectAll('g.ev').each(function (d) {
     if (this.style.display === 'none') return;
     const p = projection([d.lon, d.lat]);
-    if (p) placed.push({ x: p[0] - 7, y: p[1] - 7, w: 14, h: 14 });
+    if (p) placed.push({ x: p[0] - 7 * MS, y: p[1] - 7 * MS, w: 14 * MS, h: 14 * MS });
   });
   cand.forEach(({ n, d, rule, lon, lat }) => {
     const p = projection([lon, lat]);
     if (!p) return;
     const w = n.__w, h = d.size + 3;
     const centred = d.kind === 'sea' || d.kind === 'zone' || d.kind === 'leg';
-    const dx = d.kind === 'event' ? 11 : 8, dy0 = d.kind === 'leg' ? -6 : d.kind === 'event' ? 4 : 3.5;
+    const dx = (d.kind === 'event' ? 11 : 8) * MS, dy0 = (d.kind === 'leg' ? -6 : d.kind === 'event' ? 4 : 3.5) * TS;
     const slots = centred ? ['middle', 'up', 'down']
       : d.side === 'left' ? ['end', 'start', 'above', 'below'] : ['start', 'end', 'above', 'below'];
     for (const s of slots) {
       const anchor = s === 'start' || s === 'end' ? s : 'middle';
-      const dy = { above: -11, below: 19, up: dy0 - 13, down: dy0 + 13 }[s] ?? dy0;
+      const dy = { above: -11 * MS, below: 19 * TS, up: dy0 - 13 * TS, down: dy0 + 13 * TS }[s] ?? dy0;
       const x0 = anchor === 'start' ? p[0] + dx : anchor === 'end' ? p[0] - dx - w : p[0] - w / 2;
       const box = { x: x0 - 2, y: p[1] + dy - h + 2, w: w + 4, h: h + 2 };
       if (box.x < 2 || box.x + box.w > W - 2 || box.y < 2 || box.y + box.h > H - 2) continue;
@@ -473,7 +485,7 @@ function render() {
   const place = function (d) {
     const front = isFront(d.lon, d.lat);
     const p = projection([d.lon, d.lat]);
-    d3.select(this).attr('transform', front && p ? `translate(${p[0]},${p[1]})` : null).style('display', front ? null : 'none');
+    d3.select(this).attr('transform', front && p ? `translate(${p[0]},${p[1]})${MS > 1 ? ` scale(${MS})` : ''}` : null).style('display', front ? null : 'none');
   };
   gLiq.selectAll('g').each(place);
   gProj.selectAll('g').each(place);
@@ -1109,7 +1121,9 @@ function setAllow(a, wait) {
   });
   renderVoyage();
 }
-function renderVoyage() {
+// draw=false (page load) fills the table without putting the route on the
+// globe, which would dim every leg and hide the volume labels.
+function renderVoyage(draw = true) {
   const out = d3.select('#voy-out').html('');
   const best = routeVoyage(VOY.allow);
   const alts = [];
@@ -1134,7 +1148,7 @@ function renderVoyage() {
   tbl.append('tr').html('<th>Route</th><th>Distance</th><th>One way</th><th>Round trip</th><th>Ships for volume</th><th>Freight</th><th>Via</th>');
   alts.forEach((a, i) => {
     const r = a.r;
-    const tr = tbl.append('tr').classed('on', i === 0).style('cursor', 'pointer')
+    const tr = tbl.append('tr').classed('on', draw && i === 0).style('cursor', 'pointer')
       .on('click', function () { tbl.selectAll('tr').classed('on', false); d3.select(this).classed('on', true); showVoyage(r, true); });
     tr.html(`<td><b>${a.label}</b></td><td>${d3.format(',')(Math.round(r.nm))} nm</td><td>${r.oneWay.toFixed(1)} d</td><td>${r.rt.toFixed(0)} d</td>` +
       `<td>${r.ships.toFixed(1)} ships</td><td>$${r.freight.toFixed(2)}/MMBtu</td><td>${r.chokes.map((c) => CHOKE_LABEL[c]).join(', ') || 'open ocean'}</td>`);
@@ -1150,7 +1164,7 @@ function renderVoyage() {
     `Moving ${VOY.volume} Mtpa (~${Math.round(VOY.volume / 0.075)} cargoes) ties up <b>${r.ships.toFixed(1)} ships</b>. Boil-off burns ~${r.boil.toFixed(1)}% of the cargo on the laden leg. ` +
     `Freight = charter × round-trip days + canal fees, spread over ~3.5 million MMBtu delivered. ` + (warn.length ? `<br><span style="color:#ffb199">⚠ ${warn.join(' ')}</span>` : '') +
     `<br><span class="muted">Distances run along the map's sea lanes, so they read a few % above true sailing distances. Canal fees, speed and charter are illustrative.</span>`);
-  showVoyage(r, false);
+  if (draw) showVoyage(r, false);
 }
 function showVoyage(r, fly) {
   state.voyage = r;
@@ -1274,6 +1288,7 @@ Promise.all([
   D = data;
   D.legs.forEach((l) => resolve(l.path)); // validate point names early
   setWorld(world);
+  updateScreenScale();
   buildGraph();
   updateScenarioChrome();
   drawLegs();
@@ -1286,7 +1301,7 @@ Promise.all([
   renderCharts();
   renderSupplyWave();
   renderVoyageInputs();
-  renderVoyage();
+  renderVoyage(false);
   d3.select('#voy-clear').on('click', () => { clearVoyage(); styleLegs(); render(); d3.selectAll('table.voy tr').classed('on', false); });
   renderArbInputs();
   renderArb();
@@ -1295,6 +1310,11 @@ Promise.all([
   d3.select('#meta-row').text(`data as of ${D.lastUpdated} · ${D.legs.length} shipping legs · ${D.liquefaction.length} export plants · ${D.projects.length} projects under construction · ${D.regas.length} import terminals · ${D.events.length} 2026 events`);
   d3.select('#upd').text(D.lastUpdated);
   d3.select('#sources').selectAll('li').data(D.sources).join('li').text((d) => d);
+  let lastTS = TS;
+  window.addEventListener('resize', () => {
+    updateScreenScale();
+    if (Math.abs(TS - lastTS) > 0.05) { lastTS = TS; buildTexts(); render(); }
+  });
   // detailed coastline for close zooms, loaded in the background
   d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-50m.json')
     .then((fine) => { setWorld(world, fine); render(); }).catch(() => {});

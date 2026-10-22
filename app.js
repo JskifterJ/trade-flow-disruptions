@@ -97,6 +97,14 @@ const state = {
 let FLOWS = null, DISRUPTIONS = null;
 
 // ---------- tooltip ----------
+// On a phone the 640-unit viewBox is drawn at ~360px; TS scales map label
+// text (sizes and offsets) so it stays readable there. Set once at load.
+let TS = 1;
+function updateScreenScale() {
+  const w = svg.node().getBoundingClientRect().width || WIDTH;
+  TS = Math.max(1, Math.min(1.7, (WIDTH / w) * 0.85));
+}
+
 const tip = d3.select('#tip');
 function showTip(event, html) {
   tip.html(html).style('display', 'block');
@@ -233,7 +241,7 @@ function placeMapText() {
       : d.anchor === 'end' ? ['end', 'start', 'above', 'below'] : ['start', 'end', 'above', 'below'];
     for (const pos of sides) {
       const side = pos === 'start' || pos === 'end' ? pos : 'middle';
-      const dy = { above: -11, below: 19, up: d.dy - 13, down: d.dy + 13 }[pos] ?? d.dy;
+      const dy = { above: -11, below: 19 * TS, up: d.dy - 13 * TS, down: d.dy + 13 * TS }[pos] ?? d.dy;
       const x = side === 'start' ? p[0] + d.dx : side === 'end' ? p[0] - d.dx - w : p[0] - w / 2;
       const y = p[1] + dy - h + 3;
       const box = { x: x - 2, y: y - 1, w: w + 4, h: h + 2 };
@@ -336,8 +344,8 @@ function drawRoutes() {
     (enter) => {
       const g = enter.append('g').style('pointer-events', 'none');
       g.append('text').attr('x', 8).attr('y', 4)
-        .attr('fill', COLOR.chokepoint).attr('font-size', 10.5)
-        .attr('paint-order', 'stroke').attr('stroke', COLOR.ocean).attr('stroke-width', 3)
+        .attr('fill', COLOR.chokepoint).attr('font-size', 10.5 * TS)
+        .attr('paint-order', 'stroke').attr('stroke', COLOR.ocean).attr('stroke-width', 3 * TS)
         .text((d) => d.name.replace(' + SUMED pipeline', '').replace(' (Bosphorus)', ''));
       return g;
     });
@@ -402,6 +410,7 @@ function drawDisruptionLayer() {
       } else {
         t.text(d.name).attr('font-size', 10.5).attr('font-weight', 600).attr('fill', '#e8edf2').attr('stroke-width', 3.2);
       }
+      t.attr('font-size', +t.attr('font-size') * TS).attr('stroke-width', +t.attr('stroke-width') * TS);
     });
 }
 
@@ -450,8 +459,8 @@ function applyHighlight() {
     else if (!act && !d.small && !d.land && !seen.has(d.name)) { show = true; priority = 5; seen.add(d.name); }
     this.__d = {
       ...d, show, priority, force: priority === 100,
-      size: d.kind === 'region' ? (d.small ? 9.5 : 11) : d.kind === 'zone' ? 9.5 : 10.5,
-      dx: d.kind === 'event' ? 11 : 0, dy: d.kind === 'event' ? 4 : 4,
+      size: (d.kind === 'region' ? (d.small ? 9.5 : 11) : d.kind === 'zone' ? 9.5 : 10.5) * TS,
+      dx: d.kind === 'event' ? 11 : 0, dy: 4 * TS,
       anchor: d.kind === 'event' ? (d.side === 'left' ? 'end' : 'start') : 'middle',
     };
     d3.select(this).attr('opacity', d.kind === 'region' && !act ? 0.55 : 1);
@@ -679,6 +688,7 @@ Promise.all([
 ]).then(([landTopo, flows, disruptions]) => {
   FLOWS = flows;
   DISRUPTIONS = disruptions;
+  updateScreenScale();
   drawLand(landTopo);
   // detailed coastline for close zooms, loaded in the background
   d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/land-50m.json')

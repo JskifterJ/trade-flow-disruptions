@@ -22,6 +22,18 @@ python -m http.server 8080
 
 Drag the globe to rotate it. Click a route in the right-hand list to highlight it and read the full story and sources; click it again to deselect.
 
+## Testing
+
+Browser smoke tests use Playwright with headless Chromium (Node 18+):
+
+```
+npm install
+npx playwright install chromium   # skip if a Chromium is already installed for Playwright
+npm test
+```
+
+`tests/smoke.mjs` serves the folder on a local port, loads `index.html` and `lng.html` at 1440×900 and 390×844, and clicks through the scenario toggle, every side-panel tab and a sample of rows, zoom, layer toggles, the voyage calculator (Sabine Pass→Tokyo; Ras Laffan→Tokyo with Hormuz closed must say "No open route"), the arbitrage sliders and presets, and every disruption on the main page. It fails on any console error, failed request, horizontal overflow or broken expectation. CDN scripts and map files are served from `node_modules` (same pinned versions), so it runs offline. Screenshots land in `tests/screenshots/` (gitignored).
+
 ## How it's built
 
 - `index.html` — markup and styling (dark, "trade routes at night" theme)
