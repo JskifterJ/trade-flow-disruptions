@@ -2,6 +2,37 @@
 
 Newest first. Each nightly run adds: date, task, what changed, what was verified, open issues.
 
+## 2026-10-23 · task 2: data validation + CI (nightly run)
+- **Validator:** `scripts/validate.mjs` (no dependencies, `npm run validate`). It checks `data/lng.json`,
+  `data/disruptions.json` and `data/flows.json`: required fields, unique ids, named points exist, lat/lon in
+  range, dates, allowed statuses/types/kinds/groups/severities/sizes, a source on every event, leg,
+  chokepoint and route, and the disruption map-layer fields (focus/events/zones/regions). It also checks
+  totals: legs ≤ 427.9 Mt and the exporter/importer/region tables = 427.9 (±0.15). The allowed sets are
+  parsed from the constants in `lng.js` / `app.js`, so the validator stays in sync with what the pages draw.
+  - **Router:** rebuilds the voyage graph in Node. 1,634/1,634 plant→terminal pairs routable, every asset
+    within 600 nm of a lane, Ras Laffan→Tokyo blocked with Hormuz closed, Sabine Pass→Tokyo still open.
+  - 5,725 checks pass.
+- **Data fix it found:** `importers2025` listed only the top 14 countries (352.2 Mt), so the importer table
+  didn't add up to world trade. Added an "All others" row of 75.7 Mt, flagged `"derived": true`. It is
+  arithmetic (427.9 minus the listed countries), and `importersSource` now says so. `lng.js` mutes the
+  "All others" bar in both country charts (grey `C.avoided`), so it doesn't read as a country.
+- **CI:** `.github/workflows/ci.yml` runs on every push and PR: Node 20, `npm ci`, validate, Playwright
+  Chromium, smoke tests, and uploads the screenshots as an artifact. `npm test` now runs validate + smoke
+  (`npm run smoke` = browser tests only).
+- **README:** new Testing section (what the validator checks, CI). The refresh note now says to run validate.
+- **Sources:** no new figures. The 75.7 Mt remainder is derived from the existing GIIGNL Annual Report 2026 figures.
+- **Verified:** `npm test` green (5,725 data checks; 222 browser checks at 1440×900 and 390×844, no console
+  errors). Injected faults to check the validator catches them, then restored the files: unknown path point,
+  lat 95, bad event type, missing source, dropped `zones`, bad severity, and emptied `extraLanes`, which
+  flags the far-off Latin American terminals. Looked at importer/exporter chart screenshots on desktop and phone.
+- **Open issues for the owner:**
+  - CI has not run yet. The first push of `.github/workflows/ci.yml` triggers it, so check the Actions tab.
+    The actions are pinned to major tags (`@v4`), not commit SHAs.
+  - The "All others" importer bar (76 Mt) is the longest bar in the chart. That's accurate, but you may
+    prefer to show it as a footnote instead.
+  - `PROJECT_STATUS`, `REGAS_TYPES` and the disruption categories are listed in the validator itself, because
+    the pages have no constant for them. Add a value there if you introduce a new one.
+
 ## 2026-10-22 · task 1: browser QA harness + bug fixes (nightly run)
 - **Harness:** `package.json` (devDeps pinned: playwright 1.56.1, d3 7.9.0, topojson-client 3.1.0,
   world-atlas 2.0.2), `tests/smoke.mjs`, `npm test`, `.gitignore` (node_modules, tests/screenshots).

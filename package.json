@@ -4,7 +4,9 @@
   "type": "module",
   "description": "Static D3 globes of energy and LNG trade flows. No build step; package.json only holds the test tooling.",
   "scripts": {
-    "test": "node tests/smoke.mjs"
+    "validate": "node scripts/validate.mjs",
+    "smoke": "node tests/smoke.mjs",
+    "test": "npm run validate && npm run smoke"
   },
   "devDependencies": {
     "d3": "7.9.0",

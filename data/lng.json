@@ -2483,9 +2483,14 @@
     {
       "name": "Egypt",
       "mt": 9.2
+    },
+    {
+      "name": "All others",
+      "mt": 75.7,
+      "derived": true
     }
   ],
-  "importersSource": "GIIGNL Annual Report 2026 (with Kpler): 2025 imports net of re-exports.",
+  "importersSource": "GIIGNL Annual Report 2026 (with Kpler): 2025 imports net of re-exports. 'All others' = the 427.9 Mt world total minus the 14 countries listed.",
   "timeline": [
     {
       "date": "Mar 2025",

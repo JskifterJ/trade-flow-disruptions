@@ -905,7 +905,9 @@ function hbars(sel, rows, { color = C.leg, max, valueText, tipText, labelWidth }
 
 function renderCharts() {
   const T = D.globalTrade2025Mt;
-  hbars('#c-exp', D.exporters2025.map((e) => ({ name: e.name, v: e.mt })), {
+  // the remainder row ("All others") is muted so it doesn't read as a country
+  const other = (name) => (/^All others/.test(name) ? C.avoided : null);
+  hbars('#c-exp', D.exporters2025.map((e) => ({ name: e.name, v: e.mt, color: other(e.name) })), {
     valueText: (r) => `${fmt(r.v)} Mt · ${pct(100 * r.v / T)}`,
   });
   d3.select('#c-exp-src').text(D.exportersSource);
@@ -917,7 +919,7 @@ function renderCharts() {
   const st = reg.append('div').attr('class', 'stack').style('margin-bottom', '14px');
   D.importRegions2025.forEach((r) => st.append('span').style('width', (100 * r.mt / T) + '%').style('background', regC[r.name])
     .on('mousemove', (e) => showTip(e, `<b>${r.name}</b><br>${fmt(r.mt)} Mt · ${pct(100 * r.mt / T)} of 2025 imports`)).on('mouseleave', hideTip));
-  hbars('#c-imp', D.importers2025.map((e) => ({ name: e.name, v: e.mt })), {
+  hbars('#c-imp', D.importers2025.map((e) => ({ name: e.name, v: e.mt, color: other(e.name) })), {
     color: C.regas, max: d3.max(D.importers2025, (d) => d.mt), valueText: (r) => `${fmt(r.v)} Mt · ${pct(100 * r.v / T)}`,
   });
   d3.select('#c-imp-src').text(D.importersSource);
