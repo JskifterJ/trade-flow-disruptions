@@ -36,7 +36,8 @@ let checks = 0;
 let lastErrors = [];
 function check(ok, msg) { checks++; if (!ok) failures.push(msg); }
 
-const browser = await chromium.launch();
+// PW_CHROMIUM: use a preinstalled Chromium when it doesn't match the pinned Playwright build
+const browser = await chromium.launch(process.env.PW_CHROMIUM ? { executablePath: process.env.PW_CHROMIUM } : {});
 
 async function openPage(file, vp) {
   const [name, width, height] = vp;
@@ -101,7 +102,7 @@ async function testLng(vp) {
   await page.waitForTimeout(800);
   check(await page.locator('#globe path').count() > 50, `${tag}: globe did not draw`);
   check(await page.locator('#kpis .kpi').count() >= 5, `${tag}: KPIs missing`);
-  for (const id of ['#c-exp', '#c-imp', '#c-choke', '#c-gap', '#c-expo', '#c-wave', '#c-scen', '#chain', '#timeline', '#gloss']) {
+  for (const id of ['#c-exp', '#c-imp', '#c-choke', '#c-gap', '#c-expo', '#c-wave', '#c-scen', '#c-prices', '#c-storage', '#chain', '#timeline', '#gloss']) {
     check((await page.locator(id).innerHTML()).length > 50, `${tag}: ${id} is empty`);
   }
   // regression: the voyage calculator must not draw its default route on load
@@ -191,8 +192,27 @@ async function testLng(vp) {
   check(/Japan via Panama[\s\S]*✓ best/.test(await page.locator('#arb-out').innerText()), `${tag}: high JKM should make Japan via Panama the best destination`);
   await page.locator('#arb-inputs button').first().click();
   check(/\$10\.50/.test(await page.locator('#arb-inputs').innerText()), `${tag}: pre-crisis preset did not set prices`);
+  // "Latest month" preset reads the newest month from data/prices.json
+  const prices = await page.evaluate(() => fetch('data/prices.json').then((r) => r.json()));
+  const lm = prices.monthly.at(-1);
   await page.locator('#arb-inputs button').nth(1).click();
+  const arbText = await page.locator('#arb-inputs').innerText();
+  check(arbText.includes(`$${lm.ttf.toFixed(2)}`) && arbText.includes(`$${lm.hh.toFixed(2)}`), `${tag}: latest-month preset did not load TTF/HH for ${lm.month}`);
   await page.locator('#arb-inputs').locator('..').locator('..').screenshot({ path: `${SHOTS}/${tag}-arbitrage.png` });
+
+  // prices & storage charts: one line per series, both shock annotations, hover tooltips
+  check(await page.locator('#c-prices svg path').count() >= 3, `${tag}: price chart lines missing`);
+  const pricesText = await page.locator('#c-prices').innerText();
+  check(/Hormuz closed/.test(pricesText) && /Ras Laffan/.test(pricesText), `${tag}: price chart is missing the 28 Feb / 18 Mar annotations`);
+  check(await page.locator('#c-storage svg circle').count() >= prices.storage.fill2026.length, `${tag}: storage chart points missing`);
+  await page.locator('#c-prices').scrollIntoViewIfNeeded();
+  const box = await page.locator('#c-prices svg rect').last().boundingBox();
+  await page.mouse.move(box.x + box.width * 0.5, box.y + box.height * 0.15);
+  check(/TTF \(Europe\): \$/.test(await page.locator('#tip').innerText()), `${tag}: price chart hover tooltip did not show`);
+  await page.mouse.move(0, 0);
+  await page.locator('#c-prices').locator('..').locator('..').screenshot({ path: `${SHOTS}/${tag}-prices-storage.png` });
+  const pov = await labelOverlaps(page, '#c-prices svg text, #c-storage svg text');
+  check(pov.length === 0, `${tag}: overlapping chart labels: ${pov.slice(0, 4).join('; ')}`);
   await noOverflow(page, tag, 'arbitrage');
 
   // tooltips on chart rows / globe

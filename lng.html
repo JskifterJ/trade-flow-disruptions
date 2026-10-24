@@ -129,6 +129,7 @@
   .keyline i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 5px; vertical-align: -1px; }
   .stack { display: flex; height: 22px; border-radius: 0 4px 4px 0; overflow: hidden; gap: 2px; }
   .stack span { display: block; height: 100%; }
+  .lc svg { display: block; width: 100%; height: auto; overflow: visible; }
 
   .arb { display: grid; grid-template-columns: minmax(250px, 320px) 1fr; gap: 18px; }
   @media (max-width: 800px) { .arb { grid-template-columns: minmax(0, 1fr); } }
@@ -301,7 +302,16 @@
 </section>
 
 <section>
-  <h2>4 · Voyage calculator: how far, how long, how many ships?</h2>
+  <h2>4 · Prices and storage: what the shock did to gas markets</h2>
+  <p class="lead">Through 2024–25 TTF ran at $8–15 per MMBtu and Henry Hub at $1.50–4.30. That spread pays for liquefaction and shipping (see the arbitrage below). Hormuz closing on <b>28 Feb 2026</b> and the <b>18 Mar</b> strike on Ras Laffan sent TTF to $25 by September. Europe began its refill season with storage around 30% full and was still below the 2021–2025 minimum in October, so it has to outbid Asia for every spare cargo. Hover a chart for values.</p>
+  <div class="charts">
+    <div class="card"><h3>Gas benchmarks, monthly average</h3><div class="cap">$/MMBtu. TTF and Henry Hub are hub prices. The Japan line is the average import price, mostly oil-linked contracts, not the JKM spot price. JKM spot is shown as reported snapshots.</div><div id="c-prices" class="lc"></div><div class="foot" id="c-prices-src"></div></div>
+    <div class="card"><h3>EU gas storage, 2026 refill season</h3><div class="cap">% full, EU aggregate. 2026 against the 2021–2025 average and range, last year and the 1 Nov target.</div><div id="c-storage" class="lc"></div><div class="foot" id="c-storage-src"></div></div>
+  </div>
+</section>
+
+<section>
+  <h2>5 · Voyage calculator: how far, how long, how many ships?</h2>
   <p class="lead">Pick any export plant and import terminal. The route follows the map's sea lanes, and you can open or close Hormuz, the Red Sea, Panama and the Arctic route. The table compares the alternatives: distance, days at sea, round trip, how many ships a contract needs and a rough freight cost. Click a row to draw it on the globe.</p>
   <div class="voyage">
     <div id="voy-in"></div>
@@ -310,8 +320,8 @@
 </section>
 
 <section>
-  <h2>5 · The arbitrage: where does a US cargo go?</h2>
-  <p class="lead">Most US LNG is sold <b>FOB</b> (free on board) at about <b>115% of Henry Hub plus a fixed liquefaction fee</b>, so whoever owns the cargo sends it wherever the delivered margin is highest. That decision moves ships between the Atlantic and the Pacific every month. Move the sliders to see how the spread between JKM (Asia) and TTF (Europe), freight and the Panama Canal decide it. Price defaults are a 5 Oct 2026 snapshot. Freight, canal and regas defaults are illustrative.</p>
+  <h2>6 · The arbitrage: where does a US cargo go?</h2>
+  <p class="lead">Most US LNG is sold <b>FOB</b> (free on board) at about <b>115% of Henry Hub plus a fixed liquefaction fee</b>, so whoever owns the cargo sends it wherever the delivered margin is highest. That decision moves ships between the Atlantic and the Pacific every month. Move the sliders to see how the spread between JKM (Asia) and TTF (Europe), freight and the Panama Canal decide it. Price defaults are a 5 Oct 2026 snapshot; <b>Latest month</b> loads the newest monthly TTF and Henry Hub averages from the prices chart above. Freight, canal and regas defaults are illustrative.</p>
   <div class="arb">
     <div id="arb-inputs"></div>
     <div><div id="arb-out"></div><div class="arb-note" id="arb-note"></div></div>
@@ -319,13 +329,13 @@
 </section>
 
 <section>
-  <h2>6 · What happened, and what's next</h2>
+  <h2>7 · What happened, and what's next</h2>
   <p class="lead">Red dots are the 2026 war and its knock-on effects. The dashed dot is a scheduled change.</p>
   <ul class="timeline" id="timeline"></ul>
 </section>
 
 <section>
-  <h2>7 · Primer: the ten things to know</h2>
+  <h2>8 · Primer: the ten things to know</h2>
   <div class="primer">
     <div class="card">
       <b>1. Liquefaction is the bottleneck.</b> The world had 524 Mtpa of liquefaction capacity at end-2025 but 1,247 Mtpa of import (regas) capacity, about 2.4× more. Supply, not import terminals, limits trade, so when Qatar's 77 Mtpa vanished nobody could replace it quickly. More than 200 Mtpa is under construction, mainly in the US and Qatar (section 3).<br><br>
@@ -360,7 +370,7 @@
 </section>
 
 <footer>
-  <b>Data and caveats.</b> 2025 volumes: GIIGNL Annual Report 2026 (with Kpler), including its exporter-by-importer matrix. The split of Australia's exports across its WA, Queensland and NT plants, and all 2026 run-rates, are estimates (marked ≈). Paths go through real ports and straits but are illustrative, not AIS tracks. Plant capacities are approximate nameplate figures. Prices are an indicative snapshot. Last updated <span id="upd"></span>.
+  <b>Data and caveats.</b> 2025 volumes: GIIGNL Annual Report 2026 (with Kpler), including its exporter-by-importer matrix. The split of Australia's exports across its WA, Queensland and NT plants, and all 2026 run-rates, are estimates (marked ≈). Paths go through real ports and straits but are illustrative, not AIS tracks. Plant capacities are approximate nameplate figures. Monthly prices: World Bank Pink Sheet (Jun 2024 to Oct 2026 editions); EU storage: GIE AGSI+ data as reported by the publishers named in <code>data/prices.json</code>; JKM spot prints and the arbitrage defaults are dated snapshots. Last updated <span id="upd"></span>.
   <ul id="sources"></ul>
   <a href="index.html">Back to the energy flows globe</a> · <a href="https://github.com/JskifterJ/trade-flow-disruptions">source on GitHub</a>
 </footer>

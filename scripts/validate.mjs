@@ -1,4 +1,4 @@
-// Data validation for data/lng.json, data/disruptions.json and data/flows.json.
+// Data validation for data/lng.json, data/disruptions.json, data/flows.json and data/prices.json.
 // Schema checks (required fields, named points exist, lat/lon in range, types
 // and statuses from the allowed sets, every event sourced), totals (legs sum
 // <= world trade, exporter/importer tables sum to it) and the voyage router
@@ -317,6 +317,50 @@ function validateFlows(D) {
   return { routes: D.routes.length, chokepoints: D.chokepoints.length };
 }
 
+// ------------------------------------------------------------ prices.json
+function validatePrices(D) {
+  const F = 'prices.json';
+  requireFields(F, D, ['lastUpdated', 'source', 'monthly', 'jkmSpot', 'annotations', 'storage']);
+  check(isDate(D.lastUpdated), `${F}: lastUpdated must be YYYY-MM-DD`);
+  // the page plots these keys; one source covers the whole table, plus the edition per month
+  const keys = ['ttf', 'hh', 'japanLng'];
+  keys.forEach((k) => check(D.series && isStr(D.series[k]?.name), `${F}: series.${k}.name missing`));
+  let prev = null;
+  D.monthly.forEach((r, i) => {
+    const w = `${F} monthly[${i}] (${r.month})`;
+    check(typeof r.month === 'string' && /^\d{4}-(0[1-9]|1[0-2])$/.test(r.month), `${w}: month must be YYYY-MM`);
+    keys.forEach((k) => check(isNum(r[k]) && r[k] > 0 && r[k] < 100, `${w}: ${k} must be a price in (0, 100) $/MMBtu`));
+    check(isStr(r.edition), `${w}: edition (source) missing`);
+    if (prev) {
+      const [y0, m0] = prev.split('-').map(Number), [y1, m1] = r.month.split('-').map(Number);
+      check((y1 * 12 + m1) - (y0 * 12 + m0) === 1, `${w}: months must be consecutive (previous ${prev})`);
+    }
+    prev = r.month;
+  });
+  D.jkmSpot.forEach((d, i) => {
+    const w = `${F} jkmSpot[${i}]`;
+    check(isDate(d.date), `${w}: bad date`);
+    check(isNum(d.value) && d.value > 0 && d.value < 100, `${w}: bad value`);
+    check(isStr(d.source), `${w}: source missing`);
+  });
+  D.annotations.forEach((a, i) => check(isDate(a.date) && isStr(a.label), `${F} annotations[${i}]: needs date + label`));
+  const S = D.storage;
+  requireFields(`${F} storage`, S, ['target', 'fill2026', 'fill2025', 'fiveYearAvg', 'fiveYearRange']);
+  check(isNum(S.target?.value) && isStr(S.target?.source), `${F} storage.target: needs value + source`);
+  ['fill2026', 'fill2025', 'fiveYearAvg'].forEach((k) => (S[k] || []).forEach((d, i) => {
+    const w = `${F} storage.${k}[${i}]`;
+    check(isDate(d.date), `${w}: bad date`);
+    check(isNum(d.value) && d.value >= 0 && d.value <= 100, `${w}: value must be a % in [0, 100]`);
+    check(isStr(d.source), `${w}: source missing`);
+  }));
+  (S.fiveYearRange || []).forEach((b, i) => check(isDate(b.date) && isNum(b.min) && isNum(b.max) && b.min <= b.max && isStr(b.source),
+    `${F} storage.fiveYearRange[${i}]: needs date, min <= max, source`));
+  const sorted = (arr) => arr.every((d, i) => !i || d.date > arr[i - 1].date);
+  check(sorted(S.fill2026 || []), `${F} storage.fill2026: dates must be ascending (the page draws a line through them)`);
+  check(sorted(S.fiveYearAvg || []), `${F} storage.fiveYearAvg: dates must be ascending`);
+  return { months: D.monthly.length, from: D.monthly[0]?.month, to: D.monthly.at(-1)?.month, storagePoints: (S.fill2026 || []).length };
+}
+
 // ------------------------------------------------------------ run
 const out = [];
 const run = (file, fn) => {
@@ -329,6 +373,7 @@ const run = (file, fn) => {
 run('lng.json', validateLng);
 run('disruptions.json', validateDisruptions);
 run('flows.json', validateFlows);
+run('prices.json', validatePrices);
 out.forEach((l) => console.log(l));
 if (routerStats) console.log(`router: ${routerStats.ok}/${routerStats.pairs} plant→terminal pairs routable over ${routerStats.nodes} lane nodes`);
 if (errors.length) {

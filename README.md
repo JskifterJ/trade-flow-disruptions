@@ -7,7 +7,7 @@ An interactive globe with two views:
 - **Main flows**: the pre-crisis (2025) map of how crude oil, LNG and refined products move by sea. Covers 14 major routes, line width by rough size class, and 8 clickable chokepoints (Hormuz, Malacca, Bab-el-Mandeb, Suez, the Cape, Panama, the Turkish and Danish straits). Each one shows its volume and why a trader cares. Includes a short primer and glossary (mb/d, VLCC, arbitrage, crack spreads, benchmarks).
 - **Disruptions now**: what 2026 broke and where the barrels went. The Hormuz closure and the bypass pipelines, Qatar's LNG force majeure, the renewed Red Sea attacks, Panama drought limits, the Russian shadow fleet, plus one petrochemicals structural shift.
 
-- **LNG deep dive** (`lng.html`): a zoomable globe of the LNG supply chain. It shows 43 liquefaction plants, 38 import terminals/FSRUs, 9 chokepoints and 30 shipping legs, each labelled with Mt/yr and share of world trade (427.9 Mt in 2025). A 2025-baseline / Oct-2026 toggle shows the Hormuz/Qatar shock. The page also has charts (exporters, importers, chokepoint exposure, the supply hole), a value-chain explainer, a US-cargo arbitrage calculator, a timeline and a primer. Data is in `data/lng.json`. Leg-level splits and 2026 run-rates are estimates, marked ≈.
+- **LNG deep dive** (`lng.html`): a zoomable globe of the LNG supply chain. It shows 43 liquefaction plants, 38 import terminals/FSRUs, 9 chokepoints and 30 shipping legs, each labelled with Mt/yr and share of world trade (427.9 Mt in 2025). A 2025-baseline / Oct-2026 toggle shows the Hormuz/Qatar shock. The page also has charts (exporters, importers, chokepoint exposure, the supply hole), a prices-and-storage panel (monthly TTF, Henry Hub and Japan LNG import prices since March 2024 with reported JKM spot prints, and EU storage in the 2026 refill season against the 2021–25 average and range), a value-chain explainer, a US-cargo arbitrage calculator, a timeline and a primer. Data is in `data/lng.json` and `data/prices.json` (World Bank Pink Sheet, GIE AGSI+ as reported, each value sourced). Leg-level splits and 2026 run-rates are estimates, marked ≈.
 
 First built in Oct 2026 as a chemicals/plastics sketch while preparing for Tricon Energy's Commercial Development Program. Rebuilt on 2026-10-07 around energy flows, for learning the map and for commodity-trading applications.
 
@@ -33,12 +33,15 @@ npm test            # = npm run validate && npm run smoke
 npm run validate    # data checks only, no browser, ~1 s
 ```
 
-**Data validation.** `scripts/validate.mjs` checks the three data files and exits non-zero on any error:
+If the Chromium installed on your machine doesn't match the pinned Playwright build, point the tests at it: `PW_CHROMIUM=/path/to/chrome npm run smoke`.
+
+**Data validation.** `scripts/validate.mjs` checks the four data files and exits non-zero on any error:
 
 - **Schema:** required fields on every leg, plant, terminal, project, chokepoint, event, zone and route; unique ids; every named point in a leg path or `extraLanes` exists in `points`; lat/lon in range; dates are `YYYY-MM-DD`.
 - **Allowed values:** leg statuses, event types, zone kinds, project groups, severities and route sizes must match the ones the pages can draw. These sets are read from `lng.js` and `app.js` (`STATUS`, `EVENT`, `ZONE_STYLE`, `GROUP`, `SEV_HEX`, `SIZE_WIDTH`), so they don't drift.
 - **Sources:** every event on both pages, every LNG leg and chokepoint, and every main-page route and chokepoint needs a `source`.
 - **Map layer:** every route in `disruptions.json` must keep `focus`, `events`, `zones` and `regions`, so a weekly refresh can't silently drop them.
+- **Prices:** `data/prices.json` months are consecutive `YYYY-MM`, every price is a positive $/MMBtu value with its Pink Sheet edition, every JKM print and storage point has a date and source, storage values are percentages, and the 2026 storage series is in date order.
 - **Totals:** LNG legs sum to no more than world trade (427.9 Mt). The exporter, importer and import-region tables each sum to it (±0.15 Mt for rounding).
 - **Router:** rebuilds the voyage calculator's sea-lane graph. Every plant reaches every terminal with all passages open (1,634 pairs), no asset sits more than 600 nm from a lane, and with Hormuz closed Ras Laffan→Tokyo has no route while Sabine Pass→Tokyo still does.
 

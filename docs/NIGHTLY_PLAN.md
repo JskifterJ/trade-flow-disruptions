@@ -24,11 +24,11 @@ Rules for every run are in the routine prompt; the short version: work on branch
   exporter/importer tables sum to 427.9, router reaches every plant→terminal pair. GitHub Actions
   workflow running validate + smoke tests on pushes and PRs. Document both in the README. (done 2026-10-23)
 
-- [ ] **3. Prices & storage panel on `lng.html`.** Monthly JKM, TTF and Henry Hub, Jan 2024 → latest
+- [x] **3. Prices & storage panel on `lng.html`.** Monthly JKM, TTF and Henry Hub, Jan 2024 → latest
   (sourced: e.g. World Bank Pink Sheet, EIA, ICE/Platts as reported), and EU gas storage fill vs
   5-year range (GIE AGSI). Two charts (one series per axis, no dual axes), annotate the 28 Feb 2026
   closure and 18 Mar Ras Laffan strike. Put the price data in `data/prices.json` with sources; make
-  the arbitrage calculator's "Oct 2026" preset read the latest month from it.
+  the arbitrage calculator's "Oct 2026" preset read the latest month from it. (done 2026-10-24)
 
 - [ ] **4. Fleet & freight.** LNG carrier fleet size, orderbook and deliveries, spot charter rates
   (Atlantic/Pacific, 2024–2026), and the 2026 ton-mile effect of Cape/Atlantic→Asia routing.

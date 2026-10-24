@@ -1,0 +1,413 @@
+{
+ "lastUpdated": "2026-10-24",
+ "unit": "$/MMBtu, monthly average",
+ "series": {
+  "ttf": {
+   "name": "TTF (Europe)",
+   "definition": "Natural gas, Europe: Netherlands Title Transfer Facility (TTF)."
+  },
+  "hh": {
+   "name": "Henry Hub (US)",
+   "definition": "Natural gas, US: spot price at Henry Hub, Louisiana."
+  },
+  "japanLng": {
+   "name": "Japan LNG import price (cif)",
+   "definition": "Liquefied natural gas, Japan: average import price, cif. Mostly long-term contracts indexed to crude oil with a lag of several months, so it is NOT the JKM spot price. The World Bank estimates the two most recent months in each edition."
+  }
+ },
+ "source": "World Bank Commodity Price Data (Pink Sheet), monthly editions June 2024 to October 2026 (2 Oct 2026). Each month is taken from the edition named in its 'edition' field: the latest edition that lists it among its three monthly columns. Later editions revise some values slightly, especially Japan LNG.",
+ "sourceUrl": "https://www.worldbank.org/en/research/commodity-markets",
+ "coverageNote": "Starts March 2024: the January and February 2024 values could not be retrieved from the editions available to the build agent. Monthly JKM averages are published by S&P Global Platts under licence and are not reproduced; the Japan import price is the free official proxy, and JKM spot is shown as reported snapshots.",
+ "monthly": [
+  {
+   "month": "2024-03",
+   "ttf": 8.55,
+   "hh": 1.5,
+   "japanLng": 13.19,
+   "edition": "Pink Sheet June 2024",
+   "japanLngEstimate": true
+  },
+  {
+   "month": "2024-04",
+   "ttf": 9.09,
+   "hh": 1.6,
+   "japanLng": 11.88,
+   "edition": "Pink Sheet June 2024",
+   "japanLngEstimate": true
+  },
+  {
+   "month": "2024-05",
+   "ttf": 10.12,
+   "hh": 2.13,
+   "japanLng": 11.8,
+   "edition": "Pink Sheet June 2024",
+   "japanLngEstimate": true
+  },
+  {
+   "month": "2024-06",
+   "ttf": 10.87,
+   "hh": 2.51,
+   "japanLng": 12.13,
+   "edition": "Pink Sheet September 2024"
+  },
+  {
+   "month": "2024-07",
+   "ttf": 10.35,
+   "hh": 2.08,
+   "japanLng": 12.49,
+   "edition": "Pink Sheet September 2024"
+  },
+  {
+   "month": "2024-08",
+   "ttf": 12.37,
+   "hh": 1.99,
+   "japanLng": 12.47,
+   "edition": "Pink Sheet September 2024"
+  },
+  {
+   "month": "2024-09",
+   "ttf": 11.78,
+   "hh": 2.25,
+   "japanLng": 13.24,
+   "edition": "Pink Sheet October 2024",
+   "japanLngEstimate": true
+  },
+  {
+   "month": "2024-10",
+   "ttf": 12.92,
+   "hh": 2.21,
+   "japanLng": 12.54,
+   "edition": "Pink Sheet January 2025"
+  },
+  {
+   "month": "2024-11",
+   "ttf": 13.93,
+   "hh": 2.1,
+   "japanLng": 12.82,
+   "edition": "Pink Sheet January 2025",
+   "japanLngEstimate": true
+  },
+  {
+   "month": "2024-12",
+   "ttf": 13.86,
+   "hh": 3.02,
+   "japanLng": 12.76,
+   "edition": "Pink Sheet January 2025",
+   "japanLngEstimate": true
+  },
+  {
+   "month": "2025-01",
+   "ttf": 14.66,
+   "hh": 4.1,
+   "japanLng": 13.19,
+   "edition": "Pink Sheet April 2025"
+  },
+  {
+   "month": "2025-02",
+   "ttf": 15.34,
+   "hh": 4.22,
+   "japanLng": 12.78,
+   "edition": "Pink Sheet April 2025",
+   "japanLngEstimate": true
+  },
+  {
+   "month": "2025-03",
+   "ttf": 13.24,
+   "hh": 4.13,
+   "japanLng": 12.7,
+   "edition": "Pink Sheet April 2025",
+   "japanLngEstimate": true
+  },
+  {
+   "month": "2025-04",
+   "ttf": 11.59,
+   "hh": 3.4,
+   "japanLng": 12.68,
+   "edition": "Pink Sheet July 2025"
+  },
+  {
+   "month": "2025-05",
+   "ttf": 11.66,
+   "hh": 3.12,
+   "japanLng": 12.32,
+   "edition": "Pink Sheet July 2025",
+   "japanLngEstimate": true
+  },
+  {
+   "month": "2025-06",
+   "ttf": 12.37,
+   "hh": 3.02,
+   "japanLng": 12.26,
+   "edition": "Pink Sheet July 2025",
+   "japanLngEstimate": true
+  },
+  {
+   "month": "2025-07",
+   "ttf": 11.62,
+   "hh": 3.19,
+   "japanLng": 11.91,
+   "edition": "Pink Sheet October 2025"
+  },
+  {
+   "month": "2025-08",
+   "ttf": 11.15,
+   "hh": 2.91,
+   "japanLng": 11.79,
+   "edition": "Pink Sheet October 2025",
+   "japanLngEstimate": true
+  },
+  {
+   "month": "2025-09",
+   "ttf": 11.12,
+   "hh": 2.97,
+   "japanLng": 11.72,
+   "edition": "Pink Sheet October 2025",
+   "japanLngEstimate": true
+  },
+  {
+   "month": "2025-10",
+   "ttf": 10.89,
+   "hh": 3.2,
+   "japanLng": 11.1,
+   "edition": "Pink Sheet January 2026"
+  },
+  {
+   "month": "2025-11",
+   "ttf": 10.42,
+   "hh": 3.79,
+   "japanLng": 11.15,
+   "edition": "Pink Sheet January 2026",
+   "japanLngEstimate": true
+  },
+  {
+   "month": "2025-12",
+   "ttf": 9.48,
+   "hh": 4.25,
+   "japanLng": 11.06,
+   "edition": "Pink Sheet January 2026",
+   "japanLngEstimate": true
+  },
+  {
+   "month": "2026-01",
+   "ttf": 11.76,
+   "hh": 7.58,
+   "japanLng": 11.49,
+   "edition": "Pink Sheet April 2026",
+   "hhNote": "January 2026 Henry Hub from the World Bank series as republished by YCharts (7.583); the April 2026 Pink Sheet's Q1-2026 average (4.75) equals the mean of 7.58, 3.61 and 3.05. EIA's own monthly average is $7.72 (Winter Storm Fern, record daily $30.72 on 23 Jan)."
+  },
+  {
+   "month": "2026-02",
+   "ttf": 11.24,
+   "hh": 3.61,
+   "japanLng": 11.32,
+   "edition": "Pink Sheet April 2026",
+   "japanLngEstimate": true
+  },
+  {
+   "month": "2026-03",
+   "ttf": 17.91,
+   "hh": 3.05,
+   "japanLng": 14.85,
+   "edition": "Pink Sheet April 2026",
+   "japanLngEstimate": true
+  },
+  {
+   "month": "2026-04",
+   "ttf": 15.41,
+   "hh": 2.77,
+   "japanLng": 15.65,
+   "edition": "Pink Sheet July 2026"
+  },
+  {
+   "month": "2026-05",
+   "ttf": 16.17,
+   "hh": 2.93,
+   "japanLng": 12.88,
+   "edition": "Pink Sheet July 2026",
+   "japanLngEstimate": true
+  },
+  {
+   "month": "2026-06",
+   "ttf": 15.17,
+   "hh": 3.15,
+   "japanLng": 12.83,
+   "edition": "Pink Sheet July 2026",
+   "japanLngEstimate": true
+  },
+  {
+   "month": "2026-07",
+   "ttf": 18.06,
+   "hh": 2.89,
+   "japanLng": 13.85,
+   "edition": "Pink Sheet October 2026"
+  },
+  {
+   "month": "2026-08",
+   "ttf": 21.11,
+   "hh": 2.77,
+   "japanLng": 15.27,
+   "edition": "Pink Sheet October 2026",
+   "japanLngEstimate": true
+  },
+  {
+   "month": "2026-09",
+   "ttf": 25.42,
+   "hh": 2.95,
+   "japanLng": 14.25,
+   "edition": "Pink Sheet October 2026",
+   "japanLngEstimate": true
+  }
+ ],
+ "jkmSpot": [
+  {
+   "date": "2026-09-10",
+   "value": 28.8,
+   "approx": true,
+   "text": "high-$28s, highest in about two and a half years",
+   "source": "Global LNG Hub weekly price update, 14 Sep 2026"
+  },
+  {
+   "date": "2026-09-25",
+   "value": 25.2,
+   "approx": true,
+   "text": "low-$25s",
+   "source": "Global LNG Hub weekly price update, 28 Sep 2026"
+  },
+  {
+   "date": "2026-10-05",
+   "value": 25.43,
+   "text": "price snapshot",
+   "source": "Reuters price snapshot, 5 Oct 2026"
+  }
+ ],
+ "annotations": [
+  {
+   "date": "2026-02-28",
+   "label": "Hormuz closed",
+   "text": "28 Feb 2026: Strait of Hormuz closed to LNG tankers."
+  },
+  {
+   "date": "2026-03-18",
+   "label": "Ras Laffan strike",
+   "text": "18 Mar 2026: missile strike damages Ras Laffan Trains 4 and 6 (12.8 Mtpa)."
+  }
+ ],
+ "storage": {
+  "unit": "% of EU working gas capacity",
+  "note": "EU aggregate underground storage, from GIE AGSI+ data as reported by the named publisher. A few tenths of a point separate trackers on the same day. Points marked approx are rounded in the source.",
+  "target": {
+   "value": 80,
+   "text": "1 Nov 2026 filling target: 90% less the 10-point deviation the 2025 amendment to the EU gas storage regulation allows",
+   "source": "Karmactive, 'EU cuts mandatory target to 80%', Sep 2026; global-energy-flow.com trajectory, 20 Oct 2026"
+  },
+  "fill2026": [
+   {
+    "date": "2026-04-20",
+    "value": 30,
+    "approx": true,
+    "source": "ENGIE EnergyScan storage tracker (GIE AGSI+), Apr 2026"
+   },
+   {
+    "date": "2026-06-10",
+    "value": 43.4,
+    "source": "ENGIE EnergyScan storage tracker (GIE AGSI+), Jun 2026"
+   },
+   {
+    "date": "2026-06-17",
+    "value": 45.03,
+    "source": "GIE data via TASS, Jun 2026"
+   },
+   {
+    "date": "2026-06-29",
+    "value": 48.62,
+    "source": "global-energy-flow.com (GIE AGSI+), 29 Jun 2026"
+   },
+   {
+    "date": "2026-07-08",
+    "value": 51.1,
+    "source": "Voltstack EU storage tracker (GIE AGSI+), 8 Jul 2026"
+   },
+   {
+    "date": "2026-08-02",
+    "value": 57.15,
+    "source": "GIE AGSI+ (645.965 TWh), as reported early Aug 2026"
+   },
+   {
+    "date": "2026-08-13",
+    "value": 60.18,
+    "source": "GIE data, reported 15 Aug 2026 (Tasnim/Sputnik)"
+   },
+   {
+    "date": "2026-09-08",
+    "value": 67.12,
+    "source": "GIE data via Rigzone, Sep 2026"
+   },
+   {
+    "date": "2026-09-12",
+    "value": 68.04,
+    "source": "global-energy-flow.com (GIE AGSI+), Sep 2026"
+   },
+   {
+    "date": "2026-09-26",
+    "value": 70.87,
+    "source": "CES Intelligence / global-energy-flow.com (GIE AGSI+), Sep 2026"
+   },
+   {
+    "date": "2026-10-13",
+    "value": 74.0,
+    "source": "ENGIE EnergyScan storage tracker (GIE AGSI+), gas day 13 Oct 2026"
+   },
+   {
+    "date": "2026-10-21",
+    "value": 74.62,
+    "source": "global-energy-flow.com, GIE AGSI+ direct read, gas day 21 Oct 2026"
+   }
+  ],
+  "fill2025": [
+   {
+    "date": "2025-06-10",
+    "value": 52.1,
+    "source": "ENGIE EnergyScan storage tracker (GIE AGSI+): same date a year earlier"
+   },
+   {
+    "date": "2025-10-15",
+    "value": 83.04,
+    "source": "energynews.pro, Oct 2026: same date a year earlier"
+   }
+  ],
+  "fiveYearAvg": [
+   {
+    "date": "2026-06-17",
+    "value": 59.3,
+    "derived": true,
+    "source": "45.03% reported as 14.3 pts below the 5-year average (GIE via TASS, Jun 2026)"
+   },
+   {
+    "date": "2026-08-13",
+    "value": 77.2,
+    "derived": true,
+    "source": "60.18% reported as 17 pts below the 5-year average (GIE, reported 15 Aug 2026)"
+   },
+   {
+    "date": "2026-09-26",
+    "value": 87,
+    "derived": true,
+    "approx": true,
+    "source": "≈71% reported as ≈16 pts below the 5-year average (Karmactive, late Sep 2026)"
+   },
+   {
+    "date": "2026-10-14",
+    "value": 88.9,
+    "source": "Voltstack, 2021–2025 average for 14 Oct (GIE AGSI+)"
+   }
+  ],
+  "fiveYearRange": [
+   {
+    "date": "2026-10-14",
+    "min": 77.0,
+    "max": 97.8,
+    "source": "Voltstack, 2021–2025 band for 14 Oct (GIE AGSI+)"
+   }
+  ]
+ }
+}

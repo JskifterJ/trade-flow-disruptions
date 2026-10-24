@@ -59,6 +59,7 @@ const fmt = (v) => (v >= 10 ? d3.format('.0f')(v) : d3.format('.1f')(v));
 const pct = (v) => (v >= 10 ? d3.format('.0f')(v) : d3.format('.1f')(v)) + '%';
 
 let D = null;
+let P = null; // data/prices.json
 const state = {
   scenario: '2025', tab: 'legs', active: null, k: 1, spin: false, voyage: null,
   layers: { legs: true, liq: true, regas: true, choke: true, labels: true, events: true, proj: false, seas: true },
@@ -1011,6 +1012,145 @@ function renderSupplyWave() {
   });
 }
 
+// ------------------------------------------------- prices & storage (data/prices.json)
+const PRICE_SERIES = [
+  { key: 'ttf', c: C.s2, label: 'TTF (Europe)' },
+  { key: 'japanLng', c: C.regas, label: 'Japan LNG import (cif)' },
+  { key: 'hh', c: C.leg, label: 'Henry Hub (US)' },
+];
+const parseDay = d3.utcParse('%Y-%m-%d');
+const parseMonth = d3.utcParse('%Y-%m');
+const fmtMonth = d3.utcFormat('%b %Y');
+const fmtDay = d3.utcFormat('%-d %b %Y');
+// Charts are drawn at the container's pixel width (not a scaled viewBox) so text stays readable on phones.
+function timeFrame(sel, xDomain, yDomain, yLabel, yFmt = (d) => d) {
+  const wrap = d3.select(sel).html('');
+  const w = Math.max(280, wrap.node().clientWidth || 600), h = w < 500 ? 250 : 280;
+  const m = { t: 30, r: w < 500 ? 14 : 20, b: 26, l: 34 };
+  const x = d3.scaleUtc().domain(xDomain).range([m.l, w - m.r]);
+  const y = d3.scaleLinear().domain(yDomain).range([h - m.b, m.t]).nice();
+  const s = wrap.append('svg').attr('width', w).attr('height', h).attr('viewBox', `0 0 ${w} ${h}`);
+  s.append('g').selectAll('line').data(y.ticks(5)).join('line')
+    .attr('x1', m.l).attr('x2', w - m.r).attr('y1', (d) => y(d)).attr('y2', (d) => y(d))
+    .attr('stroke', (d) => (d === 0 ? '#3a4f66' : '#1c2733')).attr('stroke-width', 1);
+  s.append('g').selectAll('text').data(y.ticks(5)).join('text')
+    .attr('x', m.l - 6).attr('y', (d) => y(d) + 3.5).attr('text-anchor', 'end').attr('font-size', 10.5).attr('fill', C.soft).text(yFmt);
+  s.append('text').attr('x', m.l - 6).attr('y', 12).attr('text-anchor', 'end').attr('font-size', 10.5).attr('fill', C.soft).text(yLabel);
+  const ticks = x.ticks(w < 500 ? 4 : 7);
+  s.append('g').selectAll('text').data(ticks).join('text')
+    .attr('x', (d) => x(d)).attr('y', h - 8).attr('text-anchor', 'middle').attr('font-size', 10.5).attr('fill', C.soft)
+    .text((d) => (xDomain[1] - xDomain[0] > 300 * 864e5 && d.getUTCMonth() === 0 ? d3.utcFormat('%Y')(d) : d3.utcFormat('%b')(d)));
+  return { s, x, y, w, h, m };
+}
+
+function renderPrices() {
+  const rows = P.monthly.map((r) => ({ ...r, date: parseMonth(r.month) }));
+  const last = rows[rows.length - 1];
+  const spots = P.jkmSpot.map((d) => ({ ...d, date: parseDay(d.date) }));
+  const xEnd = d3.max([d3.utcMonth.offset(last.date, 1), d3.max(spots, (d) => d.date)]);
+  const yMax = d3.max([d3.max(rows, (r) => Math.max(r.ttf, r.hh, r.japanLng)), d3.max(spots, (d) => d.value)]);
+  const wrap = d3.select('#c-prices');
+  wrap.html('');
+  const key = wrap.append('div').attr('class', 'keyline');
+  PRICE_SERIES.forEach((p) => key.append('span').html(`<i style="background:${p.c}"></i>${p.label}`));
+  key.append('span').html(`<i style="background:none;border:1.5px solid ${C.regas};border-radius:50%"></i>JKM spot (reported)`);
+  const holder = wrap.append('div');
+  const { s, x, y, w, h, m } = timeFrame(holder.node(), [rows[0].date, xEnd], [0, yMax * 1.08], '$/MMBtu');
+
+  // shock annotations: both labels sit left of the lines, where prices are low
+  P.annotations.forEach((a, i) => {
+    const ax = x(parseDay(a.date));
+    s.append('line').attr('x1', ax).attr('x2', ax).attr('y1', m.t - 6).attr('y2', h - m.b)
+      .attr('stroke', STATUS.critical.c).attr('stroke-width', 1).attr('stroke-dasharray', i ? '2 3' : '4 3');
+    s.append('text').attr('x', x(parseDay(P.annotations[0].date)) - 5).attr('y', m.t + 4 + i * 13).attr('text-anchor', 'end')
+      .attr('font-size', 10.5).attr('fill', '#ff8a80').text(`${a.label} · ${d3.utcFormat('%-d %b')(parseDay(a.date))}`);
+  });
+  PRICE_SERIES.forEach((p) => {
+    s.append('path').datum(rows).attr('fill', 'none').attr('stroke', p.c).attr('stroke-width', 2).attr('stroke-linejoin', 'round')
+      .attr('d', d3.line().x((r) => x(r.date)).y((r) => y(r[p.key])));
+  });
+  // direct label: latest TTF only (the headline number)
+  s.append('text').attr('x', x(last.date) - 8).attr('y', y(last.ttf) - 4).attr('text-anchor', 'end').attr('font-size', 11).attr('font-weight', 600)
+    .attr('fill', C.ink).text(`$${last.ttf.toFixed(2)}`);
+
+  const cursor = s.append('line').attr('y1', m.t).attr('y2', h - m.b).attr('stroke', '#3a4f66').style('display', 'none');
+  const dots = s.append('g').style('display', 'none');
+  PRICE_SERIES.forEach((p) => dots.append('circle').attr('r', 3.5).attr('fill', p.c).attr('stroke', C.bg).attr('class', p.key));
+  const bis = d3.bisector((r) => r.date).center;
+  s.append('rect').attr('x', m.l).attr('y', m.t).attr('width', w - m.l - m.r).attr('height', h - m.t - m.b).attr('fill', 'transparent')
+    .on('mousemove', (e) => {
+      const r = rows[bis(rows, x.invert(d3.pointer(e)[0]))];
+      cursor.style('display', null).attr('x1', x(r.date)).attr('x2', x(r.date));
+      dots.style('display', null);
+      PRICE_SERIES.forEach((p) => dots.select('.' + p.key).attr('cx', x(r.date)).attr('cy', y(r[p.key])));
+      showTip(e, `<b>${fmtMonth(r.date)}</b> (monthly average)<br>` +
+        PRICE_SERIES.map((p) => `<span style="color:${p.c}">■</span> ${p.label}: <b>$${r[p.key].toFixed(2)}</b>${p.key === 'japanLng' && r.japanLngEstimate ? ' (est.)' : ''}`).join('<br>') +
+        `<br>TTF − Henry Hub: $${(r.ttf - r.hh).toFixed(2)}<br><span style="font-size:11px">World Bank ${r.edition}</span>`);
+    })
+    .on('mouseleave', () => { cursor.style('display', 'none'); dots.style('display', 'none'); hideTip(); });
+  s.append('g').selectAll('circle').data(spots).join('circle')
+    .attr('cx', (d) => x(d.date)).attr('cy', (d) => y(d.value)).attr('r', 4.5)
+    .attr('fill', C.bg).attr('stroke', C.regas).attr('stroke-width', 1.8)
+    .on('mousemove', (e, d) => showTip(e, `<b>JKM spot, ${fmtDay(d.date)}</b><br>${d.approx ? '≈' : ''}$${d.value.toFixed(2)}/MMBtu (${d.text})<br><span style="font-size:11px">${d.source}</span>`))
+    .on('mouseleave', hideTip);
+
+  const pre = rows.filter((r) => r.date < parseDay('2026-03-01'));
+  d3.select('#c-prices-src').text(`Latest month ${fmtMonth(last.date)}: TTF $${last.ttf.toFixed(2)}, Henry Hub $${last.hh.toFixed(2)}, Japan import $${last.japanLng.toFixed(2)} (est.). ` +
+    `${fmtMonth(pre[0].date)}–Feb 2026 average: TTF $${d3.mean(pre, (r) => r.ttf).toFixed(2)}, Henry Hub $${d3.mean(pre, (r) => r.hh).toFixed(2)}. ` +
+    `Source: World Bank Pink Sheet, monthly editions Jun 2024–Oct 2026; each month comes from the latest edition listing it, and Japan's two newest months are World Bank estimates. ` +
+    `Starts Mar 2024 (Jan–Feb 2024 not retrieved). JKM monthly averages are Platts-licensed, so the dots are reported spot prints (Global LNG Hub, Reuters); ≈ means rounded in the report.`);
+}
+
+function renderStorage() {
+  const S = P.storage;
+  const pts = (arr) => arr.map((d) => ({ ...d, date: parseDay(d.date) }));
+  const f26 = pts(S.fill2026), avg = pts(S.fiveYearAvg), band = pts(S.fiveYearRange);
+  // last year's points are plotted on this year's calendar
+  const f25 = S.fill2025.map((d) => ({ ...d, date: d3.utcYear.offset(parseDay(d.date), 1), orig: parseDay(d.date) }));
+  const wrap = d3.select('#c-storage');
+  wrap.html('');
+  const key = wrap.append('div').attr('class', 'keyline');
+  key.append('span').html(`<i style="background:${C.leg}"></i>2026`);
+  key.append('span').html(`<i style="background:none;border-top:2px dashed ${C.soft};height:0;border-radius:0"></i>2021–25 average`);
+  key.append('span').html(`<i style="background:${C.avoided};width:6px"></i>2021–25 range`);
+  key.append('span').html(`<i style="background:none;border:1.5px solid ${C.choke};border-radius:50%"></i>2025, same date`);
+  const holder = wrap.append('div');
+  const { s, x, y, w, h, m } = timeFrame(holder.node(), [parseDay('2026-04-01'), parseDay('2026-11-10')], [0, 100], '% full', (d) => d);
+
+  const ty = y(S.target.value);
+  s.append('line').attr('x1', m.l).attr('x2', w - m.r).attr('y1', ty).attr('y2', ty).attr('stroke', STATUS.critical.c).attr('stroke-dasharray', '5 4');
+  s.append('text').attr('x', m.l + 4).attr('y', ty - 5).attr('font-size', 10.5).attr('fill', '#ff8a80').text(`1 Nov target ${S.target.value}%`)
+    .on('mousemove', (e) => showTip(e, `<b>${S.target.value}% by 1 Nov 2026</b><br>${S.target.text}<br><span style="font-size:11px">${S.target.source}</span>`)).on('mouseleave', hideTip);
+  band.forEach((b) => {
+    s.append('rect').attr('x', x(b.date) - 4).attr('width', 8).attr('y', y(b.max)).attr('height', y(b.min) - y(b.max)).attr('rx', 2)
+      .attr('fill', C.avoided).attr('opacity', 0.75)
+      .on('mousemove', (e) => showTip(e, `<b>2021–2025 range, ${d3.utcFormat('%-d %b')(b.date)}</b><br>${b.min}% to ${b.max}%<br><span style="font-size:11px">${b.source}</span>`)).on('mouseleave', hideTip);
+  });
+  s.append('path').datum(avg).attr('fill', 'none').attr('stroke', C.soft).attr('stroke-width', 1.5).attr('stroke-dasharray', '5 4')
+    .attr('d', d3.line().x((d) => x(d.date)).y((d) => y(d.value)));
+  s.append('path').datum(f26).attr('fill', 'none').attr('stroke', C.leg).attr('stroke-width', 2.2).attr('stroke-linejoin', 'round')
+    .attr('d', d3.line().x((d) => x(d.date)).y((d) => y(d.value)));
+  const tipPt = (title, d) => `<b>${title}</b><br>${d.approx ? '≈' : ''}${d.value}% full${d.derived ? ' (derived from the reported gap)' : ''}<br><span style="font-size:11px">${d.source}</span>`;
+  s.append('g').selectAll('circle').data(avg).join('circle').attr('cx', (d) => x(d.date)).attr('cy', (d) => y(d.value)).attr('r', 3.5)
+    .attr('fill', (d) => (d.derived ? C.bg : C.soft)).attr('stroke', C.soft).attr('stroke-width', 1.5)
+    .on('mousemove', (e, d) => showTip(e, tipPt(`2021–25 average, ${d3.utcFormat('%-d %b')(d.date)}`, d))).on('mouseleave', hideTip);
+  s.append('g').selectAll('circle').data(f25).join('circle').attr('cx', (d) => x(d.date)).attr('cy', (d) => y(d.value)).attr('r', 4.5)
+    .attr('fill', C.bg).attr('stroke', C.choke).attr('stroke-width', 1.8)
+    .on('mousemove', (e, d) => showTip(e, tipPt(`2025, ${fmtDay(d.orig)}`, d))).on('mouseleave', hideTip);
+  s.append('g').selectAll('circle').data(f26).join('circle').attr('cx', (d) => x(d.date)).attr('cy', (d) => y(d.value)).attr('r', 3.5)
+    .attr('fill', C.leg).attr('stroke', C.bg)
+    .on('mousemove', (e, d) => showTip(e, tipPt(`2026, ${fmtDay(d.date)}`, d))).on('mouseleave', hideTip);
+  const last = f26[f26.length - 1];
+  // below the line: it rises to the right, so the label clears it
+  s.append('text').attr('x', x(last.date)).attr('y', y(last.value) + 30).attr('text-anchor', 'end').attr('font-size', 11).attr('font-weight', 600)
+    .attr('fill', C.ink).text(`${d3.format('.1f')(last.value)}% · ${d3.utcFormat('%-d %b')(last.date)}`);
+
+  const lastAvg = avg[avg.length - 1];
+  d3.select('#c-storage-src').text(`Latest: ${last.value}% on ${fmtDay(last.date)}, about ${Math.round(lastAvg.value - last.value)} points under the 2021–25 average for mid-October (${lastAvg.value}%) and below the range's minimum (${band[0].min}%). ` +
+    `Hollow grey dots: average derived from a reported gap. The range is published for 14 Oct only. ` +
+    `Sources: GIE AGSI+ data as reported by ENGIE EnergyScan, Voltstack, global-energy-flow.com, CES Intelligence, Rigzone and TASS (each point's source is in its tooltip).`);
+}
+
 // ------------------------------------------------------- voyage calculator
 // Sea-lane graph: every consecutive waypoint pair of every leg (main,
 // secondary and abandoned paths) plus a few extra lanes. Plants and
@@ -1210,8 +1350,11 @@ function renderArbInputs() {
   });
   box.append('button').attr('class', 'btn').attr('type', 'button').text('Pre-crisis (Asian spot $9–11)').style('margin-right', '6px')
     .on('click', () => setArb({ hh: 3.5, ttf: 10.5, jkm: 10.5 }));
-  box.append('button').attr('class', 'btn').attr('type', 'button').text('Oct 2026 snapshot')
-    .on('click', () => setArb({ hh: 3.07, ttf: 24.09, jkm: 25.43 }));
+  // latest monthly TTF/HH averages from data/prices.json; JKM monthly averages aren't public, so the latest reported spot print
+  const lm = P.monthly[P.monthly.length - 1], js = P.jkmSpot[P.jkmSpot.length - 1];
+  box.append('button').attr('class', 'btn').attr('type', 'button').text(`Latest month (${fmtMonth(parseMonth(lm.month))})`)
+    .attr('title', `TTF $${lm.ttf.toFixed(2)} and Henry Hub $${lm.hh.toFixed(2)}: ${fmtMonth(parseMonth(lm.month))} averages, World Bank ${lm.edition}. JKM $${js.value.toFixed(2)}: ${js.source}.`)
+    .on('click', () => setArb({ hh: lm.hh, ttf: lm.ttf, jkm: js.value }));
 }
 function setArb(v) {
   Object.assign(ARB, v);
@@ -1286,8 +1429,10 @@ function renderGlossary() {
 Promise.all([
   d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-110m.json'),
   d3.json('data/lng.json'),
-]).then(([world, data]) => {
+  d3.json('data/prices.json'),
+]).then(([world, data, prices]) => {
   D = data;
+  P = prices;
   D.legs.forEach((l) => resolve(l.path)); // validate point names early
   setWorld(world);
   updateScreenScale();
@@ -1302,6 +1447,8 @@ Promise.all([
   renderChain(ARB);
   renderCharts();
   renderSupplyWave();
+  renderPrices();
+  renderStorage();
   renderVoyageInputs();
   renderVoyage(false);
   d3.select('#voy-clear').on('click', () => { clearVoyage(); styleLegs(); render(); d3.selectAll('table.voy tr').classed('on', false); });
@@ -1312,9 +1459,11 @@ Promise.all([
   d3.select('#meta-row').text(`data as of ${D.lastUpdated} · ${D.legs.length} shipping legs · ${D.liquefaction.length} export plants · ${D.projects.length} projects under construction · ${D.regas.length} import terminals · ${D.events.length} 2026 events`);
   d3.select('#upd').text(D.lastUpdated);
   d3.select('#sources').selectAll('li').data(D.sources).join('li').text((d) => d);
-  let lastTS = TS;
+  let lastTS = TS, lastChartW = d3.select('#c-prices').node().clientWidth;
   window.addEventListener('resize', () => {
     updateScreenScale();
+    const cw = d3.select('#c-prices').node().clientWidth;
+    if (cw !== lastChartW) { lastChartW = cw; renderPrices(); renderStorage(); }
     if (Math.abs(TS - lastTS) > 0.05) { lastTS = TS; buildTexts(); render(); }
   });
   // detailed coastline for close zooms, loaded in the background
