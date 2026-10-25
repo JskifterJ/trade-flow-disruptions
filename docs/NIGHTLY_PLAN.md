@@ -30,10 +30,10 @@ Rules for every run are in the routine prompt; the short version: work on branch
   closure and 18 Mar Ras Laffan strike. Put the price data in `data/prices.json` with sources; make
   the arbitrage calculator's "Oct 2026" preset read the latest month from it. (done 2026-10-24)
 
-- [ ] **4. Fleet & freight.** LNG carrier fleet size, orderbook and deliveries, spot charter rates
+- [x] **4. Fleet & freight.** LNG carrier fleet size, orderbook and deliveries, spot charter rates
   (Atlantic/Pacific, 2024–2026), and the 2026 ton-mile effect of Cape/Atlantic→Asia routing.
   New card + `data/fleet.json`; replace the voyage calculator's illustrative charter default with
-  the latest sourced rate (keep the slider), and source canal fees if published.
+  the latest sourced rate (keep the slider), and source canal fees if published. (done 2026-10-25)
 
 - [ ] **5. Import side: regas capacity and utilisation.** From GIIGNL Annual Report 2026 (public PDF)
   and GIE ALSI: regas capacity by country vs 2025 imports (utilisation), Europe's terminal

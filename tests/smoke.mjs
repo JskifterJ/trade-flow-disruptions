@@ -102,7 +102,7 @@ async function testLng(vp) {
   await page.waitForTimeout(800);
   check(await page.locator('#globe path').count() > 50, `${tag}: globe did not draw`);
   check(await page.locator('#kpis .kpi').count() >= 5, `${tag}: KPIs missing`);
-  for (const id of ['#c-exp', '#c-imp', '#c-choke', '#c-gap', '#c-expo', '#c-wave', '#c-scen', '#c-prices', '#c-storage', '#chain', '#timeline', '#gloss']) {
+  for (const id of ['#c-exp', '#c-imp', '#c-choke', '#c-gap', '#c-expo', '#c-wave', '#c-scen', '#c-prices', '#c-storage', '#c-charter', '#c-fleet', '#c-tonmile', '#c-tmlegs', '#chain', '#timeline', '#gloss']) {
     check((await page.locator(id).innerHTML()).length > 50, `${tag}: ${id} is empty`);
   }
   // regression: the voyage calculator must not draw its default route on load
@@ -177,7 +177,7 @@ async function testLng(vp) {
   check(/No open route/.test(await page.locator('#voy-out').innerText()), `${tag}: Ras Laffan→Tokyo with Hormuz closed should say "No open route"`);
   await page.locator('#voy-in input[data-k="hormuz"]').check();
   check(await page.locator('#voy-out table.voy tr').count() >= 2, `${tag}: Ras Laffan→Tokyo with Hormuz open gave no route`);
-  await page.locator('#voy-in .presets button').first().click();
+  await page.locator('#voy-in .presets:not(.charter) button').first().click();
   check(/No open route/.test(await page.locator('#voy-out').innerText()), `${tag}: "Oct 2026 conditions" preset did not close Hormuz`);
   await voyFrom.selectOption('Sabine Pass');
   await page.click('#voy-clear');
@@ -199,6 +199,34 @@ async function testLng(vp) {
   const arbText = await page.locator('#arb-inputs').innerText();
   check(arbText.includes(`$${lm.ttf.toFixed(2)}`) && arbText.includes(`$${lm.hh.toFixed(2)}`), `${tag}: latest-month preset did not load TTF/HH for ${lm.month}`);
   await page.locator('#arb-inputs').locator('..').locator('..').screenshot({ path: `${SHOTS}/${tag}-arbitrage.png` });
+
+  // fleet & freight: charter default = latest Atlantic print, Pacific preset, tooltips, sourced Panama toll
+  const fleet = await page.evaluate(() => fetch('data/fleet.json').then((r) => r.json()));
+  const lastA = fleet.charter.prints.filter((p) => p.atlantic != null).at(-1), lastP = fleet.charter.prints.filter((p) => p.pacific != null).at(-1);
+  const fmtUsd = (v) => '$' + v.toLocaleString('en-US');
+  await voyFrom.selectOption('Sabine Pass'); await voyTo.selectOption('Tokyo Bay terminals');
+  check((await page.locator('#voy-in').innerText()).includes(fmtUsd(lastA.atlantic)), `${tag}: voyage charter default is not the latest Atlantic print (${lastA.atlantic})`);
+  check(/ACP toll/.test(await page.locator('#voy-out').innerText()), `${tag}: voyage note does not cite the ACP Panama toll`);
+  const freightA = await page.locator('#voy-out table.voy tr').nth(1).locator('td').nth(5).textContent();
+  await page.locator('#voy-in .presets.charter button').nth(1).click();
+  check((await page.locator('#voy-in').innerText()).includes(fmtUsd(lastP.pacific)), `${tag}: Pacific spot preset did not set the charter rate`);
+  const freightP = await page.locator('#voy-out table.voy tr').nth(1).locator('td').nth(5).textContent();
+  check(freightA !== freightP, `${tag}: changing the charter rate did not change freight (${freightA})`);
+  await page.click('#voy-clear').catch(() => {});
+  const nPrints = fleet.charter.prints.reduce((n, p) => n + (p.atlantic != null) + (p.pacific != null), 0);
+  check(await page.locator('#c-charter svg .pt').count() === nPrints, `${tag}: charter chart should draw ${nPrints} prints`);
+  check(/Hormuz closed/.test(await page.locator('#c-charter').innerText()), `${tag}: charter chart missing the Hormuz annotation`);
+  check(await page.locator('#c-fleet svg rect').count() >= fleet.fleet.deliveries.length, `${tag}: deliveries bars missing`);
+  check(/Ships kept busy/.test(await page.locator('#c-tonmile').innerText()), `${tag}: ton-mile table missing`);
+  await page.locator('#c-charter').scrollIntoViewIfNeeded();
+  await page.locator('#c-charter svg .hit').last().hover();
+  check(/Spark|Reuters/.test(await page.locator('#tip').innerText()), `${tag}: charter tooltip did not show a source`);
+  await page.locator('#c-tmlegs svg g rect').last().hover();
+  check(/bn t·nm/.test(await page.locator('#tip').innerText()), `${tag}: ton-mile bar tooltip did not show`);
+  await page.mouse.move(0, 0);
+  await page.locator('#c-charter').locator('..').locator('..').screenshot({ path: `${SHOTS}/${tag}-fleet-freight.png` });
+  const fov = await labelOverlaps(page, '#c-charter svg text, #c-fleet svg text, #c-tmlegs svg text');
+  check(fov.length === 0, `${tag}: overlapping fleet/freight chart labels: ${fov.slice(0, 4).join('; ')}`);
 
   // prices & storage charts: one line per series, both shock annotations, hover tooltips
   check(await page.locator('#c-prices svg path').count() >= 3, `${tag}: price chart lines missing`);

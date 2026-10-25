@@ -2,6 +2,32 @@
 
 Newest first. Each nightly run adds: date, task, what changed, what was verified, open issues.
 
+## 2026-10-25 · task 4: fleet & freight (nightly run)
+- **New section 5 on `lng.html`: "Fleet and freight".** Later sections are renumbered 6–9. It has four cards, all drawn at container pixel width and redrawn on resize:
+  - **Spot charter rates** (`#c-charter`): 20 dated Spark Commodities prints, Oct 2024 → ≈23 Oct 2026, for Atlantic (Spark30S) and Pacific (Spark25S) on one $k/day axis. Dec 2025 is a monthly average (square). Hollow dots mean the date or value is approximate. The mid-Mar → early-Aug 2026 gap and the sparse 2024–25 prints are drawn as faint dotted joins. The chart marks the Hormuz closure and labels only the peak ($287.5k) and the latest Atlantic print. Every tooltip names its source.
+  - **Carrier deliveries** (`#c-fleet`): IGU counts of 32 / 64 / 79 delivered in 2023–25 and 107 scheduled for 2026. Below it are tiles for 804 active, 301 on order (37%) and the orderbook going 337 → 301. The footnote explains why IGU, Clarksons, GIIGNL and Drewry counts differ.
+  - **2026 ton-mile effect** (`#c-tonmile`) and **legs with the biggest change** (`#c-tmlegs`, diverging bars). These are computed in the browser from the map's 31 legs (laden distance along each drawn path × volume, 2025 vs the Oct-2026 run-rate). Volume falls −10%, average haul rises +1% (4,484 → 4,536 nm), tonne-miles fall −9%, and "ships kept busy" (a floor at 17 kn) drops from 392 to 358. In short: voyages got a bit longer but the trade shrank, while 107 ships are due. That explains why rates are back below pre-war levels.
+- **Voyage calculator:** the charter default is now the latest Atlantic print from `fleet.json` ($21,750/day) instead of the illustrative $80,000. I kept the slider, with $250 steps and a $5k–300k range, and added "Atlantic spot" / "Pacific spot" preset buttons. The Panama fee is now the ACP tariff: $2.05/m³ × 174,000 m³ = $356,700 per transit, charged for the laden and ballast legs. The note says the ballast rate wasn't retrieved, so this is an upper bound that excludes tugs and slot auctions. Suez stays at an illustrative $600k, flagged `estimate`. The note also shows the charter cost and canal tolls per round trip.
+- **`data/fleet.json`** (new): charter prints (each with a source; `approxDate`/`approx` flags), annotations, IGU deliveries and fleet snapshots (the end-2024 active count of 742 is flagged `activeDerived`), Drewry order counts, the Clarksons Jul-2026 count, and canal fees.
+- **Text updates:** the primer, value-chain "Shipping" step and "what the shock did" list now use IGU's 804 instead of "~800", and say rates collapsed after the spike. The footer and README now describe the new panel and data file.
+- **Validator:** new `validateFleet`. Prints must be dated, ascending, sourced, in $/day, with at least one print per basin; delivery years must be consecutive; snapshots must be dated and sourced; the Panama rate needs a source and Suez must be flagged as an estimate. 6,128 checks. I injected four faults (missing source, out-of-order date, broken year, Suez estimate flag removed): all were caught, then I restored the file.
+- **Smoke tests:** check that the new charts are non-empty, the print count matches the data, the Hormuz annotation is present, deliveries bars and the ton-mile table render, and tooltips work. They also check that the charter default equals the latest Atlantic print, the Pacific preset changes the rate and the freight, the voyage note cites the ACP toll, and fleet/freight labels don't overlap. 268 checks.
+- **Sources:**
+  - Spark Commodities posts on X (31 Oct 2024, 22 Jan 2025, 27 Feb 2025, 2 Jan 2026; dates decoded from post IDs).
+  - LNG Prime weekly Spark reports (Nov 2024, 31 Oct 2025, 4 Mar and 7/14/21/28 Aug, 25 Sep, 2 Oct, 16 Oct 2026).
+  - Reuters, 7 Oct 2026 (via BOE Report/EnergyNow), and its weekly LNG column of ≈23 Oct (via rallies.ai).
+  - Riviera Maritime Media (3–4 Mar 2026), Timera Energy (17 Mar 2026 and the Aug "freight rates collapse" note), MNI (22 Jan 2025), ShipUniverse (Oct 2026).
+  - IGU World LNG Report 2024/2025/2026; Drewry; Clarksons via Xinde Marine News.
+  - ACP Official Tariff item 1010 (1 Jan 2025); GMK Center (10 Jun 2026) on the SCA LNG surcharge.
+  - This sandbox blocks page fetches and PDF downloads (lngprime, IGU and pancanal all returned 403/ENOTFOUND), so every figure comes from web-search extracts.
+- **Verified:** `npm test` is green: 6,128 data checks and 268 browser checks at 1440×900 and 390×844, with no console errors. I looked at the desktop and phone screenshots of the new section and the voyage calculator. I fixed a duplicated Clarksons sentence and a symmetric axis that wasted half the diverging chart.
+- **Open issues for the owner:**
+  - **The latest print (21,750 / 30,750, ≈23 Oct) comes from an aggregator** republishing Reuters' weekly column, and its exact date is unconfirmed. If it's wrong, delete the last entry in `charter.prints` and the calculator falls back to 6 Oct ($25,750).
+  - **Mar–Jul 2026 has no prints.** Spark's history is licensed. If you have access, add dated prints and the chart picks them up. Also check the early-March peak date (stored as ≈6 Mar) and the Pacific peak ($225,750, single source).
+  - **The Panama ballast toll** isn't public in what I could reach, so the calculator charges the laden rate both ways. Check ACP tariff item 1010 for the ballast/round-trip rate. Suez base dues are still a placeholder.
+  - **The arbitrage calculator's freight defaults** (fEu/fPan/fCape $/MMBtu) are still illustrative. A follow-up could derive them from the latest charter print and the router distances.
+  - **"Ships kept busy" is a lower bound.** It is not comparable to the 804-ship fleet; the caption says so.
+
 ## 2026-10-24 · task 3: prices & storage panel (nightly run)
 - **New section 4 on `lng.html`: "Prices and storage".** Later sections are renumbered 5–8.
   - **Gas benchmarks chart** (`#c-prices`): monthly TTF, Henry Hub and the Japan LNG import price (cif), Mar 2024 → Sep 2026, on one $/MMBtu axis. JKM spot prints are hollow dots. The 28 Feb 2026 Hormuz closure and the 18 Mar Ras Laffan strike are dashed red lines with labels. Hovering shows all three prices, the TTF−HH spread and the Pink Sheet edition.

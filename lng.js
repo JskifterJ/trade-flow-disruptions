@@ -60,6 +60,7 @@ const pct = (v) => (v >= 10 ? d3.format('.0f')(v) : d3.format('.1f')(v)) + '%';
 
 let D = null;
 let P = null; // data/prices.json
+let F = null; // data/fleet.json
 const state = {
   scenario: '2025', tab: 'legs', active: null, k: 1, spin: false, voyage: null,
   layers: { legs: true, liq: true, regas: true, choke: true, labels: true, events: true, proj: false, seas: true },
@@ -872,7 +873,7 @@ function renderChain(arb) {
       cost: `Gas: <b>$${gas.toFixed(2)}</b> (115% × HH $${arb.hh.toFixed(2)})` },
     { h: 'Liquefaction', icon: ico.liq, body: 'Pre-treatment, then refrigeration to −162 °C in "trains", with cryogenic storage tanks (~160–200k m³ each) and a loading jetty. The most expensive step: ~$1,000–2,000 per tonne of yearly capacity to build. The world had 524 Mtpa at end-2025, 16.5 Mtpa of it floating (FLNG).',
       cost: `Tolling fee: <b>$${liq.toFixed(2)}</b>` },
-    { h: 'Shipping', icon: ico.ship, body: '~800 large LNG carriers, mostly ~174,000 m³ membrane ships, plus Q-Flex/Q-Max (Qatar) and Arc7 ice-breakers (Yamal). Boil-off of 0.1–0.15% a day is burned as fuel. Voyage length decides how many ships the trade needs (see the voyage calculator).',
+    { h: 'Shipping', icon: ico.ship, body: '804 active LNG carriers at end-2025 (IGU), mostly ~174,000 m³ membrane ships, plus Q-Flex/Q-Max (Qatar) and Arc7 ice-breakers (Yamal). Boil-off of 0.1–0.15% a day is burned as fuel. Voyage length decides how many ships the trade needs (see the voyage calculator).',
       cost: `Freight to NW Europe: <b>$${ship.toFixed(2)}</b>` },
     { h: 'Regasification', icon: ico.regas, body: 'Import terminal (onshore, or a floating FSRU) that stores the LNG and warms it back to gas. The world has 1,247 Mtpa of regas, ~2.4× its liquefaction, so import capacity is rarely the constraint.',
       cost: `Regas: <b>$${regas.toFixed(2)}</b>` },
@@ -1151,6 +1152,180 @@ function renderStorage() {
     `Sources: GIE AGSI+ data as reported by ENGIE EnergyScan, Voltstack, global-energy-flow.com, CES Intelligence, Rigzone and TASS (each point's source is in its tooltip).`);
 }
 
+// ------------------------------------------------- fleet & freight (data/fleet.json)
+const CHARTER_SERIES = [
+  { key: 'atlantic', c: C.leg, label: 'Atlantic (Spark30S)' },
+  { key: 'pacific', c: C.choke, label: 'Pacific (Spark25S)' },
+];
+const fmtRate = (v) => `$${d3.format(',')(v)}/day`;
+const latestPrint = (key) => F.charter.prints.filter((p) => p[key] != null).at(-1);
+const printDay = (p) => `${p.approxDate ? '≈' : ''}${p.kind === 'monthlyAverage' ? d3.utcFormat('%b %Y')(parseDay(p.date)) + ' average' : fmtDay(parseDay(p.date))}`;
+
+function renderCharter() {
+  const prints = F.charter.prints.map((p) => ({ ...p, d: parseDay(p.date) }));
+  const wrap = d3.select('#c-charter').html('');
+  const key = wrap.append('div').attr('class', 'keyline');
+  CHARTER_SERIES.forEach((p) => key.append('span').html(`<i style="background:${p.c}"></i>${p.label}`));
+  key.append('span').html(`<i style="background:none;border:1.5px solid ${C.soft};border-radius:1px"></i>monthly average`);
+  const holder = wrap.append('div');
+  const yMax = d3.max(prints, (p) => Math.max(p.atlantic ?? 0, p.pacific ?? 0)) / 1000;
+  const xDom = [d3.utcMonth.offset(prints[0].d, -1), d3.utcDay.offset(prints.at(-1).d, 20)];
+  const { s, x, y, w, h, m } = timeFrame(holder.node(), xDom, [0, yMax * 1.1], '$k/day');
+
+  F.annotations.forEach((a) => {
+    const ax = x(parseDay(a.date));
+    s.append('line').attr('x1', ax).attr('x2', ax).attr('y1', m.t - 6).attr('y2', h - m.b)
+      .attr('stroke', STATUS.critical.c).attr('stroke-width', 1).attr('stroke-dasharray', '4 3');
+    s.append('text').attr('x', ax - 5).attr('y', m.t + 4).attr('text-anchor', 'end').attr('font-size', 10.5).attr('fill', '#ff8a80')
+      .text(`${a.label} · ${d3.utcFormat('%-d %b')(parseDay(a.date))}`);
+  });
+  CHARTER_SERIES.forEach((sr) => {
+    const pts = prints.filter((p) => p[sr.key] != null);
+    // join consecutive prints; a long gap between prints is drawn faint and dotted, since nothing is known in between
+    for (let i = 1; i < pts.length; i++) {
+      const a = pts[i - 1], b = pts[i], gap = (b.d - a.d) / 864e5 > 75;
+      s.append('line').attr('x1', x(a.d)).attr('y1', y(a[sr.key] / 1000)).attr('x2', x(b.d)).attr('y2', y(b[sr.key] / 1000))
+        .attr('stroke', sr.c).attr('stroke-width', gap ? 1.2 : 2).attr('stroke-dasharray', gap ? '2 4' : null).attr('opacity', gap ? 0.55 : 1);
+    }
+  });
+  const tipFor = (p) => `<b>${printDay(p)}</b>${p.kind === 'monthlyAverage' ? ' (monthly average)' : ''}<br>` +
+    CHARTER_SERIES.filter((sr) => p[sr.key] != null).map((sr) => `<span style="color:${sr.c}">■</span> ${sr.label}: <b>${p.approx ? '≈' : ''}${fmtRate(p[sr.key])}</b>`).join('<br>') +
+    `<br><span style="font-size:11px">${p.source}</span>`;
+  CHARTER_SERIES.forEach((sr) => {
+    const pts = prints.filter((p) => p[sr.key] != null);
+    const g = s.append('g');
+    pts.forEach((p) => {
+      const cx = x(p.d), cy = y(p[sr.key] / 1000);
+      const mark = p.kind === 'monthlyAverage'
+        ? g.append('rect').attr('x', cx - 4).attr('y', cy - 4).attr('width', 8).attr('height', 8).attr('fill', C.bg).attr('stroke', sr.c).attr('stroke-width', 1.8)
+        : g.append('circle').attr('cx', cx).attr('cy', cy).attr('r', 3.6).attr('fill', p.approxDate || p.approx ? C.bg : sr.c).attr('stroke', p.approxDate || p.approx ? sr.c : C.bg).attr('stroke-width', 1.5);
+      mark.attr('class', 'pt');
+      // a bigger invisible target for fingers
+      g.append('circle').attr('cx', cx).attr('cy', cy).attr('r', 9).attr('fill', 'transparent').attr('class', 'hit')
+        .on('mousemove', (e) => showTip(e, tipFor(p))).on('mouseleave', hideTip);
+    });
+  });
+  // direct labels: the war peak and the latest Atlantic print
+  const peak = prints.reduce((a, b) => ((b.atlantic ?? 0) > (a.atlantic ?? 0) ? b : a));
+  s.append('text').attr('x', x(peak.d) + 8).attr('y', y(peak.atlantic / 1000) + 4).attr('font-size', 11).attr('font-weight', 600).attr('fill', C.ink)
+    .text(`$${d3.format('.1f')(peak.atlantic / 1000)}k`);
+  const last = latestPrint('atlantic');
+  s.append('text').attr('x', x(parseDay(last.date))).attr('y', y(last.atlantic / 1000) + 18).attr('text-anchor', 'end').attr('font-size', 11).attr('font-weight', 600).attr('fill', C.ink)
+    .text(`$${d3.format('.1f')(last.atlantic / 1000)}k`);
+
+  const pre = prints.find((p) => p.date === '2026-02-27'), lp = latestPrint('pacific');
+  d3.select('#c-charter-src').text(`Latest: Atlantic ${fmtRate(last.atlantic)}, Pacific ${fmtRate(lp.pacific)} (${printDay(lp)}). ` +
+    (pre ? `Just before the war: ${fmtRate(pre.atlantic)} and ${fmtRate(pre.pacific)}. ` : '') +
+    `Hollow dots: date or value approximate in the report. ${F.charter.coverageNote} Source: ${F.charter.source}`);
+}
+
+function renderFleetChart() {
+  const FL = F.fleet, rows = FL.deliveries;
+  const wrap = d3.select('#c-fleet').html('');
+  const key = wrap.append('div').attr('class', 'keyline');
+  key.append('span').html(`<i style="background:${C.leg}"></i>delivered`);
+  key.append('span').html(`<i style="background:none;border:1.5px dashed ${C.leg}"></i>scheduled (end-2025 orderbook)`);
+  const w = Math.max(280, wrap.node().clientWidth || 600), h = w < 500 ? 200 : 220, m = { t: 22, r: 10, b: 24, l: 34 };
+  const x = d3.scaleBand().domain(rows.map((r) => r.year)).range([m.l, w - m.r]).padding(0.38);
+  const y = d3.scaleLinear().domain([0, d3.max(rows, (r) => r.ships) * 1.15]).range([h - m.b, m.t]).nice();
+  const s = wrap.append('svg').attr('width', w).attr('height', h).attr('viewBox', `0 0 ${w} ${h}`);
+  s.append('g').selectAll('line').data(y.ticks(4)).join('line').attr('x1', m.l).attr('x2', w - m.r).attr('y1', (d) => y(d)).attr('y2', (d) => y(d))
+    .attr('stroke', (d) => (d === 0 ? '#3a4f66' : '#1c2733'));
+  s.append('g').selectAll('text').data(y.ticks(4)).join('text').attr('x', m.l - 6).attr('y', (d) => y(d) + 3.5).attr('text-anchor', 'end')
+    .attr('font-size', 10.5).attr('fill', C.soft).text((d) => d);
+  s.append('text').attr('x', m.l - 6).attr('y', 10).attr('text-anchor', 'end').attr('font-size', 10.5).attr('fill', C.soft).text('ships');
+  const bars = s.append('g').selectAll('rect').data(rows).join('rect')
+    .attr('x', (r) => x(r.year)).attr('width', x.bandwidth()).attr('y', (r) => y(r.ships)).attr('height', (r) => y(0) - y(r.ships)).attr('rx', 2)
+    .attr('fill', (r) => (r.scheduled ? '#16263a' : C.leg)).attr('stroke', (r) => (r.scheduled ? C.leg : null)).attr('stroke-width', 1.5)
+    .attr('stroke-dasharray', (r) => (r.scheduled ? '4 3' : null));
+  bars.on('mousemove', (e, r) => showTip(e, `<b>${r.year}: ${r.ships} ships ${r.scheduled ? 'scheduled' : 'delivered'}</b><br><span style="font-size:11px">${r.source}</span>`)).on('mouseleave', hideTip);
+  s.append('g').selectAll('text').data(rows).join('text').attr('x', (r) => x(r.year) + x.bandwidth() / 2).attr('y', (r) => y(r.ships) - 5)
+    .attr('text-anchor', 'middle').attr('font-size', 11).attr('font-weight', 600).attr('fill', C.ink).text((r) => r.ships);
+  s.append('g').selectAll('text').data(rows).join('text').attr('x', (r) => x(r.year) + x.bandwidth() / 2).attr('y', h - 7)
+    .attr('text-anchor', 'middle').attr('font-size', 11).attr('fill', C.soft).text((r) => r.year);
+
+  const snap = FL.snapshots.at(-1), prev = FL.snapshots.at(-2);
+  const mini = wrap.append('div').attr('class', 'mini');
+  [[d3.format(',')(snap.active), `active carriers, end-${snap.date.slice(0, 4)}`, snap.source],
+    [d3.format(',')(snap.orderbook), `on order (${Math.round(100 * snap.orderbook / snap.active)}% of the fleet)`, snap.source],
+    [`${prev.orderbook} → ${snap.orderbook}`, `orderbook, end-${prev.date.slice(0, 4)} → end-${snap.date.slice(0, 4)}`, prev.source]].forEach(([v, l, src]) => {
+    mini.append('div').html(`<b>${v}</b><span>${l}</span>`).on('mousemove', (e) => showTip(e, `<span style="font-size:11px">${src}</span>`)).on('mouseleave', hideTip);
+  });
+  const o = FL.orders;
+  d3.select('#c-fleet-src').text(`New orders slowed: ${o.map((r) => `${r.ships} in ${r.period}`).join(' vs ')} (Drewry), so deliveries should fall back after the 2026–27 peak. ` +
+    `${FL.definitionNote} Clarksons also counts ${FL.clarksons2026.onOrder} on order at 1 Jul 2026. Source: ${FL.source}`);
+}
+
+// Tonne-miles and ships needed on the map's legs, 2025 vs the Oct-2026 run-rate.
+// Laden distance along each leg's drawn path; round trip = 2 × (sea days +
+// canal days) + 2 port days, as in the voyage calculator (17 kn, Panama 1 + 3 days wait, Suez 1 day).
+function legDistance(l) {
+  const w = resolve(l.path);
+  let d = 0;
+  for (let i = 0; i < w.length - 1; i++) d += d3.geoDistance([w[i].lon, w[i].lat], [w[i + 1].lon, w[i + 1].lat]) * NM_PER_RAD;
+  return d;
+}
+function tonMileRows() {
+  return D.legs.map((l) => {
+    const nm = legDistance(l);
+    const canal = (l.via.includes('panama') ? 4 : 0) + (l.via.includes('suez') ? 1 : 0);
+    const perShip = 350 / (2 * (nm / (17 * 24) + canal) + 2);
+    const v25 = l.mt2025, v26 = l.mt2026 ?? l.mt2025;
+    return { l, nm, tm25: v25 * nm / 1000, tm26: v26 * nm / 1000, ships25: v25 / 0.075 / perShip, ships26: v26 / 0.075 / perShip, v25, v26 };
+  });
+}
+function renderTonMiles() {
+  const rows = tonMileRows();
+  const sum = (k) => d3.sum(rows, (r) => r[k]);
+  const v25 = sum('v25'), v26 = sum('v26'), tm25 = sum('tm25'), tm26 = sum('tm26'), s25 = sum('ships25'), s26 = sum('ships26');
+  const chg = (a, b) => `${b >= a ? '+' : '−'}${Math.abs(100 * (b / a - 1)).toFixed(0)}%`;
+  const box = d3.select('#c-tonmile').html('');
+  const t = box.append('table').attr('class', 'conv tm');
+  t.append('tr').html('<th></th><th>2025</th><th>Oct 2026 (≈)</th><th>change</th>');
+  [['Volume on the legs', `${fmt(v25)} Mt`, `${fmt(v26)} Mt`, chg(v25, v26)],
+    ['Average laden voyage', `${d3.format(',')(Math.round(tm25 / v25 * 1000))} nm`, `${d3.format(',')(Math.round(tm26 / v26 * 1000))} nm`, chg(tm25 / v25, tm26 / v26)],
+    ['Tonne-miles', `${d3.format(',')(Math.round(tm25))} bn t·nm`, `${d3.format(',')(Math.round(tm26))} bn t·nm`, chg(tm25, tm26)],
+    ['Ships kept busy', `${Math.round(s25)}`, `${Math.round(s26)}`, chg(s25, s26)]].forEach((r) => t.append('tr').html(`<td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td>`));
+  const snap = F.fleet.snapshots.at(-1), due = F.fleet.deliveries.find((d) => d.scheduled);
+  box.append('p').attr('class', 'arb-note').style('margin', '10px 0 0').html(
+    `Voyages got slightly <b>longer</b> (US cargoes to Asia, Cape detours) but the trade got <b>smaller</b> (Qatar's ${fmt(d3.sum(rows.filter((r) => r.l.exporter === 'Qatar'), (r) => r.v25 - r.v26))} Mt lost), so the legs need about <b>${Math.round(s25 - s26)} fewer ships</b>, while ${due.ships} new ones are due in ${due.year} on top of ${snap.active} active. ` +
+    `That surplus, plus Qatar's ships idled behind Hormuz being offered for relet, is why day rates fell below pre-war levels.`);
+  d3.select('#c-tonmile-src').text(`Computed from the ${D.legs.length} legs on the globe: laden distance along each drawn path (a few % above true sailing distance), 2026 volumes are the map's Oct-2026 run-rate estimates (≈). ` +
+    `"Ships kept busy" is a floor: it ignores idle days, ships trapped in the Gulf, FSRUs and term charters, so it is far below the ${snap.active}-ship fleet. No published 2026 tonne-mile estimate was found to check it against.`);
+
+  // diverging bars: the legs whose tonne-miles changed most
+  const short = (l) => {
+    const [a, b = ''] = l.title.split('→').map((x) => x.replace(/\(.*?\)/g, '').trim());
+    const ex = a.replace('US Gulf Coast', 'US').replace('Western Australia', 'W. Australia');
+    return `${ex} → ${b.split(/,|&/)[0].trim()}`;
+  };
+  const top = rows.map((r) => ({ ...r, dtm: r.tm26 - r.tm25, name: short(r.l) })).filter((r) => Math.abs(r.dtm) > 0.5)
+    .sort((a, b) => Math.abs(b.dtm) - Math.abs(a.dtm)).slice(0, 8).sort((a, b) => b.dtm - a.dtm);
+  const wrap = d3.select('#c-tmlegs').html('');
+  const key = wrap.append('div').attr('class', 'keyline');
+  key.append('span').html(`<i style="background:${C.leg}"></i>more tonne-miles`);
+  key.append('span').html(`<i style="background:${C.s2}"></i>fewer tonne-miles`);
+  const w = Math.max(280, wrap.node().clientWidth || 600), rowH = 24, m = { t: 6, r: 44, b: 22, l: w < 500 ? 128 : 170 };
+  const h = m.t + m.b + top.length * rowH;
+  const x = d3.scaleLinear().domain([Math.min(0, d3.min(top, (r) => r.dtm)), Math.max(0, d3.max(top, (r) => r.dtm))]).range([m.l, w - m.r]).nice();
+  const s = wrap.append('svg').attr('width', w).attr('height', h).attr('viewBox', `0 0 ${w} ${h}`);
+  s.append('g').selectAll('line').data(x.ticks(4)).join('line').attr('x1', (d) => x(d)).attr('x2', (d) => x(d)).attr('y1', m.t).attr('y2', h - m.b)
+    .attr('stroke', (d) => (d === 0 ? '#3a4f66' : '#1c2733'));
+  s.append('g').selectAll('text').data(x.ticks(4)).join('text').attr('x', (d) => x(d)).attr('y', h - 7).attr('text-anchor', 'middle')
+    .attr('font-size', 10.5).attr('fill', C.soft).text((d) => (d > 0 ? '+' : '') + d);
+  const g = s.append('g').selectAll('g').data(top).join('g').attr('transform', (r, i) => `translate(0,${m.t + i * rowH})`);
+  g.append('text').attr('x', m.l - 8).attr('y', rowH / 2 + 4).attr('text-anchor', 'end').attr('font-size', 11).attr('fill', C.ink)
+    .text((r) => (r.name.length > (w < 500 ? 19 : 27) ? r.name.slice(0, w < 500 ? 18 : 26) + '…' : r.name));
+  g.append('rect').attr('x', (r) => x(Math.min(0, r.dtm))).attr('width', (r) => Math.abs(x(r.dtm) - x(0))).attr('y', 5).attr('height', rowH - 10).attr('rx', 2)
+    .attr('fill', (r) => (r.dtm > 0 ? C.leg : C.s2));
+  g.append('text').attr('x', (r) => (r.dtm > 0 ? x(r.dtm) + 4 : x(0) + 4)).attr('y', rowH / 2 + 4).attr('font-size', 10.5).attr('fill', C.soft)
+    .text((r) => `${r.dtm > 0 ? '+' : '−'}${Math.abs(r.dtm).toFixed(0)}`);
+  g.append('rect').attr('x', 0).attr('width', w).attr('height', rowH).attr('fill', 'transparent')
+    .on('mousemove', (e, r) => showTip(e, `<b>${r.l.title}</b><br>${d3.format(',')(Math.round(r.nm))} nm laden<br>2025: ${fmt(r.v25)} Mt → ${d3.format(',')(Math.round(r.tm25))} bn t·nm<br>Oct-2026 run-rate: ≈${fmt(r.v26)} Mt → ${d3.format(',')(Math.round(r.tm26))} bn t·nm<br>Ships kept busy: ${r.ships25.toFixed(0)} → ${r.ships26.toFixed(0)}`))
+    .on('mouseleave', hideTip);
+  d3.select('#c-tmlegs-src').text('Volume × laden distance on each leg of the globe. Qatar to North Asia loses the most because it was both the biggest Gulf flow and a long voyage. Run-rates are estimates (≈).');
+}
+
 // ------------------------------------------------------- voyage calculator
 // Sea-lane graph: every consecutive waypoint pair of every leg (main,
 // secondary and abandoned paths) plus a few extra lanes. Plants and
@@ -1193,6 +1368,7 @@ function shortest(from, to, blocked) {
   while (keys[0] !== from) keys.unshift(prev.get(keys[0]));
   return { keys, nm: dist.get(to) };
 }
+// charter is replaced at boot by the latest Atlantic spot print in data/fleet.json
 const VOY = { from: 'Sabine Pass', to: 'Tokyo Bay terminals', speed: 17, volume: 1, charter: 80000, panamaWait: 3,
   allow: { hormuz: false, redsea: false, panama: true, nsr: false } };
 function chokesOn(keys) {
@@ -1212,12 +1388,14 @@ function routeVoyage(allow) {
   const seaDays = nm / (VOY.speed * 24);
   const oneWay = seaDays + canalDays;
   const rt = 2 * oneWay + 2; // laden + ballast, plus a day each to load and discharge
-  const fees = 2 * ((chokes.includes('panama') ? 0.45e6 : 0) + (chokes.includes('suez') ? 0.6e6 : 0));
+  // laden + ballast transit; the ballast toll is charged at the laden rate (see canalFees in data/fleet.json)
+  const fees = 2 * ((chokes.includes('panama') ? panamaToll() : 0) + (chokes.includes('suez') ? F.canalFees.suez.perTransitUsd : 0));
   const perShip = 350 / rt;
   const cargoes = VOY.volume / 0.075;
   return { wps, nm, chokes, seaDays, canalDays, oneWay, rt, fees,
     freight: (VOY.charter * rt + fees) / 3.5e6, ships: cargoes / perShip, perShip, boil: 0.12 * oneWay };
 }
+const panamaToll = () => F.canalFees.panama.ratePerM3 * F.canalFees.cargoM3;
 function renderVoyageInputs() {
   const box = d3.select('#voy-in').html('');
   const sel = (label, key, opts) => {
@@ -1240,7 +1418,13 @@ function renderVoyageInputs() {
   };
   num('Ship speed (knots)', 'speed', 12, 20, 0.5, (v) => `${v} kn`);
   num('Volume to deliver (Mtpa)', 'volume', 0.5, 10, 0.5, (v) => `${v} Mtpa`);
-  num('Charter rate ($/day, illustrative)', 'charter', 10000, 250000, 5000, (v) => `$${d3.format(',')(v)}`);
+  num('Charter rate ($/day)', 'charter', 5000, 300000, 250, (v) => `$${d3.format(',')(v)}`);
+  const cr = box.append('div').attr('class', 'presets charter');
+  CHARTER_SERIES.forEach((sr) => {
+    const p = latestPrint(sr.key);
+    cr.append('button').attr('class', 'btn').attr('type', 'button').text(`${sr.label.split(' ')[0]} spot ${printDay(p)}`)
+      .attr('title', p.source).on('click', () => setCharter(p[sr.key]));
+  });
   num('Panama waiting time (days)', 'panamaWait', 0, 15, 0.5, (v) => `${v} d`);
   const tg = box.append('div').attr('class', 'toggles');
   tg.append('div').attr('class', 'cap').text('Open passages');
@@ -1253,6 +1437,14 @@ function renderVoyageInputs() {
   const pr = box.append('div').attr('class', 'presets');
   pr.append('button').attr('class', 'btn').attr('type', 'button').text('Oct 2026 conditions').on('click', () => setAllow({ hormuz: false, redsea: false, panama: true, nsr: false }, 3));
   pr.append('button').attr('class', 'btn').attr('type', 'button').text('Pre-2024 (all open)').on('click', () => setAllow({ hormuz: true, redsea: true, panama: true, nsr: false }, 0.5));
+}
+function setCharter(v) {
+  VOY.charter = v;
+  d3.selectAll('#voy-in label').each(function () {
+    const s = d3.select(this);
+    if (s.select('span').text().startsWith('Charter')) { s.select('input').property('value', v); s.select('output').text(`$${d3.format(',')(v)}`); }
+  });
+  renderVoyage();
 }
 function setAllow(a, wait) {
   VOY.allow = { ...a }; VOY.panamaWait = wait;
@@ -1304,8 +1496,10 @@ function renderVoyage(draw = true) {
   out.append('div').attr('class', 'voy-note').html(
     `<b>Reading it:</b> at ${VOY.speed} kn the shortest open route takes <b>${r.oneWay.toFixed(1)} days</b> one way and <b>${r.rt.toFixed(0)} days</b> round trip, so one ship delivers ~${r.perShip.toFixed(1)} cargoes a year. ` +
     `Moving ${VOY.volume} Mtpa (~${Math.round(VOY.volume / 0.075)} cargoes) ties up <b>${r.ships.toFixed(1)} ships</b>. Boil-off burns ~${r.boil.toFixed(1)}% of the cargo on the laden leg. ` +
-    `Freight = charter × round-trip days + canal fees, spread over ~3.5 million MMBtu delivered. ` + (warn.length ? `<br><span style="color:#ffb199">⚠ ${warn.join(' ')}</span>` : '') +
-    `<br><span class="muted">Distances run along the map's sea lanes, so they read a few % above true sailing distances. Canal fees, speed and charter are illustrative.</span>`);
+    `Freight = charter × round-trip days + canal fees, spread over ~3.5 million MMBtu delivered. ` +
+    `At $${d3.format(',')(VOY.charter)}/day the ship alone costs $${(VOY.charter * r.rt / 1e6).toFixed(1)} million per round trip` +
+    (r.fees ? `; canal tolls add $${(r.fees / 1e6).toFixed(2)} million.` : '.') + ' ' + (warn.length ? `<br><span style="color:#ffb199">⚠ ${warn.join(' ')}</span>` : '') +
+    `<br><span class="muted">Distances run along the map's sea lanes, so they read a few % above true sailing distances. Charter default: latest Spark30S Atlantic print (section 5). Panama: ACP toll of $${F.canalFees.panama.ratePerM3.toFixed(2)}/m³ × ${d3.format(',')(F.canalFees.cargoM3)} m³ = $${d3.format(',')(Math.round(panamaToll()))} per transit, charged both ways (ballast rate not retrieved), excluding tugs and slot auctions. Suez: $${d3.format(',')(F.canalFees.suez.perTransitUsd)} per transit is illustrative.</span>`);
   if (draw) showVoyage(r, false);
 }
 function showVoyage(r, fly) {
@@ -1430,9 +1624,12 @@ Promise.all([
   d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-110m.json'),
   d3.json('data/lng.json'),
   d3.json('data/prices.json'),
-]).then(([world, data, prices]) => {
+  d3.json('data/fleet.json'),
+]).then(([world, data, prices, fleet]) => {
   D = data;
   P = prices;
+  F = fleet;
+  VOY.charter = latestPrint('atlantic').atlantic;
   D.legs.forEach((l) => resolve(l.path)); // validate point names early
   setWorld(world);
   updateScreenScale();
@@ -1449,6 +1646,9 @@ Promise.all([
   renderSupplyWave();
   renderPrices();
   renderStorage();
+  renderCharter();
+  renderFleetChart();
+  renderTonMiles();
   renderVoyageInputs();
   renderVoyage(false);
   d3.select('#voy-clear').on('click', () => { clearVoyage(); styleLegs(); render(); d3.selectAll('table.voy tr').classed('on', false); });
@@ -1463,7 +1663,7 @@ Promise.all([
   window.addEventListener('resize', () => {
     updateScreenScale();
     const cw = d3.select('#c-prices').node().clientWidth;
-    if (cw !== lastChartW) { lastChartW = cw; renderPrices(); renderStorage(); }
+    if (cw !== lastChartW) { lastChartW = cw; renderPrices(); renderStorage(); renderCharter(); renderFleetChart(); renderTonMiles(); }
     if (Math.abs(TS - lastTS) > 0.05) { lastTS = TS; buildTexts(); render(); }
   });
   // detailed coastline for close zooms, loaded in the background

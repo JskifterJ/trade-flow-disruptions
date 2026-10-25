@@ -1,4 +1,4 @@
-// Data validation for data/lng.json, data/disruptions.json, data/flows.json and data/prices.json.
+// Data validation for data/lng.json, data/disruptions.json, data/flows.json, data/prices.json and data/fleet.json.
 // Schema checks (required fields, named points exist, lat/lon in range, types
 // and statuses from the allowed sets, every event sourced), totals (legs sum
 // <= world trade, exporter/importer tables sum to it) and the voyage router
@@ -361,6 +361,38 @@ function validatePrices(D) {
   return { months: D.monthly.length, from: D.monthly[0]?.month, to: D.monthly.at(-1)?.month, storagePoints: (S.fill2026 || []).length };
 }
 
+// ------------------------------------------------------------ fleet.json
+function validateFleet(D) {
+  const F = 'fleet.json';
+  requireFields(F, D, ['lastUpdated', 'charter', 'annotations', 'fleet', 'canalFees']);
+  check(isDate(D.lastUpdated), `${F}: lastUpdated must be YYYY-MM-DD`);
+  const C = D.charter;
+  ['atlantic', 'pacific'].forEach((k) => check(isStr(C.series?.[k]?.name), `${F}: charter.series.${k}.name missing`));
+  check(isStr(C.source), `${F}: charter.source missing`);
+  C.prints.forEach((p, i) => {
+    const w = `${F} charter.prints[${i}] (${p.date})`;
+    check(isDate(p.date), `${w}: bad date`);
+    check(p.atlantic != null || p.pacific != null, `${w}: needs an atlantic or pacific value`);
+    ['atlantic', 'pacific'].forEach((k) => p[k] == null || check(isNum(p[k]) && p[k] > 0 && p[k] < 600000, `${w}: ${k} must be $/day in (0, 600000)`));
+    check(isStr(p.source), `${w}: source missing`);
+    check(!i || p.date > C.prints[i - 1].date, `${w}: prints must be in ascending date order`);
+  });
+  check(C.prints.some((p) => p.atlantic != null) && C.prints.some((p) => p.pacific != null), `${F}: the voyage calculator needs at least one print per basin`);
+  D.annotations.forEach((a, i) => check(isDate(a.date) && isStr(a.label), `${F} annotations[${i}]: needs date + label`));
+  const FL = D.fleet;
+  check(isStr(FL.source), `${F}: fleet.source missing`);
+  FL.deliveries.forEach((d, i) => check(Number.isInteger(d.year) && Number.isInteger(d.ships) && d.ships > 0 && isStr(d.source) && (!i || d.year === FL.deliveries[i - 1].year + 1),
+    `${F} fleet.deliveries[${i}]: needs consecutive year, integer ships > 0, source`));
+  FL.snapshots.forEach((x, i) => check(isDate(x.date) && Number.isInteger(x.active) && Number.isInteger(x.orderbook) && isStr(x.source) && (!i || x.date > FL.snapshots[i - 1].date),
+    `${F} fleet.snapshots[${i}]: needs ascending date, integer active + orderbook, source`));
+  (FL.orders || []).forEach((o, i) => check(isStr(o.period) && Number.isInteger(o.ships) && isStr(o.source), `${F} fleet.orders[${i}]: needs period, ships, source`));
+  const P = D.canalFees?.panama, S = D.canalFees?.suez;
+  check(isNum(D.canalFees?.cargoM3) && D.canalFees.cargoM3 > 100000, `${F} canalFees.cargoM3: expected a carrier size in m³`);
+  check(isNum(P?.ratePerM3) && P.ratePerM3 > 0 && P.ratePerM3 < 10 && isStr(P.source), `${F} canalFees.panama: needs ratePerM3 ($/m³) + source`);
+  check(isNum(S?.perTransitUsd) && S.perTransitUsd > 0 && isStr(S.source) && S.estimate === true, `${F} canalFees.suez: needs perTransitUsd + source, flagged estimate`);
+  return { prints: C.prints.length, latest: C.prints.at(-1)?.date, deliveryYears: FL.deliveries.map((d) => d.year).join('–') };
+}
+
 // ------------------------------------------------------------ run
 const out = [];
 const run = (file, fn) => {
@@ -374,6 +406,7 @@ run('lng.json', validateLng);
 run('disruptions.json', validateDisruptions);
 run('flows.json', validateFlows);
 run('prices.json', validatePrices);
+run('fleet.json', validateFleet);
 out.forEach((l) => console.log(l));
 if (routerStats) console.log(`router: ${routerStats.ok}/${routerStats.pairs} plant→terminal pairs routable over ${routerStats.nodes} lane nodes`);
 if (errors.length) {
