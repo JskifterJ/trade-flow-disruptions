@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-10-19",
+  "lastUpdated": "2026-10-26",
   "updateCadence": "weekly",
   "focus": "Energy and commodity trade flows: what has broken in 2026 and where the barrels and cargoes went instead",
   "chokepoints": [
@@ -369,7 +369,7 @@
       "title": "Qatar LNG force majeure: a global gas shock",
       "category": "transport",
       "severity": "critical",
-      "dateRange": "Since Mar 2026; force majeure now extended into mid-Oct; repair of damaged trains pushed to 3-5 years",
+      "dateRange": "Since Mar 2026; force majeure extended into Nov–Dec; repair of damaged trains pushed to 3-5 years",
       "waypoints": [
         {
           "name": "Ras Laffan, Qatar",
@@ -392,8 +392,8 @@
           "lon": 72.55
         }
       ],
-      "summary": "About 93% of Qatar's and 96% of the UAE's LNG exports pass through Hormuz, roughly 19% of global LNG trade, and none of it has a pipeline bypass. Qatar declared force majeure in March after Iranian strikes damaged the Ras Laffan complex, and the disruption is proving far more durable than oil's: Kpler now estimates Qatari LNG exports will total just 0.6 Mt in October, against a normal cadence of roughly 6-7 Mt/month, even as Gulf crude shipments have recovered to ~80% of pre-war levels. QatarEnergy has pushed back its own repair estimate for the ~17% of capacity knocked out to three to five years, far beyond the 'weeks' timeline floated after June's ceasefire, and force majeure notices to several Asian and European buyers now run into mid-October with no public lift confirmed. The one bright spot is additive, not restorative: the first train of the North Field East expansion is due to begin commissioning in November 2026, targeting initial output in early 2027 — new supply arriving on top of an already-disrupted market rather than replacing the lost trains. European gas (TTF) more than doubled to roughly €70-77/MWh in late August-early September, a three-year high, and US Gulf Coast LNG remains the marginal supplier bidding against both Europe and Asia, which is why Panama Canal slots and Atlantic freight keep mattering so much.",
-      "source": "Cyprus Mail (12 Oct 2026); meobserver.news (12-13 Oct 2026); Zawya/Reuters Bousso column (Oct 2026); EIA Today in Energy; GIIGNL Annual Report 2026",
+      "summary": "About 93% of Qatar's and 96% of the UAE's LNG exports pass through Hormuz, roughly 19% of global LNG trade, and none of it has a pipeline bypass. Qatar declared force majeure in March after Iranian strikes damaged the Ras Laffan complex, and the disruption is proving far more durable than oil's: Kpler now estimates Qatari LNG exports will total just 0.6 Mt in October, against a normal cadence of roughly 6-7 Mt/month, even as Gulf crude shipments have recovered to ~80% of pre-war levels. QatarEnergy has pushed back its own repair estimate for the ~17% of capacity knocked out to three to five years, far beyond the 'weeks' timeline floated after June's ceasefire, and force majeure notices to several Asian and European buyers have been renewed month by month and now run into November (Pakistan, Bangladesh) and early December (Italy's Edison, 35 cargoes undelivered), with no public lift confirmed. The one bright spot is additive, not restorative: the first train of the North Field East expansion is due to begin commissioning in November 2026, targeting initial output in early 2027 — new supply arriving on top of an already-disrupted market rather than replacing the lost trains. European gas (TTF) more than doubled to roughly €70-77/MWh in late August-early September, a three-year high, and US Gulf Coast LNG remains the marginal supplier bidding against both Europe and Asia, which is why Panama Canal slots and Atlantic freight keep mattering so much.",
+      "source": "Cyprus Mail (12 Oct 2026); meobserver.news (12-13 Oct 2026); Zawya/Reuters Bousso column (Oct 2026); EIA Today in Energy; GIIGNL Annual Report 2026; Bloomberg (28 Sep 2026); The National (28 Sep 2026); LNG Prime (Edison)",
       "focus": {
         "lat": 25.8,
         "lon": 53.5,
@@ -444,6 +444,16 @@
           "lon": 56.25,
           "labelSide": "left",
           "source": "IEA Strait of Hormuz factsheet"
+        },
+        {
+          "date": "28 Sep 2026",
+          "type": "restriction",
+          "title": "Force majeure extended to Nov–Dec",
+          "text": "QatarEnergy told Pakistani and Bangladeshi buyers cancellations run through November; Edison says no cargoes until early December (35 undelivered). Asian spot LNG jumped to ~$23/MMBtu.",
+          "lat": 25.93,
+          "lon": 51.55,
+          "approx": true,
+          "source": "Bloomberg / The National (28 Sep 2026)"
         }
       ],
       "zones": [
