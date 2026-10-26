@@ -168,7 +168,9 @@ function validateLng(D) {
     latLon(w, t);
     inSet(w, t.type, REGAS_TYPES, 'type');
     if (t.imports2025 != null) check(isNum(t.imports2025) && t.imports2025 >= 0, `${w}: imports2025 must be >= 0`);
+    if (t.capacity != null) check(isStr(t.capacity) && isNum(t.capacityMtpa) && t.capacityMtpa > 0 && isStr(t.capacitySource), `${w}: capacity needs capacityMtpa > 0 and capacitySource`);
   });
+  validateRegasCapacity(D);
   unique(`${F} projects`, D.projects || [], 'name');
   (D.projects || []).forEach((p, i) => {
     const w = `${F} projects[${i}] ${p.name}`;
@@ -200,6 +202,48 @@ function validateLng(D) {
 
   if (errors.length === 0) validateRouter(D);
   return { legs: D.legs.length, plants: D.liquefaction.length, terminals: D.regas.length, legSumMt: +legSum.toFixed(1) };
+}
+
+// Import side: country capacity vs 2025 imports, EU utilisation, FSRUs (lng.js renderRegas).
+const REGAS_REGIONS = new Set(['Asia', 'Europe', 'Middle East & Africa']);
+const REGAS_CONF = new Set(['high', 'medium', 'low']);
+const FSRU_STATUS = new Set(Object.keys(constObject('lng.js', 'FSRU_STATUS')));
+function validateRegasCapacity(D) {
+  const F = 'lng.json regasCapacity', R = D.regasCapacity;
+  if (!check(R && typeof R === 'object', `${F}: missing`)) return;
+  check(isNum(R.bcmPerMt) && R.bcmPerMt > 1 && R.bcmPerMt < 1.5, `${F}.bcmPerMt: expected ≈1.36`);
+  const G = R.global || {};
+  check(isNum(G.giignlMtpa) && G.giignlMtpa === D.capacityTotals?.regas, `${F}.global.giignlMtpa must equal capacityTotals.regas`);
+  check(isNum(G.iguMtpa) && isNum(G.iguUtilisation2025) && isNum(G.iguFloatingMtpa) && isStr(G.giignlSource) && isStr(G.iguSource), `${F}.global: needs IGU/GIIGNL values + sources`);
+  unique(`${F}.countries`, R.countries || [], 'name');
+  (R.countries || []).forEach((c, i) => {
+    const w = `${F}.countries[${i}] ${c.name}`;
+    requireFields(w, c, ['name', 'region', 'capacity', 'unit', 'asOf', 'confidence', 'source']);
+    inSet(w, c.region, REGAS_REGIONS, 'region');
+    inSet(w, c.confidence, REGAS_CONF, 'confidence');
+    check(c.unit === 'Mtpa' || c.unit === 'bcm', `${w}: unit must be Mtpa or bcm`);
+    check(isNum(c.capacity) && c.capacity > 0, `${w}: capacity must be > 0`);
+    // the page divides 2025 imports by capacity, so imports must exist and the ratio must be plausible
+    const imp = (D.importers2025 || []).find((r) => r.name === c.name)?.mt ?? (D.regas || []).find((t) => t.country === c.name && t.imports2025 != null)?.imports2025;
+    if (check(isNum(imp), `${w}: no 2025 imports in importers2025 or regas`)) {
+      const u = 100 * imp / (c.unit === 'bcm' ? c.capacity / R.bcmPerMt : c.capacity);
+      check(u > 5 && u <= 105, `${w}: implied utilisation ${u.toFixed(0)}% is implausible`);
+    }
+    if (c.reportedUtilisation != null) check(isNum(c.reportedUtilisation) && c.reportedUtilisation > 0 && c.reportedUtilisation <= 100, `${w}: reportedUtilisation must be a %`);
+  });
+  (R.euUtilisation || []).forEach((u, i) => check(isStr(u.period) && isNum(u.pct) && u.pct > 0 && u.pct <= 100 && isStr(u.source), `${F}.euUtilisation[${i}]: needs period, pct (0–100], source`));
+  check((R.euUtilisation || []).length >= 4, `${F}.euUtilisation: expected a multi-year series`);
+  (R.euCapacity || []).forEach((c, i) => check(isDate(c.date) && isNum(c.bcm) && isStr(c.source), `${F}.euCapacity[${i}]: needs date, bcm, source`));
+  unique(`${F}.fsrus`, R.fsrus || [], 'name');
+  (R.fsrus || []).forEach((f, i) => {
+    const w = `${F}.fsrus[${i}] ${f.name}`;
+    requireFields(w, f, ['name', 'country', 'vessel', 'start', 'status', 'source']);
+    check(/^\d{4}-\d{2}$/.test(f.start || ''), `${w}: start must be YYYY-MM`);
+    check(f.start >= '2022-01', `${w}: the chart covers starts since 2022`);
+    check(!i || f.start >= R.fsrus[i - 1].start, `${w}: fsrus must be in start order`);
+    inSet(w, f.status, FSRU_STATUS, 'status');
+    check(f.capacityBcm === null ? isStr(f.capacityText) : isNum(f.capacityBcm) && f.capacityBcm > 0 && f.capacityBcm < 20, `${w}: capacityBcm in (0, 20), or null with capacityText`);
+  });
 }
 
 // ------------------------------------------------------------ voyage router

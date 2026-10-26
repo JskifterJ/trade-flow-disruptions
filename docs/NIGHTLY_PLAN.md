@@ -35,9 +35,9 @@ Rules for every run are in the routine prompt; the short version: work on branch
   New card + `data/fleet.json`; replace the voyage calculator's illustrative charter default with
   the latest sourced rate (keep the slider), and source canal fees if published. (done 2026-10-25)
 
-- [ ] **5. Import side: regas capacity and utilisation.** From GIIGNL Annual Report 2026 (public PDF)
+- [x] **5. Import side: regas capacity and utilisation.** From GIIGNL Annual Report 2026 (public PDF)
   and GIE ALSI: regas capacity by country vs 2025 imports (utilisation), Europe's terminal
-  utilisation trend, FSRUs added since 2022. Update `regas` entries with capacity, add a chart.
+  utilisation trend, FSRUs added since 2022. Update `regas` entries with capacity, add a chart. (done 2026-10-26)
 
 - [ ] **6. Main-page parity.** Bring `index.html` / `data/flows.json` up to the LNG page's standard:
   sourced per-route volumes (EIA World Oil Transit Chokepoints, IEA, Kpler as reported) labelled

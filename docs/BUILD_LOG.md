@@ -2,6 +2,34 @@
 
 Newest first. Each nightly run adds: date, task, what changed, what was verified, open issues.
 
+## 2026-10-26 · task 5: import side, regas capacity and utilisation (nightly run)
+- **New section 6 on `lng.html`: "The import side".** Voyage, arbitrage, timeline and primer are renumbered 7–10. It has four cards, all drawn at container width and redrawn on resize:
+  - **Regas utilisation by country** (`#c-regas`). Three tiles at the top: world regas 1,247 Mtpa = 2.9× 2025 trade (GIIGNL); IGU's 39.2% average use of 1,113.5 Mtpa; floating capacity 216 Mtpa. Below them, bars for 17 countries showing 2025 imports ÷ capacity, coloured by region. The range runs from Poland ≈100%, the Netherlands ≈96% and Belgium 90% down to Japan 30%, the UK 27% and Greece ≈23%. Tooltips show the division, the capacity's date, source and confidence, and any published utilisation figure (India: IGU says 47%, our computed figure is 48%).
+  - **EU terminal utilisation 2021 → Q1 2026** (`#c-euutil`): IEEFA's series of 63 / 58.5 / 42 / 51 / 55%. 2021 is a hollow bar because it comes from a different basis (GIE ALSI, Jan 2021–Jan 2022, 41.7%). Q1 2026 is hollow too, as a part year.
+  - **FSRUs started in Europe since 2022** (`#c-fsru`): bcm/yr added per start year, stacked by where each unit is now (operating, closed or charter ended, due). The footnote gives 12 units started Sep 2022–May 2025, ≈47 bcm/yr still operating and 13 bcm/yr gone again (Le Havre, Mukran's second unit). Stade is due in Nov 2026.
+  - **FSRU table** (`#c-fsru-table`): vessel, start month, capacity and status for all 13 units. It doubles as the table view for the chart. The vessel column is hidden below 600px.
+- **Map and side panel:** 13 `regas` entries now carry `capacity`, `capacityMtpa` and `capacitySource`, and they show in the tooltip and the detail panel. The detail panel and the Import-terminals list group labels also show the country's utilisation. There is a Turkey→Türkiye alias, because the terminals and the GIIGNL tables spell it differently.
+- **Primer #5:** Germany went "from zero to four operating units, with a fifth due at Stade", not "three".
+- **Data:** `regasCapacity` in `data/lng.json` holds global totals, `countries[]` (capacity + unit + asOf + confidence + source, `derived` where I summed or converted), `euUtilisation[]`, `euCapacity[]` (ACER) and `fsrus[]`.
+- **Validator:** new `validateRegasCapacity` checks units, regions, confidence, sources, 2025 imports present, implied utilisation 5–105%, FSRU start order and statuses (read from `FSRU_STATUS` in `lng.js`), and the GIIGNL total = `capacityTotals.regas`. Terminal capacity needs a source. 6,549 checks in all. I injected five faults (implausible capacity, bad status, missing source, pre-2022 start, missing terminal source); all were caught, then I restored the file.
+- **Smoke tests:** bar count equals the country count, EU bar count, FSRU segments and table rows, the world-regas tile, bar and FSRU tooltips with sources, no label overlaps, Dahej's detail panel showing 17.5 Mtpa and its utilisation, and the Turkey alias. 300 checks.
+- **Sources:**
+  - GIIGNL Annual Report 2026 (global 1,247 Mtpa).
+  - IGU World LNG Report 2026: global 1,113.5 Mtpa / 39.2% / 216.1 Mtpa floating; China 175 Mtpa; India 52.5 Mtpa / ~47% (via Swarajya/Chemindigest).
+  - IGU World LNG Report 2025 as tabulated by Incorrys: Japan 217, Korea 143 (end-2024).
+  - SynMax/Leviaton 2025: Spain 49, UK 36, Türkiye 34.1, France 30.4 Mtpa.
+  - Operators and ministries: Gasunie, Snam (via S&P), Fluxys, Gaz-System (22 Jan 2025), Singapore MTI/SLNG, KIPIC, LNG Prime, Argus/S&P.
+  - IEEFA European LNG Tracker (May 2026) and Global LNG Outlook 2024–28; GIE ALSI via Food & Water Europe; ACER (2025).
+  - FSRU dates and statuses: the operators (DET, Deutsche ReGas, Gastrade, TotalEnergies, BOTAŞ via GEM) as reported by LNG Prime, Il Post and Shipping Italy.
+  - The sandbox again blocked every PDF and page fetch (giignl, IGU, IEEFA, ACER), so all of this comes from web-search extracts, gathered by three parallel research sub-agents and checked against each other.
+- **Verified:** `npm test` is green: 6,549 data checks and 300 browser checks at 1440×900 and 390×844, with no console errors and no horizontal overflow. I looked at the desktop and phone screenshots of the new section and of the Import-terminals tab, then shortened the tile and status labels.
+- **Open issues for the owner:**
+  - **The country capacities are a patchwork.** This is the weakest part of the task: dates range from end-2024 to 2026, and the bases (IGU, SynMax, operators) differ. Every row says which it uses. If you can download the **GIIGNL 2026 PDF**, replace `regasCapacity.countries` with its end-2025 country table on a single basis. The chart and validator pick the new rows up automatically. Taiwan is left out because no published total was found.
+  - **Check the low-confidence rows.** Germany (≈18.4 bcm) is summed from the FSRU list at 2026 capacities, though Wilhelmshaven 2 only ran at 1.9 bcm in 2025. Greece is Revithoussa plus a converted Alexandroupolis figure. Japan may be 219 Mtpa for end-2025 (Rystad/IGU, unconfirmed).
+  - **The FSRU capacities are nominal.** Inkoo and Wilhelmshaven 1 are approximate (≈5). Piombino's 5 bcm is Snam's widely quoted figure, but I didn't see it in an extract. Saros has only a 28 mcm/d send-out figure, so it isn't in the bars. Confirm whether the Krk upgrade (Nov 2025) should be listed; it is an onshore-moored FSRU expansion and is left out.
+  - **No EU utilisation after Q1 2026** was found. Add H1/Q3 2026 when IEEFA publishes; the chart takes any number of periods.
+  - **Gaps in the analysis:** the arbitrage regas fee ($0.50/MMBtu) is still illustrative, and utilisation ignores seasonality (winter peaks are what Japan and Korea are built for).
+
 ## 2026-10-25 · task 4: fleet & freight (nightly run)
 - **New section 5 on `lng.html`: "Fleet and freight".** Later sections are renumbered 6–9. It has four cards, all drawn at container pixel width and redrawn on resize:
   - **Spot charter rates** (`#c-charter`): 20 dated Spark Commodities prints, Oct 2024 → ≈23 Oct 2026, for Atlantic (Spark30S) and Pacific (Spark25S) on one $k/day axis. Dec 2025 is a monthly average (square). Hollow dots mean the date or value is approximate. The mid-Mar → early-Aug 2026 gap and the sparse 2024–25 prints are drawn as faint dotted joins. The chart marks the Hormuz closure and labels only the peak ($287.5k) and the latest Atlantic print. Every tooltip names its source.

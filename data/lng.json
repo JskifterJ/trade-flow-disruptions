@@ -2079,7 +2079,10 @@
       "lon": 120.2,
       "type": "onshore",
       "imports2025": 23.5,
-      "note": "Taiwan: 23.5 Mt in 2025 (+11%) after the nuclear phase-out (May 2025) and the new Guantang terminal. Qatar 7.8 Mt and Australia 7.8 Mt are the top suppliers. Island grid with only days of storage."
+      "note": "Taiwan: 23.5 Mt in 2025 (+11%) after the nuclear phase-out (May 2025) and the new Guantang terminal. Qatar 7.8 Mt and Australia 7.8 Mt are the top suppliers. Island grid with only days of storage.",
+      "capacity": "10.5 + 6 Mtpa",
+      "capacityMtpa": 16.5,
+      "capacitySource": "LNG Prime (GIIGNL 2026 lists Taichung at 8 Mtpa after expansion)"
     },
     {
       "name": "Dahej",
@@ -2088,7 +2091,10 @@
       "lon": 72.55,
       "type": "onshore",
       "imports2025": 25.3,
-      "note": "India: 25.3 Mt in 2025 (−6%). Qatar 11.6 Mt, UAE 3.2, US 3.0, Oman 2.1. 59% from behind Hormuz. Petronet's Dahej is among the largest single regas sites in the world."
+      "note": "India: 25.3 Mt in 2025 (−6%). Qatar 11.6 Mt, UAE 3.2, US 3.0, Oman 2.1. 59% from behind Hormuz. Petronet's Dahej is among the largest single regas sites in the world.",
+      "capacity": "17.5 Mtpa",
+      "capacityMtpa": 17.5,
+      "capacitySource": "IGU World LNG Report 2026 via Swarajya (Jul 2026)"
     },
     {
       "name": "Port Qasim FSRUs",
@@ -2115,7 +2121,10 @@
       "lon": 101.15,
       "type": "onshore",
       "imports2025": 10.5,
-      "note": "Thailand's domestic Gulf of Thailand gas is declining, so LNG imports keep rising."
+      "note": "Thailand's domestic Gulf of Thailand gas is declining, so LNG imports keep rising.",
+      "capacity": "11.5 + 7.5 Mtpa (LMPT1 + LMPT2)",
+      "capacityMtpa": 19,
+      "capacitySource": "LNG Prime"
     },
     {
       "name": "Singapore (Jurong)",
@@ -2124,7 +2133,10 @@
       "lon": 103.7,
       "type": "onshore",
       "note": "Import plus bunkering and re-export hub.",
-      "imports2025": 5.7
+      "imports2025": 5.7,
+      "capacity": "≈11 Mtpa peak send-out",
+      "capacityMtpa": 11,
+      "capacitySource": "Singapore MTI / SLNG"
     },
     {
       "name": "Al-Zour",
@@ -2133,7 +2145,10 @@
       "lon": 48.38,
       "type": "onshore",
       "note": "Kuwait: 6.8 Mt in 2025, 4.8 Mt Qatari. It sits inside the Gulf, so in 2026 it is one of the few places Qatari cargoes can still reach.",
-      "imports2025": 6.8
+      "imports2025": 6.8,
+      "capacity": "22 Mtpa",
+      "capacityMtpa": 22,
+      "capacitySource": "KIPIC via Natural Gas World"
     },
     {
       "name": "Isle of Grain",
@@ -2159,7 +2174,10 @@
       "lon": 4.03,
       "type": "onshore",
       "note": "Netherlands: 16.9 Mt in 2025 (+28%), 76% from the US. These are the TTF hub's main LNG entry points.",
-      "imports2025": 16.9
+      "imports2025": 16.9,
+      "capacity": "16 + 8 bcm/yr",
+      "capacityMtpa": 17.6,
+      "capacitySource": "Gasunie / LNG Prime"
     },
     {
       "name": "Zeebrugge",
@@ -2168,7 +2186,10 @@
       "lon": 3.2,
       "type": "onshore",
       "note": "Belgium: 10.2 Mt in 2025 (+85%). Russia ~3.9 Mt, US 3.8, Qatar 1.7. Was the Yamal trans-shipment hub until the EU ban in Mar 2025.",
-      "imports2025": 10.2
+      "imports2025": 10.2,
+      "capacity": "11.3 Mtpa",
+      "capacityMtpa": 11.3,
+      "capacitySource": "Fluxys / LNG Prime"
     },
     {
       "name": "Dunkirk",
@@ -2228,7 +2249,10 @@
       "lon": 8.15,
       "type": "fsru",
       "note": "Germany built its first LNG import terminal in under a year (Dec 2022) after losing Russian pipeline gas. It now has FSRUs at Wilhelmshaven, Brunsbüttel and Mukran.",
-      "imports2025": 7.6
+      "imports2025": 7.6,
+      "capacity": "≈5 + 4.6 bcm/yr (two FSRUs)",
+      "capacityMtpa": 7.1,
+      "capacitySource": "Deutsche Energy Terminal"
     },
     {
       "name": "Brunsbüttel FSRU",
@@ -2236,7 +2260,10 @@
       "lat": 53.89,
       "lon": 9.2,
       "type": "fsru",
-      "note": "Elbe estuary."
+      "note": "Elbe estuary.",
+      "capacity": "3.6 bcm/yr",
+      "capacityMtpa": 2.6,
+      "capacitySource": "Deutsche Energy Terminal"
     },
     {
       "name": "Mukran FSRU",
@@ -2244,7 +2271,10 @@
       "lat": 54.53,
       "lon": 13.65,
       "type": "fsru",
-      "note": "Baltic coast (Rügen)."
+      "note": "Baltic coast (Rügen).",
+      "capacity": "5.2 bcm/yr (Neptune)",
+      "capacityMtpa": 3.8,
+      "capacitySource": "Deutsche ReGas"
     },
     {
       "name": "Świnoujście",
@@ -2253,7 +2283,10 @@
       "lon": 14.27,
       "type": "onshore",
       "note": "Poland's gateway, supplied by Qatar and the US.",
-      "imports2025": 6.1
+      "imports2025": 6.1,
+      "capacity": "8.3 bcm/yr",
+      "capacityMtpa": 6.1,
+      "capacitySource": "Gaz-System, 22 Jan 2025"
     },
     {
       "name": "Klaipėda FSRU",
@@ -2271,7 +2304,10 @@
       "lon": 24.0,
       "type": "fsru",
       "note": "Finland/Baltics supply after the Balticconnector pipeline damage.",
-      "imports2025": 0.9
+      "imports2025": 0.9,
+      "capacity": "≈5 bcm/yr",
+      "capacityMtpa": 3.7,
+      "capacitySource": "Gasgrid Finland via LNG Prime"
     },
     {
       "name": "Adriatic LNG (Rovigo)",
@@ -2289,7 +2325,10 @@
       "lon": 25.9,
       "type": "fsru",
       "note": "The gateway for US LNG into Bulgaria, the Balkans and (via the Vertical Corridor) Ukraine.",
-      "imports2025": 2.2
+      "imports2025": 2.2,
+      "capacity": "5.4 Mtpa + 5.5 bcm/yr",
+      "capacityMtpa": 9.4,
+      "capacitySource": "Argus / S&P Global (Aug 2025)"
     },
     {
       "name": "Marmara Ereğlisi",
@@ -3581,5 +3620,357 @@
         -89.4
       ]
     ]
-  ]
+  ],
+  "regasCapacity": {
+    "note": "No single per-country table for end-2025 could be retrieved (the GIIGNL 2026 and IGU 2026 PDFs were not downloadable from the build sandbox), so each country uses the best figure found and says its date and basis. Utilisation = 2025 imports (GIIGNL 2026) ÷ capacity; it is computed here, not published, unless reportedUtilisation is given.",
+    "bcmPerMt": 1.36,
+    "global": {
+      "giignlMtpa": 1247,
+      "giignlSource": "GIIGNL Annual Report 2026 (end-2025): 1,247 Mtpa, +62.2 Mtpa in 2025",
+      "iguMtpa": 1113.5,
+      "iguMarkets": 50,
+      "iguUtilisation2025": 39.2,
+      "iguFloatingMtpa": 216.1,
+      "iguSource": "IGU World LNG Report 2026 (Jul 2026): 1,113.5 Mtpa across 50 markets at end-2025, average utilisation 39.2%, floating/offshore 216.1 Mtpa"
+    },
+    "countries": [
+      {
+        "name": "Japan",
+        "region": "Asia",
+        "capacity": 217,
+        "unit": "Mtpa",
+        "asOf": "end-2024",
+        "confidence": "medium",
+        "source": "IGU World LNG Report 2025 (end-2024 data), as tabulated by Incorrys \"LNG Regasification by Country 2024\"",
+        "note": "IGU 2026 (Rystad data) is reported at 219.0 Mtpa for end-2025; not confirmed. Seala AI put Q3-2025 utilisation at 29%."
+      },
+      {
+        "name": "China",
+        "region": "Asia",
+        "capacity": 175,
+        "unit": "Mtpa",
+        "asOf": "end-2025",
+        "confidence": "medium",
+        "source": "IGU World LNG Report 2026: 36 terminals, 175 Mtpa at end-2025 (search extract)",
+        "note": "Five projects added 15.1 Mtpa in 2025 (IGU 2026)."
+      },
+      {
+        "name": "South Korea",
+        "region": "Asia",
+        "capacity": 143,
+        "unit": "Mtpa",
+        "asOf": "end-2024",
+        "confidence": "medium",
+        "source": "IGU World LNG Report 2025 (end-2024 data), as tabulated by Incorrys \"LNG Regasification by Country 2024\"",
+        "note": "KOGAS terminals averaged ~27% utilisation in 2024–25 (For Our Climate, 2026)."
+      },
+      {
+        "name": "India",
+        "region": "Asia",
+        "capacity": 52.5,
+        "unit": "Mtpa",
+        "asOf": "end-2025",
+        "confidence": "high",
+        "reportedUtilisation": 47,
+        "source": "IGU World LNG Report 2026 via Swarajya / Chemindigest (Jul 2026): 52.5 Mtpa across 8 terminals, utilisation ~47% in 2025 (58% in 2024); ICRA: 52.7 MMTPA at end-FY2025"
+      },
+      {
+        "name": "Thailand",
+        "region": "Asia",
+        "capacity": 19,
+        "unit": "Mtpa",
+        "asOf": "2025",
+        "confidence": "medium",
+        "derived": true,
+        "source": "LNG Prime: Map Ta Phut LMPT1 11.5 Mtpa + LMPT2 (Nong Fab) 7.5 Mtpa (sum computed here)"
+      },
+      {
+        "name": "Singapore",
+        "region": "Asia",
+        "capacity": 11,
+        "unit": "Mtpa",
+        "asOf": "2025",
+        "confidence": "high",
+        "source": "Singapore Ministry of Trade and Industry / SLNG: peak send-out ~11 Mtpa"
+      },
+      {
+        "name": "Kuwait",
+        "region": "Middle East & Africa",
+        "capacity": 22,
+        "unit": "Mtpa",
+        "asOf": "since 2022",
+        "confidence": "medium",
+        "source": "KIPIC Al-Zour terminal, reported in Natural Gas World / Enerdata: up to 22 Mt/yr at full capacity"
+      },
+      {
+        "name": "France",
+        "region": "Europe",
+        "capacity": 30.4,
+        "unit": "Mtpa",
+        "asOf": "2025",
+        "confidence": "medium",
+        "source": "SynMax / Leviaton, \"Europe's LNG Regasification Market Update\" (2025)",
+        "note": "Le Havre FSRU (≈5 bcm/yr) left in Jan 2026, so 2026 capacity is lower."
+      },
+      {
+        "name": "Spain",
+        "region": "Europe",
+        "capacity": 49,
+        "unit": "Mtpa",
+        "asOf": "2025",
+        "confidence": "medium",
+        "source": "SynMax / Leviaton, \"Europe's LNG Regasification Market Update\" (2025)",
+        "note": "Six mainland terminals (Enagás: 60 bcm/yr), poorly linked to France."
+      },
+      {
+        "name": "UK",
+        "region": "Europe",
+        "capacity": 36,
+        "unit": "Mtpa",
+        "asOf": "2025",
+        "confidence": "medium",
+        "source": "SynMax / Leviaton, \"Europe's LNG Regasification Market Update\" (2025)"
+      },
+      {
+        "name": "Türkiye",
+        "region": "Europe",
+        "capacity": 34.1,
+        "unit": "Mtpa",
+        "asOf": "2025",
+        "confidence": "medium",
+        "source": "SynMax / Leviaton, \"Europe's LNG Regasification Market Update\" (2025)",
+        "note": "GIIGNL (via OIES, Oct 2025): 33.4 Mtpa in 2024."
+      },
+      {
+        "name": "Netherlands",
+        "region": "Europe",
+        "capacity": 24,
+        "unit": "bcm",
+        "asOf": "2024",
+        "confidence": "medium",
+        "source": "Gasunie / LNG Prime: Gate terminal ~16 bcm/yr + EemsEnergyTerminal 8 bcm/yr"
+      },
+      {
+        "name": "Italy",
+        "region": "Europe",
+        "capacity": 28,
+        "unit": "bcm",
+        "asOf": "2025",
+        "confidence": "medium",
+        "source": "Snam via S&P Global (Dec 2024) and worldports.org: ~28 bcm/yr after the Ravenna FSRU (Apr 2025)"
+      },
+      {
+        "name": "Belgium",
+        "region": "Europe",
+        "capacity": 11.3,
+        "unit": "Mtpa",
+        "asOf": "2024",
+        "confidence": "medium",
+        "source": "Fluxys / LNG Prime: Zeebrugge expansion step 1, +4.7 Mtpa to 11.3 Mtpa",
+        "note": "Step 2 (to ~12.6 Mtpa) due 2026, not confirmed."
+      },
+      {
+        "name": "Germany",
+        "region": "Europe",
+        "capacity": 18.4,
+        "unit": "bcm",
+        "asOf": "2026",
+        "confidence": "low",
+        "derived": true,
+        "source": "Sum of the German FSRUs operating in 2026 in regasCapacity.fsrus (Wilhelmshaven 1 + 2, Brunsbüttel, Mukran/Neptune)",
+        "note": "Stade (Energos Force) is due to start in Nov 2026."
+      },
+      {
+        "name": "Poland",
+        "region": "Europe",
+        "capacity": 8.3,
+        "unit": "bcm",
+        "asOf": "2025-01-01",
+        "confidence": "high",
+        "source": "Gaz-System press release, 22 Jan 2025: Świnoujście regasification capacity 8.3 bcm/yr"
+      },
+      {
+        "name": "Greece",
+        "region": "Europe",
+        "capacity": 9.4,
+        "unit": "Mtpa",
+        "asOf": "2025",
+        "confidence": "low",
+        "derived": true,
+        "source": "Argus / S&P Global (Aug 2025): Revithoussa 5.4 Mtpa + Alexandroupolis FSRU 5.5 bcm/yr (≈4.0 Mt; sum computed here)",
+        "note": "IEEFA: Alexandroupolis ran at ~4% in 2025."
+      }
+    ],
+    "euUtilisation": [
+      {
+        "period": "2021",
+        "pct": 41.7,
+        "proxy": true,
+        "source": "GIE ALSI large-scale EU terminals, Jan 2021–Jan 2022, compiled by Food & Water Europe (Jan 2022)",
+        "note": "A different basis from IEEFA's series; shown hollow."
+      },
+      {
+        "period": "2022",
+        "pct": 63,
+        "source": "IEEFA Global LNG Outlook 2024–2028 (Apr 2024)"
+      },
+      {
+        "period": "2023",
+        "pct": 58.5,
+        "source": "IEEFA Global LNG Outlook 2024–2028 (Apr 2024)"
+      },
+      {
+        "period": "2024",
+        "pct": 42,
+        "source": "IEEFA European LNG Tracker (May 2026)"
+      },
+      {
+        "period": "2025",
+        "pct": 51,
+        "source": "IEEFA European LNG Tracker (May 2026)"
+      },
+      {
+        "period": "Q1 2026",
+        "pct": 55,
+        "partial": true,
+        "source": "IEEFA European LNG Tracker (May 2026): 55% in Q1 2026; 9 of 30 EU terminals below 30%, 9 above 80%"
+      }
+    ],
+    "euCapacity": [
+      {
+        "date": "2025-01-01",
+        "bcm": 243,
+        "source": "ACER, as summarised by Global LNG Services (ACER Monitoring Report 2025): 243 bcm/yr in Jan 2025, +68 bcm since Aug 2022"
+      },
+      {
+        "date": "2025-10-01",
+        "bcm": 250,
+        "approx": true,
+        "source": "ACER, 'Capacity use and booking trends in European natural gas markets' (Oct 2025): about 250–255 bcm/yr"
+      }
+    ],
+    "fsrus": [
+      {
+        "name": "EemsEnergyTerminal",
+        "country": "Netherlands",
+        "vessel": "Energos Igloo + Eemshaven LNG",
+        "start": "2022-09",
+        "capacityBcm": 8,
+        "status": "operating",
+        "source": "Gasunie; first cargo 8 Sep 2022 (LNG Prime)"
+      },
+      {
+        "name": "Wilhelmshaven 1",
+        "country": "Germany",
+        "vessel": "Höegh Esperanza",
+        "start": "2022-12",
+        "capacityBcm": 5,
+        "approx": true,
+        "status": "operating",
+        "source": "Uniper / Deutsche Energy Terminal; commissioned 17 Dec 2022"
+      },
+      {
+        "name": "Inkoo",
+        "country": "Finland",
+        "vessel": "Exemplar",
+        "start": "2022-12",
+        "capacityBcm": 5,
+        "approx": true,
+        "status": "operating",
+        "source": "Gasgrid Finland / LNG Prime: physical capacity >5 bcm/yr; grid connection 29 Dec 2022"
+      },
+      {
+        "name": "Lubmin → Mukran",
+        "country": "Germany",
+        "vessel": "Neptune",
+        "start": "2023-01",
+        "capacityBcm": 5.2,
+        "status": "moved",
+        "source": "Deutsche ReGas: opened 14 Jan 2023 at Lubmin, moved to Mukran (Rügen) in 2024",
+        "note": "Still operating at Mukran."
+      },
+      {
+        "name": "Brunsbüttel",
+        "country": "Germany",
+        "vessel": "Höegh Gannet",
+        "start": "2023-02",
+        "capacityBcm": 3.6,
+        "status": "operating",
+        "source": "Deutsche Energy Terminal; capacity cut from 8 to 3.6 bcm/yr (grid limit)"
+      },
+      {
+        "name": "Saros",
+        "country": "Türkiye",
+        "vessel": "Vasant 1",
+        "start": "2023-04",
+        "capacityBcm": null,
+        "capacityText": "28 mcm/d send-out",
+        "status": "operating",
+        "source": "BOTAŞ via Global Energy Monitor; arrived Feb 2023, commercial Apr 2023"
+      },
+      {
+        "name": "Piombino",
+        "country": "Italy",
+        "vessel": "Italis LNG (ex Golar Tundra)",
+        "start": "2023-07",
+        "capacityBcm": 5,
+        "status": "operating",
+        "source": "Snam; Mar 2026 decree lets it stay at Piombino until an alternative site is found (Il Post, Shipping Italy)"
+      },
+      {
+        "name": "Le Havre",
+        "country": "France",
+        "vessel": "Cape Ann",
+        "start": "2023-10",
+        "capacityBcm": 5,
+        "status": "closed",
+        "source": "TotalEnergies; left port 20–21 Jan 2026 after a Rouen court ruling (Oct 2025)"
+      },
+      {
+        "name": "Mukran (2nd unit)",
+        "country": "Germany",
+        "vessel": "Energos Power",
+        "start": "2024-03",
+        "capacityBcm": 7.5,
+        "status": "left",
+        "source": "Deutsche ReGas: first cargo Mar 2024; charter ended 10 Feb 2025"
+      },
+      {
+        "name": "Alexandroupolis",
+        "country": "Greece",
+        "vessel": "Alexandroupolis",
+        "start": "2024-10",
+        "capacityBcm": 5.5,
+        "status": "operating",
+        "source": "Gastrade: commercial operation Oct 2024; outage Jan–May 2025"
+      },
+      {
+        "name": "Ravenna",
+        "country": "Italy",
+        "vessel": "BW Singapore",
+        "start": "2025-04",
+        "capacityBcm": 5,
+        "status": "operating",
+        "source": "Snam: first cargo 3 Apr 2025; GIIGNL 2026 lists it at 3.7 Mtpa"
+      },
+      {
+        "name": "Wilhelmshaven 2",
+        "country": "Germany",
+        "vessel": "Excelsior",
+        "start": "2025-05",
+        "capacityBcm": 4.6,
+        "status": "operating",
+        "source": "Deutsche Energy Terminal: first gas 23 May 2025, commercial end-Aug 2025; 4.6 bcm/yr from 2026 (GIIGNL 2026: 4.5 Mtpa)"
+      },
+      {
+        "name": "Stade",
+        "country": "Germany",
+        "vessel": "Energos Force",
+        "start": "2026-11",
+        "capacityBcm": 3.2,
+        "status": "due",
+        "source": "Deutsche Energy Terminal / Hanseatic Energy Hub: docked mid-Sep 2026, first cargo expected early Nov 2026; 1.7 bcm to end-2026, 3.2 bcm/yr in 2027"
+      }
+    ]
+  }
 }

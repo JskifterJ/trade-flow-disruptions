@@ -514,6 +514,7 @@ function projTip(d) {
 }
 function regasTip(d) {
   return `<b>${d.name}</b> · ${d.country}<br>${d.type === 'fsru' ? 'Floating (FSRU)' : d.type === 'offshore GBS' ? 'Offshore gravity-based terminal' : 'Onshore terminal'}` +
+    (d.capacity ? `<br>Regas capacity: <b>${d.capacity}</b>` : '') +
     (d.imports2025 ? `<br>Country imports 2025: <b>${fmt(d.imports2025)} Mt</b>` : '') + `<br>${d.note}`;
 }
 function chokeTip(d) {
@@ -726,7 +727,8 @@ function renderList() {
     list.append('div').attr('class', 'group-label').text(`${D.regas.length} terminals and hubs shown · world regas ${D.capacityTotals.regas} Mtpa`);
     d3.groups(D.regas, (d) => d.country).forEach(([country, ts]) => {
       const imp = ts.find((t) => t.imports2025);
-      list.append('div').attr('class', 'group-label').text(country + (imp ? ` · imports ${fmt(imp.imports2025)} Mt (2025)` : ''));
+      const cu = countryRegas(country);
+      list.append('div').attr('class', 'group-label').text(country + (imp ? ` · imports ${fmt(imp.imports2025)} Mt (2025)` : '') + (cu ? ` · ${cu.rough ? '≈' : ''}${Math.round(cu.util)}% used` : ''));
       ts.forEach((t) => {
         const r = list.append('div').attr('class', 'row').classed('on', on('regas', t.name)).on('click', () => select({ kind: 'regas', id: t.name }));
         r.append('div').attr('class', 't').text(t.name);
@@ -820,7 +822,11 @@ function renderDetail() {
     el.append('h4').text(t.name);
     el.append('div').style('font-size', '11.5px').text(`${t.country} · ${t.type === 'fsru' ? 'Floating storage & regasification unit (FSRU)' : t.type === 'offshore GBS' ? 'Offshore gravity-based structure' : 'Onshore regasification terminal'}`);
     if (t.imports2025) el.append('div').attr('class', 'fig').html(`<div><b>${fmt(t.imports2025)} Mt</b>country imports 2025</div><div><b>${pct(share(t.imports2025))}</b>of world LNG</div>`);
+    if (t.capacity) el.append('div').attr('class', 'stat').style('border-color', C.regas).text(`Terminal regas capacity: ${t.capacity}`);
+    const cu = countryRegas(t.country);
+    if (cu) el.append('div').attr('class', 'stat').style('border-color', C.regas).text(`${t.country} as a whole: ${cu.rough ? '≈' : ''}${Math.round(cu.util)}% of ${fmt(cu.cap)} Mtpa import capacity used in 2025 (section 6).`);
     el.append('div').style('margin-top', '6px').text(t.note);
+    if (t.capacitySource) el.append('span').attr('class', 'src').text('Capacity: ' + t.capacitySource);
     const legs = [...(activeLegIds() || [])].map((id) => D.legs.find((l) => l.id === id).title);
     if (legs.length) el.append('div').style('margin-top', '8px').style('font-size', '11.5px').text('Legs arriving here on the map: ' + legs.join(' · '));
   } else if (a.kind === 'event') {
@@ -1326,6 +1332,141 @@ function renderTonMiles() {
   d3.select('#c-tmlegs-src').text('Volume × laden distance on each leg of the globe. Qatar to North Asia loses the most because it was both the biggest Gulf flow and a long voyage. Run-rates are estimates (≈).');
 }
 
+// ------------------------------------------------- import side (regasCapacity in data/lng.json)
+const REGION_C = { Asia: C.leg, Europe: C.s2, 'Middle East & Africa': C.liq };
+// FSRU status → how it is drawn (literal hexes = C.regas / C.avoided, so the validator can read it); "moved" units still operate at their new berth
+const FSRU_STATUS = {
+  operating: { c: '#d55181', label: 'operating' },
+  moved: { c: '#d55181', label: 'operating' },
+  left: { c: '#4a5866', label: 'charter ended' },
+  closed: { c: '#4a5866', label: 'closed' },
+  due: { c: '#d55181', label: 'due', dashed: true },
+};
+const capMt = (r) => (r.unit === 'bcm' ? r.capacity / D.regasCapacity.bcmPerMt : r.capacity);
+function countryImports(name) {
+  const row = D.importers2025.find((x) => x.name === name);
+  if (row) return row.mt;
+  const t = D.regas.find((x) => x.country === name && x.imports2025 != null);
+  return t ? t.imports2025 : null;
+}
+function regasRows() {
+  return D.regasCapacity.countries.map((r) => {
+    const mt = countryImports(r.name), cap = capMt(r);
+    return { ...r, mt, cap, util: 100 * mt / cap, rough: r.derived || r.unit === 'bcm' || r.confidence === 'low' };
+  }).sort((a, b) => b.util - a.util);
+}
+
+// the map's terminals say "Turkey"; the GIIGNL tables say "Türkiye"
+const countryRegas = (country) => regasRows().find((r) => r.name === (country === 'Turkey' ? 'Türkiye' : country));
+
+function renderRegas() {
+  const R = D.regasCapacity, G = R.global, T = D.globalTrade2025Mt;
+  const mini = d3.select('#c-regas-glob').html('').append('div').attr('class', 'mini').style('margin', '0 0 12px');
+  [[`${d3.format(',')(G.giignlMtpa)} Mtpa`, `world regas, end-2025 (GIIGNL): ${(G.giignlMtpa / T).toFixed(1)}× 2025 trade`, G.giignlSource],
+    [`${G.iguUtilisation2025}%`, `average use in 2025 (IGU, of ${d3.format(',')(G.iguMtpa)} Mtpa)`, G.iguSource],
+    [`${fmt(G.iguFloatingMtpa)} Mtpa`, `floating or offshore (${pct(100 * G.iguFloatingMtpa / G.iguMtpa)} of IGU total)`, G.iguSource]].forEach(([v, l, src]) => {
+    mini.append('div').html(`<b>${v}</b><span>${l}</span>`).on('mousemove', (e) => showTip(e, `<span style="font-size:11px">${src}</span>`)).on('mouseleave', hideTip);
+  });
+
+  const rows = regasRows();
+  const key = d3.select('#c-regas').html('').append('div').attr('class', 'keyline');
+  Object.entries(REGION_C).forEach(([k, c]) => key.append('span').html(`<i style="background:${c}"></i>${k}`));
+  const holder = d3.select('#c-regas').append('div');
+  hbars(holder.node(), rows.map((r) => ({ ...r, v: Math.min(r.util, 100), color: REGION_C[r.region] })), {
+    max: 100,
+    valueText: (r) => `${r.rough ? '≈' : ''}${Math.round(r.util)}% · ${fmt(r.cap)}`,
+    tipText: (r) => `<b>${r.name}</b>: ${r.rough ? '≈' : ''}${Math.round(r.util)}% used in 2025<br>` +
+      `Imports ${fmt(r.mt)} Mt ÷ capacity ${r.unit === 'bcm' ? `${fmt(r.capacity)} bcm/yr ≈ ${fmt(r.cap)} Mtpa` : `${fmt(r.capacity)} Mtpa`} (${r.asOf})` +
+      (r.reportedUtilisation ? `<br>Published utilisation: ${r.reportedUtilisation}%` : '') +
+      (r.note ? `<br>${r.note}` : '') + `<br><span style="font-size:11px">Capacity: ${r.source}${r.derived ? ' (computed here)' : ''} · confidence ${r.confidence}</span>`,
+  });
+  const lo = rows.filter((r) => r.util < 40).map((r) => r.name);
+  d3.select('#c-regas-src').text(`Value: utilisation · capacity in Mtpa. Below 40%: ${lo.join(', ')}. ` +
+    `Utilisation is computed as 2025 imports (GIIGNL 2026) ÷ capacity, with bcm converted at ${R.bcmPerMt} bcm per Mt; it ignores seasonality, reloads and outages. ` +
+    `Capacities mix IGU (end-2024/25), SynMax (2025), operator and ministry figures because the GIIGNL 2026 country table could not be retrieved; Taiwan is left out (no published total found).`);
+
+  // EU utilisation trend: one bar per year
+  const U = R.euUtilisation;
+  const wrap = d3.select('#c-euutil').html('');
+  const k2 = wrap.append('div').attr('class', 'keyline');
+  k2.append('span').html(`<i style="background:${C.s2}"></i>full year (IEEFA)`);
+  k2.append('span').html(`<i style="background:none;border:1.5px dashed ${C.s2}"></i>other basis / part year`);
+  const w = Math.max(280, wrap.node().clientWidth || 600), h = w < 500 ? 200 : 220, m = { t: 22, r: 10, b: 24, l: 34 };
+  const x = d3.scaleBand().domain(U.map((u) => u.period)).range([m.l, w - m.r]).padding(0.34);
+  const y = d3.scaleLinear().domain([0, 100]).range([h - m.b, m.t]);
+  const s = wrap.append('svg').attr('width', w).attr('height', h).attr('viewBox', `0 0 ${w} ${h}`);
+  s.append('g').selectAll('line').data(y.ticks(4)).join('line').attr('x1', m.l).attr('x2', w - m.r).attr('y1', (d) => y(d)).attr('y2', (d) => y(d))
+    .attr('stroke', (d) => (d === 0 ? '#3a4f66' : '#1c2733'));
+  s.append('g').selectAll('text').data(y.ticks(4)).join('text').attr('x', m.l - 6).attr('y', (d) => y(d) + 3.5).attr('text-anchor', 'end')
+    .attr('font-size', 10.5).attr('fill', C.soft).text((d) => d);
+  s.append('text').attr('x', m.l - 6).attr('y', 10).attr('text-anchor', 'end').attr('font-size', 10.5).attr('fill', C.soft).text('%');
+  const hollow = (u) => u.proxy || u.partial;
+  s.append('g').selectAll('rect').data(U).join('rect')
+    .attr('x', (u) => x(u.period)).attr('width', x.bandwidth()).attr('y', (u) => y(u.pct)).attr('height', (u) => y(0) - y(u.pct)).attr('rx', 2)
+    .attr('fill', (u) => (hollow(u) ? '#2a1a14' : C.s2)).attr('stroke', (u) => (hollow(u) ? C.s2 : null)).attr('stroke-width', 1.5)
+    .attr('stroke-dasharray', (u) => (hollow(u) ? '4 3' : null))
+    .on('mousemove', (e, u) => showTip(e, `<b>${u.period}: ${u.pct}%</b>${u.partial ? ' (first quarter)' : ''}${u.note ? `<br>${u.note}` : ''}<br><span style="font-size:11px">${u.source}</span>`))
+    .on('mouseleave', hideTip);
+  s.append('g').selectAll('text.v').data(U).join('text').attr('x', (u) => x(u.period) + x.bandwidth() / 2).attr('y', (u) => y(u.pct) - 5)
+    .attr('text-anchor', 'middle').attr('font-size', 11).attr('font-weight', 600).attr('fill', C.ink).text((u) => `${u.pct}%`);
+  s.append('g').selectAll('text.x').data(U).join('text').attr('x', (u) => x(u.period) + x.bandwidth() / 2).attr('y', h - 7)
+    .attr('text-anchor', 'middle').attr('font-size', w < 400 ? 10 : 11).attr('fill', C.soft).text((u) => u.period);
+  const cap = R.euCapacity;
+  d3.select('#c-euutil-src').text(`Utilisation peaked in 2022, when Europe replaced Russian pipeline gas with LNG, fell in 2024 as demand dropped and new terminals opened, and rose again in 2025–26 as storage refilled. ` +
+    `EU import capacity: ${cap[0].bcm} bcm/yr in Jan 2025, ${cap.at(-1).approx ? '≈' : ''}${cap.at(-1).bcm} bcm/yr by Oct 2025 (ACER). Sources: IEEFA European LNG Tracker (May 2026) and Global LNG Outlook (Apr 2024); 2021 from GIE ALSI. No figure after Q1 2026 was found.`);
+
+  // FSRUs: capacity added per start year, stacked by where the unit is now
+  const F2 = R.fsrus.map((f) => ({ ...f, year: +f.start.slice(0, 4) }));
+  const years = d3.range(d3.min(F2, (f) => f.year), d3.max(F2, (f) => f.year) + 1);
+  const order = ['operating', 'moved', 'left', 'closed', 'due'];
+  const wrapF = d3.select('#c-fsru').html('');
+  const k3 = wrapF.append('div').attr('class', 'keyline');
+  k3.append('span').html(`<i style="background:${C.regas}"></i>still operating`);
+  k3.append('span').html(`<i style="background:${C.avoided}"></i>closed or left`);
+  k3.append('span').html(`<i style="background:none;border:1.5px dashed ${C.regas}"></i>due to start`);
+  const wF = Math.max(280, wrapF.node().clientWidth || 600), hF = wF < 500 ? 200 : 220, mF = { t: 22, r: 10, b: 24, l: 34 };
+  const xF = d3.scaleBand().domain(years).range([mF.l, wF - mF.r]).padding(0.34);
+  const tot = years.map((yr) => d3.sum(F2.filter((f) => f.year === yr), (f) => f.capacityBcm ?? 0));
+  const yF = d3.scaleLinear().domain([0, d3.max(tot) * 1.15]).range([hF - mF.b, mF.t]).nice();
+  const sF = wrapF.append('svg').attr('width', wF).attr('height', hF).attr('viewBox', `0 0 ${wF} ${hF}`);
+  sF.append('g').selectAll('line').data(yF.ticks(4)).join('line').attr('x1', mF.l).attr('x2', wF - mF.r).attr('y1', (d) => yF(d)).attr('y2', (d) => yF(d))
+    .attr('stroke', (d) => (d === 0 ? '#3a4f66' : '#1c2733'));
+  sF.append('g').selectAll('text').data(yF.ticks(4)).join('text').attr('x', mF.l - 6).attr('y', (d) => yF(d) + 3.5).attr('text-anchor', 'end')
+    .attr('font-size', 10.5).attr('fill', C.soft).text((d) => d);
+  sF.append('text').attr('x', mF.l - 6).attr('y', 10).attr('text-anchor', 'end').attr('font-size', 10.5).attr('fill', C.soft).text('bcm/yr');
+  const gF = sF.append('g');
+  years.forEach((yr, i) => {
+    let acc = 0;
+    F2.filter((f) => f.year === yr && f.capacityBcm != null).sort((a, b) => order.indexOf(a.status) - order.indexOf(b.status)).forEach((f) => {
+      const st = FSRU_STATUS[f.status];
+      gF.append('rect').attr('class', 'seg').attr('x', xF(yr)).attr('width', xF.bandwidth()).attr('y', yF(acc + f.capacityBcm) + 0.5)
+        .attr('height', Math.max(1, yF(acc) - yF(acc + f.capacityBcm) - 1))
+        .attr('fill', st.dashed ? '#2a1420' : st.c).attr('stroke', st.dashed ? st.c : C.bg).attr('stroke-width', st.dashed ? 1.5 : 1).attr('stroke-dasharray', st.dashed ? '4 3' : null)
+        .on('mousemove', (e) => showTip(e, `<b>${f.name}</b> · ${f.country}<br>${f.vessel}<br>Start ${fmtMonth(parseMonth(f.start))}: ${f.approx ? '≈' : ''}${fmt(f.capacityBcm)} bcm/yr<br>Now: ${st.label}${f.note ? ` · ${f.note}` : ''}<br><span style="font-size:11px">${f.source}</span>`))
+        .on('mouseleave', hideTip);
+      acc += f.capacityBcm;
+    });
+    sF.append('text').attr('x', xF(yr) + xF.bandwidth() / 2).attr('y', yF(tot[i]) - 5).attr('text-anchor', 'middle').attr('font-size', 11).attr('font-weight', 600)
+      .attr('fill', C.ink).text(fmt(tot[i]));
+    sF.append('text').attr('x', xF(yr) + xF.bandwidth() / 2).attr('y', hF - 7).attr('text-anchor', 'middle').attr('font-size', 11).attr('fill', C.soft).text(yr);
+  });
+  const started = F2.filter((f) => f.status !== 'due');
+  const live = d3.sum(F2.filter((f) => f.status === 'operating' || f.status === 'moved'), (f) => f.capacityBcm ?? 0);
+  const gone = d3.sum(F2.filter((f) => f.status === 'left' || f.status === 'closed'), (f) => f.capacityBcm ?? 0);
+  const noCap = F2.filter((f) => f.capacityBcm == null).map((f) => `${f.name} (${f.capacityText})`);
+  d3.select('#c-fsru-src').text(`${started.length} units started from Sep 2022 to May 2025. ≈${fmt(live)} bcm/yr (≈${fmt(live / R.bcmPerMt)} Mtpa) is still operating; ${fmt(gone)} bcm/yr has gone again (Le Havre closed, Mukran's second unit's charter ended). ` +
+    `Not in the bars: ${noCap.join(', ')}. Capacities are operators' nominal figures as reported; ≈ means approximate.`);
+
+  const tb = d3.select('#c-fsru-table').html('').append('table').attr('class', 'conv fsru');
+  tb.append('tr').html('<th>Terminal</th><th>Vessel</th><th>Start</th><th>bcm/yr</th><th>Now</th>');
+  F2.forEach((f) => {
+    const st = FSRU_STATUS[f.status];
+    tb.append('tr').html(`<td>${f.name}<br><span style="color:${C.soft};font-size:11px">${f.country}</span></td><td>${f.vessel}</td><td>${d3.utcFormat('%b %Y')(parseMonth(f.start))}</td>` +
+      `<td>${f.capacityBcm == null ? '–' : (f.approx ? '≈' : '') + fmt(f.capacityBcm)}</td><td class="st" style="color:${st.c === C.avoided ? C.soft : '#eda0c0'}">${st.label}</td>`)
+      .on('mousemove', (e) => showTip(e, `<span style="font-size:11px">${f.source}</span>`)).on('mouseleave', hideTip);
+  });
+}
+
 // ------------------------------------------------------- voyage calculator
 // Sea-lane graph: every consecutive waypoint pair of every leg (main,
 // secondary and abandoned paths) plus a few extra lanes. Plants and
@@ -1649,6 +1790,7 @@ Promise.all([
   renderCharter();
   renderFleetChart();
   renderTonMiles();
+  renderRegas();
   renderVoyageInputs();
   renderVoyage(false);
   d3.select('#voy-clear').on('click', () => { clearVoyage(); styleLegs(); render(); d3.selectAll('table.voy tr').classed('on', false); });
@@ -1663,7 +1805,7 @@ Promise.all([
   window.addEventListener('resize', () => {
     updateScreenScale();
     const cw = d3.select('#c-prices').node().clientWidth;
-    if (cw !== lastChartW) { lastChartW = cw; renderPrices(); renderStorage(); renderCharter(); renderFleetChart(); renderTonMiles(); }
+    if (cw !== lastChartW) { lastChartW = cw; renderPrices(); renderStorage(); renderCharter(); renderFleetChart(); renderTonMiles(); renderRegas(); }
     if (Math.abs(TS - lastTS) > 0.05) { lastTS = TS; buildTexts(); render(); }
   });
   // detailed coastline for close zooms, loaded in the background

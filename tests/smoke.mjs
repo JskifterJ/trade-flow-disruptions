@@ -102,7 +102,7 @@ async function testLng(vp) {
   await page.waitForTimeout(800);
   check(await page.locator('#globe path').count() > 50, `${tag}: globe did not draw`);
   check(await page.locator('#kpis .kpi').count() >= 5, `${tag}: KPIs missing`);
-  for (const id of ['#c-exp', '#c-imp', '#c-choke', '#c-gap', '#c-expo', '#c-wave', '#c-scen', '#c-prices', '#c-storage', '#c-charter', '#c-fleet', '#c-tonmile', '#c-tmlegs', '#chain', '#timeline', '#gloss']) {
+  for (const id of ['#c-exp', '#c-imp', '#c-choke', '#c-gap', '#c-expo', '#c-wave', '#c-scen', '#c-prices', '#c-storage', '#c-charter', '#c-fleet', '#c-tonmile', '#c-tmlegs', '#c-regas', '#c-euutil', '#c-fsru', '#c-fsru-table', '#chain', '#timeline', '#gloss']) {
     check((await page.locator(id).innerHTML()).length > 50, `${tag}: ${id} is empty`);
   }
   // regression: the voyage calculator must not draw its default route on load
@@ -227,6 +227,34 @@ async function testLng(vp) {
   await page.locator('#c-charter').locator('..').locator('..').screenshot({ path: `${SHOTS}/${tag}-fleet-freight.png` });
   const fov = await labelOverlaps(page, '#c-charter svg text, #c-fleet svg text, #c-tmlegs svg text');
   check(fov.length === 0, `${tag}: overlapping fleet/freight chart labels: ${fov.slice(0, 4).join('; ')}`);
+
+  // import side: one utilisation bar per country, EU trend, FSRU chart + table, tooltips with sources, terminal capacity in the detail panel
+  const lngData = await page.evaluate(() => fetch('data/lng.json').then((r) => r.json()));
+  const RC = lngData.regasCapacity;
+  check(await page.locator('#c-regas .hb .track').count() === RC.countries.length, `${tag}: regas chart should have ${RC.countries.length} country bars`);
+  check(await page.locator('#c-euutil svg rect').count() === RC.euUtilisation.length, `${tag}: EU utilisation chart should have ${RC.euUtilisation.length} bars`);
+  check(await page.locator('#c-fsru svg rect.seg').count() === RC.fsrus.filter((f) => f.capacityBcm != null).length, `${tag}: FSRU chart segments missing`);
+  check(await page.locator('#c-fsru-table tr').count() === RC.fsrus.length + 1, `${tag}: FSRU table should list ${RC.fsrus.length} units`);
+  check((await page.locator('#c-regas-glob').innerText()).includes('1,247 Mtpa'), `${tag}: world regas tile missing`);
+  await page.locator('#c-regas').scrollIntoViewIfNeeded();
+  await page.locator('#c-regas .hb .track').first().hover();
+  check(/Imports .* Mt ÷ capacity/.test(await page.locator('#tip').innerText()) && /Capacity: /.test(await page.locator('#tip').innerText()), `${tag}: regas bar tooltip did not show the calculation and source`);
+  await page.locator('#c-fsru svg rect.seg').first().hover();
+  check(/bcm\/yr/.test(await page.locator('#tip').innerText()), `${tag}: FSRU tooltip did not show`);
+  await page.mouse.move(0, 0);
+  await page.locator('#c-regas').locator('..').locator('..').screenshot({ path: `${SHOTS}/${tag}-regas.png` });
+  const rov = await labelOverlaps(page, '#c-euutil svg text, #c-fsru svg text');
+  check(rov.length === 0, `${tag}: overlapping regas chart labels: ${rov.slice(0, 4).join('; ')}`);
+  await page.click('#tabs .tab[data-t="regas"]');
+  const dahej = page.locator('#list .row', { hasText: 'Dahej' });
+  await dahej.scrollIntoViewIfNeeded(); await dahej.click(); await page.waitForTimeout(250);
+  const det = await page.locator('#detail').innerText();
+  check(/Terminal regas capacity: 17\.5 Mtpa/.test(det) && /import capacity used in 2025/.test(det), `${tag}: Dahej detail panel lacks capacity/utilisation`);
+  const marmara = page.locator('#list .row', { hasText: 'Marmara' });
+  await marmara.scrollIntoViewIfNeeded(); await marmara.click(); await page.waitForTimeout(250);
+  check(/Turkey as a whole: .*% of/.test(await page.locator('#detail').innerText()), `${tag}: Turkey terminal does not find the Türkiye capacity row`);
+  await page.click('#tabs .tab[data-t="legs"]');
+  await noOverflow(page, tag, 'regas');
 
   // prices & storage charts: one line per series, both shock annotations, hover tooltips
   check(await page.locator('#c-prices svg path').count() >= 3, `${tag}: price chart lines missing`);
