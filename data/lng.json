@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-10-15",
+  "lastUpdated": "2026-10-26",
   "globalTrade2025Mt": 427.9,
   "notes": "2025 volumes come from GIIGNL's Annual Report 2026 (exporter-by-importer matrix, with Kpler). Each leg groups the reported flows from one exporter to the destinations named. Where a country's exports are split across several of its plants (Australia's WA / Queensland / NT legs), the split is an estimate (marked ≈). Paths are illustrative routing through real ports and straits, not AIS tracks. 2026 run-rates are rough indications of current flow, not forecasts.",
   "points": {
@@ -2588,6 +2588,10 @@
       "text": "Panama adds a Neopanamax slot (33 transits a day), still below normal."
     },
     {
+      "date": "28 Sep 2026",
+      "text": "QatarEnergy extends LNG force majeure into November (early December for Edison); 35 Edison cargoes undelivered."
+    },
+    {
       "date": "1 Jan 2027",
       "text": "EU ban on all Russian LNG imports and on maritime services to Russian LNG carriers takes effect."
     },
@@ -3161,6 +3165,16 @@
       "title": "Qatar: ~0.6 Mt expected",
       "text": "Kpler expects Qatari LNG exports of only ~0.6 Mt in October (pre-war ≈6.7 Mt a month).",
       "source": "Kpler via Reuters (12 Oct 2026)"
+    },
+    {
+      "date": "28 Sep 2026",
+      "type": "restriction",
+      "title": "Qatar force majeure into Nov–Dec",
+      "text": "QatarEnergy extended LNG cancellations to Pakistan and Bangladesh through November; Edison reports no deliveries until early December (35 cargoes undelivered).",
+      "lat": 25.93,
+      "lon": 51.55,
+      "approx": true,
+      "source": "Bloomberg / The National (28 Sep 2026)"
     }
   ],
   "zones": [
