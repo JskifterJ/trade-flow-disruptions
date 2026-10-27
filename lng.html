@@ -31,7 +31,14 @@
   body { margin: 0; background: var(--bg); color: var(--ink); min-height: 100vh; }
   a { color: #8fc1f0; }
   header { padding: 20px 24px 12px; border-bottom: 1px solid var(--panel-border); }
-  header .nav { font-size: 12px; margin-bottom: 6px; }
+  /* shared top nav: same markup and styles in index.html and lng.html */
+  .topnav { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; padding: 8px 24px; background: #0f161f; border-bottom: 1px solid var(--panel-border); font-size: 12.5px; }
+  .topnav .brand { color: var(--ink-soft); font-weight: 600; margin-right: 10px; letter-spacing: .02em; }
+  .topnav a { color: var(--ink-soft); text-decoration: none; padding: 5px 10px; border-radius: 6px; border: 1px solid transparent; }
+  .topnav a:hover { color: var(--ink); border-color: var(--panel-border); }
+  .topnav a[aria-current="page"] { color: var(--ink); background: #182230; border-color: var(--panel-border); }
+  .topnav .gh { margin-left: auto; }
+  @media (max-width: 600px) { .topnav { padding: 8px 12px; } .topnav .brand { display: none; } }
   header h1 { margin: 0; font-size: 23px; font-weight: 700; letter-spacing: -0.01em; }
   header p { margin: 6px 0 0; color: var(--ink-soft); font-size: 13.5px; max-width: 86ch; line-height: 1.5; }
   .meta-row { margin-top: 8px; font-size: 11.5px; color: var(--ink-soft); font-family: Consolas, monospace; }
@@ -221,8 +228,14 @@
 </head>
 <body>
 
+<nav class="topnav" aria-label="Pages">
+  <span class="brand">Energy trade maps</span>
+  <a href="index.html">Oil, LNG &amp; products</a>
+  <a href="lng.html" aria-current="page">LNG supply chain</a>
+  <a class="gh" href="https://github.com/JskifterJ/trade-flow-disruptions">GitHub</a>
+</nav>
+
 <header>
-  <div class="nav"><a href="index.html">← Energy trade flows (oil, LNG, products)</a></div>
   <h1>LNG: the global supply chain and the 2026 shock</h1>
   <p>Where liquefied natural gas is made, how it crosses the oceans, where it lands, and what the 2026 closure of the Strait of Hormuz did to it. Spin and zoom the globe: <b style="color:var(--liq)">▲ green triangles</b> are liquefaction (export) plants, <b style="color:var(--regas)">■ pink squares</b> are import terminals, <b style="color:var(--choke)">◇ amber diamonds</b> are chokepoints, and <b style="color:var(--leg)">blue lines</b> are shipping legs, drawn thicker for bigger flows. Each leg is labelled with million tonnes a year and its share of world trade.</p>
   <div class="meta-row" id="meta-row">loading data…</div>

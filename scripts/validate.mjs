@@ -41,7 +41,7 @@ const CHOKE_NODES = constObject('lng.js', 'CHOKE_NODES');
 const APP_SEV = new Set(Object.keys(constObject('app.js', 'SEV_HEX')));
 const APP_EVENT = new Set(Object.keys(constObject('app.js', 'EVENT')));
 const APP_ZONE = new Set(Object.keys(constObject('app.js', 'ZONE_STYLE')));
-const APP_SIZE = new Set(Object.keys(constObject('app.js', 'SIZE_WIDTH')).map(Number));
+const FLOW_UNITS = { crude: 'mb/d', products: 'mb/d', lng: 'Mt', oil: 'mb/d' };
 const REGAS_TYPES = new Set(['onshore', 'fsru', 'offshore GBS']);
 const PROJECT_STATUS = new Set(['starting', 'construction', 'delayed']);
 const DISRUPTION_CATEGORIES = new Set(['transport', 'structural', 'demand']);
@@ -110,6 +110,8 @@ function focus(where, f) {
 
 // ------------------------------------------------------------ lng.json
 function validateLng(D) {
+  LNG_LEGS = new Map((D.legs || []).map((l) => [l.id, l.mt2025]));
+  LNG_TOTAL = D.globalTrade2025Mt;
   const F = 'lng.json';
   requireFields(F, D, ['lastUpdated', 'globalTrade2025Mt', 'points', 'chokepoints', 'legs', 'liquefaction', 'regas',
     'exporters2025', 'exportersSource', 'importRegions2025', 'importers2025', 'importersSource', 'timeline', 'sources',
@@ -336,9 +338,20 @@ function validateDisruptions(D) {
 }
 
 // ------------------------------------------------------------ flows.json
+let LNG_LEGS = null, LNG_TOTAL = null; // filled by validateLng for the flows.json cross-check
 function validateFlows(D) {
   const F = 'flows.json';
-  requireFields(F, D, ['lastUpdated', 'baselineNote', 'commodities', 'chokepoints', 'routes', 'glossary']);
+  requireFields(F, D, ['lastUpdated', 'baselineNote', 'seaborneTotals', 'commodities', 'chokepoints', 'routes', 'glossary']);
+  // seaborne totals: the denominators for every route's share (oil = crude + products, for chokepoints)
+  for (const [k, unit] of Object.entries(FLOW_UNITS)) {
+    const t = D.seaborneTotals?.[k], w = `${F} seaborneTotals.${k}`;
+    if (!check(t, `${w}: missing`)) continue;
+    requireFields(w, t, ['value', 'unit', 'period', 'source']);
+    check(isNum(t.value) && t.value > 0, `${w}: value must be a positive number`);
+    check(t.unit === unit, `${w}: unit must be ${unit}`);
+  }
+  const T = D.seaborneTotals || {};
+  if (T.oil && T.crude && T.products) check(T.oil.value >= Math.max(T.crude.value, T.products.value), `${F} seaborneTotals.oil must be at least the crude and products totals`);
   check(isDate(D.lastUpdated), `${F}: lastUpdated must be YYYY-MM-DD`);
   for (const [k, c] of Object.entries(D.commodities || {})) {
     requireFields(`${F} commodities.${k}`, c, ['label', 'color']);
@@ -346,19 +359,43 @@ function validateFlows(D) {
   }
   unique(`${F} chokepoints`, D.chokepoints || [], 'id');
   const ids = new Set((D.chokepoints || []).map((c) => c.id));
-  (D.chokepoints || []).forEach((c, i) => { const w = `${F} chokepoints[${i}] ${c.id}`; requireFields(w, c, ['id', 'name', 'flow', 'why', 'source']); latLon(w, c); });
+  (D.chokepoints || []).forEach((c, i) => {
+    const w = `${F} chokepoints[${i}] ${c.id}`;
+    requireFields(w, c, ['id', 'name', 'flow', 'why', 'source']); latLon(w, c);
+    if (c.oil) {
+      requireFields(`${w} oil`, c.oil, ['value', 'period', 'source']);
+      check(isNum(c.oil.value) && c.oil.value > 0 && (!T.oil || c.oil.value < T.oil.value), `${w} oil: value must be positive and below the seaborne oil total`);
+    }
+  });
+  const shareSum = {};
   unique(`${F} routes`, D.routes || [], 'id');
   (D.routes || []).forEach((r, i) => {
     const w = `${F} routes[${i}] ${r.id}`;
-    requireFields(w, r, ['id', 'commodity', 'size', 'title', 'volume', 'via', 'waypoints', 'why', 'source']);
+    requireFields(w, r, ['id', 'commodity', 'title', 'flow', 'volume', 'via', 'waypoints', 'why', 'source']);
     check(r.commodity in (D.commodities || {}), `${w}: unknown commodity "${r.commodity}"`);
-    inSet(w, r.size, APP_SIZE, 'size');
+    // sourced volume: unit must match the commodity's seaborne total so shares are like for like
+    const f = r.flow || {};
+    requireFields(`${w} flow`, f, ['value', 'unit', 'period', 'basis', 'source']);
+    check(isNum(f.value) && f.value > 0, `${w} flow: value must be a positive number`);
+    check(f.unit === FLOW_UNITS[r.commodity], `${w} flow: unit must be ${FLOW_UNITS[r.commodity]} for ${r.commodity}`);
+    if (isNum(f.value) && T[r.commodity]) shareSum[r.commodity] = (shareSum[r.commodity] || 0) + (100 * f.value) / T[r.commodity].value;
+    // LNG routes are sums of lng.json legs, so the two pages can't disagree
+    if (r.commodity === 'lng') {
+      if (check(Array.isArray(f.legs) && f.legs.length, `${w} flow: LNG routes must list their lng.json legs`) && LNG_LEGS) {
+        f.legs.forEach((id) => check(LNG_LEGS.has(id), `${w} flow: leg "${id}" not in lng.json`));
+        const tot = f.legs.reduce((a, id) => a + (LNG_LEGS.get(id) || 0), 0);
+        check(Math.abs(tot - f.value) <= 0.05, `${w} flow: ${f.value} Mt ≠ sum of its lng.json legs (${tot.toFixed(1)})`);
+      }
+    }
+    if (r.labelAt) check(Array.isArray(r.labelAt) && isLon(r.labelAt[0]) && isLat(r.labelAt[1]), `${w}: labelAt must be [lon, lat]`);
     (r.via || []).forEach((v) => check(ids.has(v), `${w}: via "${v}" is not a chokepoint id`));
     waypoints(`${w} waypoints`, r.waypoints);
     if (r.secondaryWaypoints) waypoints(`${w} secondaryWaypoints`, r.secondaryWaypoints);
   });
+  for (const [k, v] of Object.entries(shareSum)) check(v <= 100, `${F}: ${k} routes add up to ${v.toFixed(0)}% of seaborne ${k} (> 100%)`);
+  if (T.lng) check(Math.abs(T.lng.value - (LNG_TOTAL ?? T.lng.value)) < 0.05, `${F} seaborneTotals.lng (${T.lng.value}) ≠ lng.json globalTrade2025Mt (${LNG_TOTAL})`);
   (D.glossary || []).forEach((g, i) => check(Array.isArray(g) && g.length === 2 && isStr(g[0]) && isStr(g[1]), `${F} glossary[${i}]: expected [term, definition]`));
-  return { routes: D.routes.length, chokepoints: D.chokepoints.length };
+  return { routes: D.routes.length, chokepoints: D.chokepoints.length, sharePct: Object.fromEntries(Object.entries(shareSum).map(([k, v]) => [k, Math.round(v)])) };
 }
 
 // ------------------------------------------------------------ prices.json

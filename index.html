@@ -204,6 +204,24 @@
   #detail .ev-src { font-size: 10.5px; margin-top: 2px; opacity: .9; }
   #detail .ev-tag { font-size: 10px; padding: 0 6px; border: 1px solid var(--panel-border); border-radius: 8px; color: var(--ink-soft); white-space: nowrap; }
   #detail .story { margin-top: 4px; }
+  .route-card .title-row .n { margin-left: auto; padding-left: 8px; font-size: 12px; color: var(--ink); white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .route-card .title-row .n b { color: var(--ink); }
+  .route-card .bar { height: 4px; background: #1f2b38; border-radius: 2px; overflow: hidden; margin: 6px 0 0 15px; }
+  .route-card .bar i { display: block; height: 100%; border-radius: 2px; }
+  #detail .fig { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 6px 0 8px; }
+  #detail .fig div { font-size: 11px; }
+  #detail .fig b { display: block; font-size: 17px; color: var(--ink); font-variant-numeric: tabular-nums; }
+  #detail .basis { font-size: 11.5px; }
+  #detail a { color: #8fc1f0; }
+  .legend svg { vertical-align: -2px; margin-right: 4px; }
+  /* shared top nav: same markup and styles in index.html and lng.html */
+  .topnav { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; padding: 8px 24px; background: #0f161f; border-bottom: 1px solid var(--panel-border); font-size: 12.5px; }
+  .topnav .brand { color: var(--ink-soft); font-weight: 600; margin-right: 10px; letter-spacing: .02em; }
+  .topnav a { color: var(--ink-soft); text-decoration: none; padding: 5px 10px; border-radius: 6px; border: 1px solid transparent; }
+  .topnav a:hover { color: var(--ink); border-color: var(--panel-border); }
+  .topnav a[aria-current="page"] { color: var(--ink); background: #182230; border-color: var(--panel-border); }
+  .topnav .gh { margin-left: auto; }
+  @media (max-width: 600px) { .topnav { padding: 8px 12px; } .topnav .brand { display: none; } }
   #tip { position: fixed; pointer-events: none; z-index: 10; background: #0a0f15f2; border: 1px solid #3a4f66; border-radius: 6px;
     padding: 7px 9px; font-size: 12px; line-height: 1.45; color: var(--ink-soft); max-width: 300px; display: none; box-shadow: 0 4px 16px #0008; }
   #tip b { color: var(--ink); }
@@ -212,11 +230,17 @@
 </head>
 <body>
 
+<nav class="topnav" aria-label="Pages">
+  <span class="brand">Energy trade maps</span>
+  <a href="index.html" aria-current="page">Oil, LNG &amp; products</a>
+  <a href="lng.html">LNG supply chain</a>
+  <a class="gh" href="https://github.com/JskifterJ/trade-flow-disruptions">GitHub</a>
+</nav>
+
 <header>
   <h1>Energy Trade Flows</h1>
   <p>Where crude oil, LNG and refined products normally move by sea, the chokepoints they depend on, and what the 2026 disruptions (Hormuz, the Red Sea, Panama, Russian sanctions) have done to those flows. Start with <b>Main flows</b> to learn the map, then switch to <b>Disruptions now</b>.</p>
   <div class="meta-row" id="meta-row">loading data…</div>
-  <div class="meta-row"><a href="lng.html" style="color:#4fb3d9">→ Deep dive: the LNG supply chain globe (plants, terminals, legs, 2026 shock)</a></div>
 </header>
 
 <details class="primer">
@@ -225,7 +249,7 @@
     <li><b>Producers are far from consumers.</b> The Gulf, Russia, the US, West Africa, Brazil, Qatar and Australia export; China, India, Japan, Korea and Europe import. Almost all of it goes by sea.</li>
     <li><b>Ships funnel through a handful of chokepoints</b> (yellow diamonds). Click one to see what passes through it and roughly how much. Hormuz and Malacca alone carry about 40% of seaborne oil.</li>
     <li><b>Prices connect the routes.</b> A cargo goes where the price difference beats the freight cost (the "arbitrage"). When a chokepoint closes, ships take longer routes, freight jumps, and the regions that relied on that flow bid up the benchmark they buy on.</li>
-    <li><b>Line width</b> shows three rough size classes, not exact volumes. Routes are drawn through real ports and chokepoints but are illustrative, not ship-tracking data.</li>
+    <li><b>Line width and labels</b> show each route's sourced 2025 volume (mb/d for oil, Mt for LNG) and its share of that commodity's seaborne trade, so a thick crude line and a thick LNG line both mean a big slice of their market. Figures marked ≈ are estimates built from published totals. Routes are drawn through real ports and chokepoints but are illustrative, not ship-tracking data.</li>
   </ol>
   <dl id="glossary"></dl>
 </details>
@@ -233,7 +257,7 @@
 <main>
   <div class="globe-pane">
     <div id="zoombar"><button type="button" id="zin" title="Zoom in">+</button><button type="button" id="zout" title="Zoom out">−</button><button type="button" id="zreset" title="Reset view">reset</button></div>
-    <svg id="globe" viewBox="0 0 640 640" role="img" aria-label="Rotatable globe showing chemical and plastics trade routes and current chokepoint disruptions"></svg>
+    <svg id="globe" viewBox="0 0 640 640" role="img" aria-label="Rotatable globe showing crude oil, LNG and refined-product trade routes, their chokepoints and the 2026 disruptions"></svg>
     <div class="hint">drag to rotate · scroll / pinch / +− to zoom · click a route, chokepoint or event marker to focus on it</div>
   </div>
   <aside>
@@ -246,7 +270,8 @@
     <div class="legend" id="legend-flows">
       <span><span class="dot" style="background:var(--chokepoint);border-radius:1px;transform:rotate(45deg)"></span>chokepoint (click)</span>
       <span><span class="dot" style="background:var(--ink)"></span>port / terminal</span>
-      <span>thicker line = bigger flow</span>
+      <span><svg width="22" height="12"><line x1="1" y1="6" x2="21" y2="6" stroke="#8fa0b0" stroke-width="2"/></svg><svg width="22" height="12"><line x1="1" y1="6" x2="21" y2="6" stroke="#8fa0b0" stroke-width="7"/></svg>width = share of its seaborne trade</span>
+      <span>label: volume · share</span>
     </div>
     <div class="legend" id="legend-disruptions" style="display:none">
       <span><span class="dot" style="background:var(--critical)"></span>critical</span>

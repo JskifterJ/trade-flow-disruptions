@@ -39,10 +39,10 @@ Rules for every run are in the routine prompt; the short version: work on branch
   and GIE ALSI: regas capacity by country vs 2025 imports (utilisation), Europe's terminal
   utilisation trend, FSRUs added since 2022. Update `regas` entries with capacity, add a chart. (done 2026-10-26)
 
-- [ ] **6. Main-page parity.** Bring `index.html` / `data/flows.json` up to the LNG page's standard:
+- [x] **6. Main-page parity.** Bring `index.html` / `data/flows.json` up to the LNG page's standard:
   sourced per-route volumes (EIA World Oil Transit Chokepoints, IEA, Kpler as reported) labelled
   on the lines with share of seaborne trade, a shared top nav between the two pages, consistent
-  legend and detail panel.
+  legend and detail panel. (done 2026-10-27)
 
 - [ ] **7. UX polish.** Deep links (`#leg=us-europe`, `#event=3`, voyage from/to in the URL), an asset
   search box, keyboard access to lists and tabs, a table view for each chart, mobile layout pass,

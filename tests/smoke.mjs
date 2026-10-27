@@ -95,12 +95,20 @@ async function labelOverlaps(page, selector) {
   }, selector);
 }
 
+// Shared top nav: both pages listed, the current one marked, nothing overflowing.
+async function topNav(page, tag, file) {
+  const nav = await page.evaluate(() => [...document.querySelectorAll('nav.topnav a')].map((a) => [a.getAttribute('href'), a.getAttribute('aria-current')]));
+  check(nav.some(([h]) => h === 'index.html') && nav.some(([h]) => h === 'lng.html'), `${tag}: top nav must link both pages`);
+  check(nav.filter(([, c]) => c === 'page').length === 1 && nav.find(([, c]) => c === 'page')?.[0] === file, `${tag}: top nav must mark ${file} as the current page`);
+}
+
 // ------------------------------------------------------------------ lng.html
 async function testLng(vp) {
   const { page, ctx, errors, tag } = await openPage('lng.html', vp);
   await page.waitForFunction(() => /shipping legs/.test(document.querySelector('#meta-row')?.textContent || ''), null, { timeout: 15000 });
   await page.waitForTimeout(800);
   check(await page.locator('#globe path').count() > 50, `${tag}: globe did not draw`);
+  await topNav(page, tag, 'lng.html');
   check(await page.locator('#kpis .kpi').count() >= 5, `${tag}: KPIs missing`);
   for (const id of ['#c-exp', '#c-imp', '#c-choke', '#c-gap', '#c-expo', '#c-wave', '#c-scen', '#c-prices', '#c-storage', '#c-charter', '#c-fleet', '#c-tonmile', '#c-tmlegs', '#c-regas', '#c-euutil', '#c-fsru', '#c-fsru-table', '#chain', '#timeline', '#gloss']) {
     check((await page.locator(id).innerHTML()).length > 50, `${tag}: ${id} is empty`);
@@ -297,6 +305,18 @@ async function testIndex(vp) {
   check(await page.locator('#globe path').count() > 10, `${tag}: globe did not draw`);
   await page.screenshot({ path: `${SHOTS}/${tag}-load.png` });
   await noOverflow(page, tag, 'on load');
+  await topNav(page, tag, 'index.html');
+
+  // flows: every route has a sourced volume; labels on the lines, no overlaps
+  const flows = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/flows.json'), 'utf8'));
+  const nLabels = await page.evaluate(() => [...document.querySelectorAll('#globe text')]
+    .filter((t) => / · \d+%|<1%/.test(t.textContent) && t.getBoundingClientRect().width > 0).length);
+  check(nLabels >= 5, `${tag}: only ${nLabels} route volume labels visible at load`);
+  const ovf = await labelOverlaps(page, '#globe text');
+  if (ovf.length) console.log(`  note ${tag}: ${ovf.length} overlapping labels on the flows globe: ${ovf.slice(0, 6).join('; ')}`);
+  check(ovf.length === 0, `${tag}: overlapping flows-globe labels (${ovf.slice(0, 4).join('; ')})`);
+  check(await page.locator('#route-list .route-card .n').count() === flows.routes.length, `${tag}: not every flow card shows a volume`);
+  check(await page.locator('#route-list .route-card .bar i').count() === flows.routes.length, `${tag}: not every flow card has a share bar`);
 
   // flows: select each route, toggle commodity chips
   let cards = page.locator('#route-list .route-card');
@@ -305,8 +325,30 @@ async function testIndex(vp) {
     await cards.nth(i).scrollIntoViewIfNeeded();
     await cards.nth(i).click();
     await page.waitForTimeout(120);
-    check(!/^Select a route/.test((await page.locator('#detail').innerText()).trim()), `${tag}: flows route ${i}: detail did not fill`);
+    const txt = (await page.locator('#detail').innerText()).trim();
+    check(!/^Select a route/.test(txt), `${tag}: flows route ${i}: detail did not fill`);
+    check(await page.locator('#detail .fig b').count() >= 2 && /of seaborne/.test(txt) && /Volume: /.test(txt), `${tag}: flows route ${i}: no volume/share tiles or volume source`);
+    if (i === 0) {
+      await page.waitForTimeout(1300); // let the globe finish turning to the route
+      const sel = await page.evaluate(() => [...document.querySelectorAll('#globe text')]
+        .filter((t) => / · (\d+|<1)%/.test(t.textContent) && t.getBoundingClientRect().width > 0).map((t) => t.textContent));
+      check(sel.length === 1, `${tag}: selected route should show exactly its own label (saw ${sel.length})`);
+      await page.locator('main').screenshot({ path: `${SHOTS}/${tag}-route-0.png` });
+    }
   }
+  // a chokepoint: oil volume and its share of seaborne oil
+  await cards.nth(n - 1).click(); // deselect
+  await page.click('#zreset'); await page.waitForTimeout(1300);
+  await page.evaluate(() => {
+    const g = [...document.querySelectorAll('#globe g.chokepoint')].find((x) => x.__data__.id === 'hormuz');
+    g.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+  });
+  await page.waitForTimeout(1300);
+  const ctxt = await page.locator('#detail').innerText();
+  check(/Strait of Hormuz/.test(ctxt) && /mb\/d/.test(ctxt) && /of seaborne oil/.test(ctxt), `${tag}: Hormuz detail lacks oil volume/share`);
+  const ovc = await labelOverlaps(page, '#globe text');
+  check(ovc.length === 0, `${tag}: overlapping labels with Hormuz selected (${ovc.slice(0, 4).join('; ')})`);
+  await page.locator('main').screenshot({ path: `${SHOTS}/${tag}-hormuz.png` });
   const chips = page.locator('#chips .chip');
   for (let i = 0; i < await chips.count(); i++) { await chips.nth(i).click(); await chips.nth(i).click(); }
 

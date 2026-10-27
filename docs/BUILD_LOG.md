@@ -2,6 +2,38 @@
 
 Newest first. Each nightly run adds: date, task, what changed, what was verified, open issues.
 
+## 2026-10-27 · task 6: main-page parity (nightly run)
+- **Merged `origin/main`** (weekly refresh of 26 Oct: Qatar force majeure extended into Nov–Dec). `data/disruptions.json` merged cleanly. `data/lng.json` conflicted only on its closing brackets: I kept this branch's `regasCapacity` and main's new events and `lastUpdated` 2026-10-26. Both files validate.
+- **Sourced route volumes on `index.html`.** Each of the 14 routes in `data/flows.json` now has a `flow` with `value`, `unit` (mb/d or Mt), `period`, `basis`, `source` and `approx`. `basis` says what is counted and gives the arithmetic when a figure is derived. The line label reads volume · share of that commodity's seaborne trade (for example "≈8.7 mb/d · 20%" or "79 Mt · 18%"). Line width now follows the share; the three size classes and the `size` field are gone. The labels go through the existing collision-avoiding placer: chokepoint names and diamonds now count as obstacles, and a selected route always shows its own label. Labels are tinted to match each commodity's colour.
+- **The five LNG routes are sums of the LNG page's GIIGNL legs** (`flow.legs`), so the two pages can't disagree. For example, Qatar→Asia = qatar-neasia + qatar-sasia = 66.4 Mt.
+- **Denominators** are in a new `seaborneTotals` block:
+  - Crude ≈44 mb/d: IEA, Hormuz's "nearly 15 mb/d = nearly 34% of global crude trade". The division is mine.
+  - Products ≈31.5 mb/d: IEA OMR Aug 2026, which gives July 2026 at 27.7 mb/d, 3.8 below a year earlier. This is one month, derived.
+  - LNG 427.9 Mt: GIIGNL.
+  - All oil 79.8 mb/d: EIA, H1 2025.
+  - Chokepoints have an `oil` figure from EIA World Oil Transit Chokepoints (updated 3 Mar 2026, H1 2025). This adds Cape 9.1, Panama 2.3, Turkish 3.7 and Danish 4.9 mb/d to the existing four.
+- **Detail panel and list now match `lng.html`.** The panel uses figure tiles (volume, share, number of chokepoints), a "Counts:" line, the via list, a link to the LNG page for LNG routes, and separate story and volume-source lines. A chokepoint shows its mb/d, its share of seaborne oil, and the flows through it with their volumes. Each list card shows "volume · share" with a share bar, sorted by volume, and each group header names its denominator.
+- **Legend, nav and primer.** The flows legend now explains the width scale. A **shared top nav** (`nav.topnav`, with identical markup and CSS on both pages and `aria-current` on the active page) replaces the old ad-hoc links. Primer point 4 is rewritten, and the globe's aria-label no longer talks about "chemicals".
+- **Validator:** `seaborneTotals` units and sources; each route's flow unit matches its commodity; shares per commodity add up to ≤100% (now crude 42%, LNG 56%, products 6%); LNG routes equal the sum of their `lng.json` legs; the LNG total equals `globalTrade2025Mt`; chokepoint oil is sourced. 6,740 checks.
+- **Smoke tests:** the top nav on both pages; at least 5 route labels at load; no label overlaps on the flows globe at load or with Hormuz selected; one volume and one bar per card; volume tiles and source in every route's detail; one label for a selected route; Hormuz's oil share. 350 checks.
+- **Sources (web-search extracts, gathered by two research sub-agents; page fetches are blocked in the sandbox):**
+  - EIA World Oil Transit Chokepoints (3 Mar 2026) and Hormuz destination shares for Q1 2025 (via Statista/Visual Capitalist/AFP).
+  - EIA Today in Energy (10 Mar 2026: US crude exports, and US transport-fuel exports by destination).
+  - IEA Strait of Hormuz factsheet (2026); IEA OMR (12 Mar, 13 May and Aug 2026).
+  - S&P Global Commodities at Sea (15 Jan 2026); Reuters (Jan 2026, India supplier shares); Moscow Times/Kommersant/Energy Intelligence (Kozmino).
+  - NUPRC via Economic Confidential, and Angolan official data via Le360 (Jan 2026).
+  - MDIC/StoneX via Agência iNFRA (8 Jan 2026, Brazil).
+- **Verified:** `npm test` is green: 6,740 data checks and 350 browser checks at 1440×900 and 390×844, with no console errors and no overflow. I looked at the desktop load, the Hormuz screenshot, and the phone route-0 and LNG-page screenshots. I fixed rounding so that 20.9 no longer shows as "21".
+- **Open issues for the owner:**
+  - **Most oil route figures are estimates (≈)** built from shares × totals. Check them before an interview, especially:
+    - Russia→India ≈1.6 mb/d: 33.3% × an assumed ≈4.8 mb/d.
+    - US→Europe crude ≈1.8 mb/d: the 2024 base of 1.93 less EIA's −7%.
+    - Gulf→China/Japan/Korea 8.7 mb/d: Q1 2025 only.
+  - **The products denominator is one month (Jul 2025).** Swap in a full-year Kpler/Vortexa figure if you have one.
+  - **"US Gulf Coast products → Latin America" ≈1.16 mb/d is a floor.** It counts gasoline, diesel and jet to named buyers only, and leaves out LPG.
+  - **"Middle East & India diesel/jet → Europe" ≈0.72 mb/d counts the Middle East only.** India adds roughly another 0.15–0.25 mb/d.
+  - The narrative `volume` sentences are kept, so some still quote older context (e.g. "~84% of Hormuz crude goes to Asia" is 2024; it was 89% in H1 2025).
+
 ## 2026-10-26 · task 5: import side, regas capacity and utilisation (nightly run)
 - **New section 6 on `lng.html`: "The import side".** Voyage, arbitrage, timeline and primer are renumbered 7–10. It has four cards, all drawn at container width and redrawn on resize:
   - **Regas utilisation by country** (`#c-regas`). Three tiles at the top: world regas 1,247 Mtpa = 2.9× 2025 trade (GIIGNL); IGU's 39.2% average use of 1,113.5 Mtpa; floating capacity 216 Mtpa. Below them, bars for 17 countries showing 2025 imports ÷ capacity, coloured by region. The range runs from Poland ≈100%, the Netherlands ≈96% and Belgium 90% down to Japan 30%, the UK 27% and Greece ≈23%. Tooltips show the division, the capacity's date, source and confidence, and any published utilisation figure (India: IGU says 47%, our computed figure is 48%).
