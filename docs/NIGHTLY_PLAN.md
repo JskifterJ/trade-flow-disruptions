@@ -44,9 +44,9 @@ Rules for every run are in the routine prompt; the short version: work on branch
   on the lines with share of seaborne trade, a shared top nav between the two pages, consistent
   legend and detail panel. (done 2026-10-27)
 
-- [ ] **7. UX polish.** Deep links (`#leg=us-europe`, `#event=3`, voyage from/to in the URL), an asset
+- [x] **7. UX polish.** Deep links (`#leg=us-europe`, `#event=3`, voyage from/to in the URL), an asset
   search box, keyboard access to lists and tabs, a table view for each chart, mobile layout pass,
-  and a print-friendly "briefing" layout. README overhaul with screenshots from task 1's harness.
+  and a print-friendly "briefing" layout. README overhaul with screenshots from task 1's harness. (done 2026-10-28)
 
 - [ ] **8. "LNG in 10 minutes" briefing + final review.** `docs/BRIEFING.md`: a one-page,
   sourced explainer of the market and the 2026 shock, using the tool's numbers. Then run every

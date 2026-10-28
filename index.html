@@ -226,6 +226,33 @@
     padding: 7px 9px; font-size: 12px; line-height: 1.45; color: var(--ink-soft); max-width: 300px; display: none; box-shadow: 0 4px 16px #0008; }
   #tip b { color: var(--ink); }
   #tip .src { font-size: 10.5px; font-family: Consolas, monospace; color: #5c6b7a; }
+
+  /* keyboard focus */
+  :focus-visible { outline: 2px solid #8fc1f0; outline-offset: 2px; }
+  .route-card:focus-visible, #detail ul.ev-list li:focus-visible { outline-offset: -1px; }
+  .print-only { display: none; }
+
+  /* print briefing: light page, controls hidden; the globe keeps its dark ocean */
+  @media print {
+    :root { --bg: #fff; --panel: #fff; --panel-border: #c9d1d9; --ink: #111; --ink-soft: #333d47; }
+    @page { size: A4; margin: 12mm; }
+    body { background: #fff; }
+    a { color: #1b5fa8; }
+    .topnav, #zoombar, .hint, .tabs, #chips, details.primer, #tip, #detail .placeholder { display: none !important; }
+    .print-only { display: block; margin-top: 6px; font-size: 10px; color: #56626e; font-family: Consolas, monospace; }
+    main { grid-template-columns: minmax(0, 1fr); }
+    #globe { max-width: 120mm; margin: 0 auto; display: block; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    main { padding: 0 24px; }
+    .globe-pane, aside { padding: 0; }
+    #detail .figure { color: #7a5c00; }
+    .route-card .bar { background: #e5e9ee; }
+    #route-list { max-height: none; overflow: visible; display: grid; grid-template-columns: 1fr 1fr; gap: 0 10px; }
+    #route-list .group-label { grid-column: 1 / -1; }
+    .route-card, #detail ul.ev-list li { break-inside: avoid; background: #fff; }
+    .route-card.active, #detail ul.ev-list li.on { background: #eef2f6; }
+    #detail ul.ev-list { max-height: none; overflow: visible; }
+    .route-card .bar, .sev-dot, .legend, #detail .fig { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
 </style>
 </head>
 <body>
@@ -241,6 +268,7 @@
   <h1>Energy Trade Flows</h1>
   <p>Where crude oil, LNG and refined products normally move by sea, the chokepoints they depend on, and what the 2026 disruptions (Hormuz, the Red Sea, Panama, Russian sanctions) have done to those flows. Start with <b>Main flows</b> to learn the map, then switch to <b>Disruptions now</b>.</p>
   <div class="meta-row" id="meta-row">loading data…</div>
+  <div class="print-only" id="print-meta"></div>
 </header>
 
 <details class="primer">
@@ -256,14 +284,14 @@
 
 <main>
   <div class="globe-pane">
-    <div id="zoombar"><button type="button" id="zin" title="Zoom in">+</button><button type="button" id="zout" title="Zoom out">−</button><button type="button" id="zreset" title="Reset view">reset</button></div>
+    <div id="zoombar"><button type="button" id="zin" title="Zoom in">+</button><button type="button" id="zout" title="Zoom out">−</button><button type="button" id="zreset" title="Reset view">reset</button><button type="button" id="print" title="Print or save as PDF: the globe, the route list and the selected story">print briefing</button></div>
     <svg id="globe" viewBox="0 0 640 640" role="img" aria-label="Rotatable globe showing crude oil, LNG and refined-product trade routes, their chokepoints and the 2026 disruptions"></svg>
     <div class="hint">drag to rotate · scroll / pinch / +− to zoom · click a route, chokepoint or event marker to focus on it</div>
   </div>
   <aside>
-    <div class="tabs">
-      <button class="tab active" type="button" data-mode="flows">Main flows</button>
-      <button class="tab" type="button" data-mode="disruptions">Disruptions now</button>
+    <div class="tabs" role="tablist" aria-label="Map view">
+      <button class="tab active" type="button" role="tab" aria-controls="route-list" aria-selected="true" data-mode="flows">Main flows</button>
+      <button class="tab" type="button" role="tab" aria-controls="route-list" aria-selected="false" tabindex="-1" data-mode="disruptions">Disruptions now</button>
     </div>
     <div id="mode-note"></div>
     <div id="chips"></div>
@@ -281,8 +309,8 @@
       <span><span class="dot" style="background:var(--avoided)"></span>dashed = route avoided</span>
       <div id="legend-events"></div>
     </div>
-    <div id="route-list"></div>
-    <div id="detail"><span class="placeholder">Select a route to read the full story and sources.</span></div>
+    <div id="route-list" role="tabpanel"></div>
+    <div id="detail" aria-live="polite"><span class="placeholder">Select a route to read the full story and sources.</span></div>
   </aside>
 </main>
 

@@ -30,6 +30,14 @@ const server = http.createServer((req, res) => {
 await new Promise((r) => server.listen(0, '127.0.0.1', r));
 const BASE = `http://127.0.0.1:${server.address().port}`;
 
+// README_SHOTS=1 (npm run shots) also saves the README's images to docs/img/ as JPEGs.
+const README_IMG = path.join(ROOT, 'docs', 'img');
+async function readmeShot(target, name, opts = {}) {
+  if (!process.env.README_SHOTS) return;
+  fs.mkdirSync(README_IMG, { recursive: true });
+  await target.screenshot({ path: path.join(README_IMG, `${name}.jpg`), type: 'jpeg', quality: 78, ...opts });
+}
+
 const VIEWPORTS = [['desktop', 1440, 900], ['phone', 390, 844]];
 const failures = [];
 let checks = 0;
@@ -39,7 +47,7 @@ function check(ok, msg) { checks++; if (!ok) failures.push(msg); }
 // PW_CHROMIUM: use a preinstalled Chromium when it doesn't match the pinned Playwright build
 const browser = await chromium.launch(process.env.PW_CHROMIUM ? { executablePath: process.env.PW_CHROMIUM } : {});
 
-async function openPage(file, vp) {
+async function openPage(file, vp, hash = '') {
   const [name, width, height] = vp;
   const ctx = await browser.newContext({ viewport: { width, height }, deviceScaleFactor: 1, hasTouch: name === 'phone' });
   const page = await ctx.newPage();
@@ -58,7 +66,7 @@ async function openPage(file, vp) {
     errors.push(`unexpected external request: ${url}`);
     return route.abort();
   });
-  await page.goto(`${BASE}/${file}`);
+  await page.goto(`${BASE}/${file}${hash}`);
   return { page, ctx, errors, tag: `${file.replace('.html', '')}-${name}` };
 }
 
@@ -120,6 +128,7 @@ async function testLng(vp) {
   check(legLabels >= 3, `${tag}: only ${legLabels} leg volume labels visible on load`);
   check(!(await page.locator('#voy-clear').isVisible()), `${tag}: a voyage route is drawn on the globe at load`);
   await page.screenshot({ path: `${SHOTS}/${tag}-load.png`, fullPage: false });
+  await readmeShot(page, vp[0] === 'desktop' ? 'lng-desktop' : 'lng-phone');
   await noOverflow(page, tag, 'on load');
   const ov = await labelOverlaps(page, '#globe text');
   if (ov.length) console.log(`  note ${tag}: ${ov.length} overlapping globe labels at default view: ${ov.slice(0, 6).join('; ')}`);
@@ -130,6 +139,7 @@ async function testLng(vp) {
   check(await page.locator('#scen-banner.now').count() === 1, `${tag}: 2026 scenario banner did not switch`);
   await page.waitForTimeout(300);
   await page.locator('.globe-pane').screenshot({ path: `${SHOTS}/${tag}-globe-2026.png` });
+  if (vp[0] === 'desktop') await readmeShot(page.locator('main'), 'lng-2026');
   await page.click('#scenario button[data-s="2025"]');
 
   // every tab, select first row (and a few more), detail panel must fill
@@ -275,6 +285,7 @@ async function testLng(vp) {
   check(/TTF \(Europe\): \$/.test(await page.locator('#tip').innerText()), `${tag}: price chart hover tooltip did not show`);
   await page.mouse.move(0, 0);
   await page.locator('#c-prices').locator('..').locator('..').screenshot({ path: `${SHOTS}/${tag}-prices-storage.png` });
+  if (vp[0] === 'desktop') await readmeShot(page.locator('#c-prices').locator('..').locator('..'), 'lng-prices');
   const pov = await labelOverlaps(page, '#c-prices svg text, #c-storage svg text');
   check(pov.length === 0, `${tag}: overlapping chart labels: ${pov.slice(0, 4).join('; ')}`);
   await noOverflow(page, tag, 'arbitrage');
@@ -297,6 +308,233 @@ async function testLng(vp) {
   await ctx.close();
 }
 
+// --------------------------------------------- lng.html: links, search, keys, tables, print
+const hashOf = (page) => page.evaluate(() => decodeURIComponent(location.hash));
+const lngReady = (page) => page.waitForFunction(() => /shipping legs/.test(document.querySelector('#meta-row')?.textContent || ''), null, { timeout: 15000 });
+async function testLngUx(vp) {
+  const lng = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/lng.json'), 'utf8'));
+  // deep links: every kind of selection, the scenario and the voyage
+  const links = [
+    ['#leg=us-europe', 'leg', /US Gulf Coast|Europe/],
+    ['#event=3', 'event', new RegExp(lng.events[2].title.slice(0, 20).replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))],
+    ['#plant=sabine-pass', 'plant', /Sabine Pass/],
+    ['#terminal=dahej', 'terminal', /Dahej/],
+    ['#choke=hormuz', 'choke', /Hormuz/],
+    ['#project=golden-pass-t1-t2', 'project', /Golden Pass/],
+  ];
+  for (const [hash, key, re] of links) {
+    const { page, ctx, errors, tag } = await openPage('lng.html', vp, hash);
+    await lngReady(page); await page.waitForTimeout(1300);
+    const det = await page.locator('#detail').innerText();
+    check(re.test(det), `${tag} ${hash}: detail panel did not open the linked item (${det.slice(0, 60)})`);
+    check(await page.locator('#list .row.on').count() === 1, `${tag} ${hash}: linked item not highlighted in the list`);
+    check((await hashOf(page)) === hash, `${tag} ${hash}: hash rewritten to ${await hashOf(page)}`);
+    if (key === 'leg' && vp[0] === 'desktop') await page.locator('main').screenshot({ path: `${SHOTS}/${tag}-link-leg.png` });
+    for (const e of errors) failures.push(`${tag} ${hash}: ${e}`);
+    await ctx.close();
+  }
+  {
+    const hash = '#scenario=2026&leg=qatar-neasia&from=ras-laffan&to=tokyo-bay-terminals&open=hormuz,panama';
+    const { page, ctx, errors, tag } = await openPage('lng.html', vp, hash);
+    await lngReady(page); await page.waitForTimeout(1300);
+    check(await page.locator('#scenario button.on').getAttribute('data-s') === '2026', `${tag}: #scenario=2026 did not switch the scenario`);
+    check(await page.locator('#voy-in select[data-k="from"]').inputValue() === 'Ras Laffan (14 trains)' && await page.locator('#voy-in select[data-k="to"]').inputValue() === 'Tokyo Bay terminals', `${tag}: voyage from/to not read from the link`);
+    check(await page.locator('#voy-in .toggles input[data-k="hormuz"]').isChecked(), `${tag}: open=hormuz not applied`);
+    check(await page.locator('table.voy tr.alt').count() >= 1, `${tag}: linked voyage has no route table`);
+    check((await hashOf(page)) === hash, `${tag}: combined hash rewritten to ${await hashOf(page)}`);
+    // changing the voyage updates the link
+    await page.selectOption('#voy-in select[data-k="to"]', 'Dahej');
+    check(/to=dahej/.test(await hashOf(page)), `${tag}: changing the voyage did not update the link`);
+    // closing Hormuz again: Ras Laffan has no route, and the link says so
+    await page.locator('#voy-in .toggles input[data-k="hormuz"]').click();
+    // back to the default passages (Panama only), so open= drops out of the link
+    check(/No open route/.test(await page.locator('#voy-out').innerText()) && !/open=/.test(await hashOf(page)) && /from=ras-laffan/.test(await hashOf(page)), `${tag}: closing Hormuz not reflected in the link (${await hashOf(page)})`);
+    // hashchange: pasting a new link moves the view
+    await page.evaluate(() => { location.hash = 'choke=malacca'; });
+    await page.waitForTimeout(1300);
+    check(/Malacca/.test(await page.locator('#detail').innerText()) && await page.locator('#scenario button.on').getAttribute('data-s') === '2025', `${tag}: hashchange did not apply`);
+    for (const e of errors) failures.push(`${tag} combined link: ${e}`);
+    await ctx.close();
+  }
+  {
+    const { page, ctx, errors, tag } = await openPage('lng.html', vp, '#leg=no-such-leg&event=999');
+    await lngReady(page); await page.waitForTimeout(500);
+    check((await hashOf(page)) === '', `${tag}: unknown link values should be dropped (hash is ${await hashOf(page)})`);
+    for (const e of errors) failures.push(`${tag} bad link: ${e}`);
+    await ctx.close();
+  }
+
+  const { page, ctx, errors, tag } = await openPage('lng.html', vp);
+  await lngReady(page); await page.waitForTimeout(800);
+  // clicking writes the link
+  await page.locator('#list .row').first().click(); await page.waitForTimeout(300);
+  check(/^#leg=[a-z0-9-]+$/.test(await hashOf(page)), `${tag}: selecting a leg did not write #leg= (${await hashOf(page)})`);
+  check(await page.locator('#detail .linkbtn').count() === 1, `${tag}: copy-link button missing`);
+  await page.locator('#list .row.on').click(); await page.waitForTimeout(200);
+  check((await hashOf(page)) === '', `${tag}: deselecting should clear the link`);
+
+  // search: typing, arrow keys, Enter
+  await page.fill('#q', 'sabine');
+  check(await page.locator('#q-res li[role=option]').count() >= 1, `${tag}: search for "sabine" found nothing`);
+  check(/Sabine Pass/.test(await page.locator('#q-res li').first().innerText()), `${tag}: first search hit is not Sabine Pass`);
+  await page.keyboard.press('Enter'); await page.waitForTimeout(1200);
+  check(/Sabine Pass/.test(await page.locator('#detail h4').innerText()) && await page.locator('#tabs .tab.on').getAttribute('data-t') === 'liq', `${tag}: choosing a search hit did not select the plant`);
+  check(await page.locator('#q-res').isHidden(), `${tag}: search results did not close`);
+  await page.fill('#q', 'qatar');
+  const nq = await page.locator('#q-res li[role=option]').count();
+  check(nq >= 3, `${tag}: "qatar" should match several items (got ${nq})`);
+  await page.keyboard.press('ArrowDown');
+  check(await page.locator('#q-res li[aria-selected=true]').count() === 1 && (await page.locator('#q').getAttribute('aria-activedescendant')) === 'q-opt-1', `${tag}: ArrowDown did not move the search highlight`);
+  if (vp[0] === 'desktop') { await page.locator('aside').screenshot({ path: `${SHOTS}/${tag}-search.png` }); await readmeShot(page.locator('aside'), 'lng-search'); }
+  await page.keyboard.press('Escape');
+  check(await page.locator('#q-res').isHidden() && (await page.inputValue('#q')) === '', `${tag}: Escape did not close search`);
+  await page.fill('#q', 'golden pass t1');
+  await page.locator('#q-res li[role=option]').first().click(); await page.waitForTimeout(1200);
+  check(await page.locator('#tabs .tab.on').getAttribute('data-t') === 'proj' && await page.locator('#layers input[data-l=proj]').isChecked(), `${tag}: choosing a project did not open the Pipeline tab and layer`);
+  await page.fill('#q', 'zzqx');
+  check(/No match/.test(await page.locator('#q-res').innerText()), `${tag}: no "No match" message`);
+  await page.keyboard.press('Escape');
+
+  // keyboard: tabs with arrow keys, rows with Enter and arrows
+  await page.locator('#tabs .tab.on').focus();
+  await page.keyboard.press('Home');
+  check(await page.locator('#tabs .tab.on').getAttribute('data-t') === 'legs' && await page.evaluate(() => document.activeElement.dataset.t) === 'legs', `${tag}: Home did not move to the first tab`);
+  await page.keyboard.press('ArrowRight');
+  check(await page.locator('#tabs .tab.on').getAttribute('data-t') === 'liq' && await page.locator('#tabs .tab[aria-selected=true]').count() === 1, `${tag}: ArrowRight did not switch tabs`);
+  await page.keyboard.press('ArrowLeft');
+  check(await page.locator('#tabs .tab.on').getAttribute('data-t') === 'legs', `${tag}: ArrowLeft did not switch back`);
+  await page.locator('#list .row').first().focus();
+  await page.keyboard.press('ArrowDown');
+  await page.keyboard.press('Enter'); await page.waitForTimeout(300);
+  const second = await page.locator('#list .row').nth(1).getAttribute('aria-pressed');
+  check(second === 'true', `${tag}: Enter on a focused row did not select it`);
+  check(await page.evaluate(() => document.activeElement.classList.contains('row') && document.activeElement.classList.contains('on')), `${tag}: focus lost after selecting a row with the keyboard`);
+  await page.keyboard.press(' '); await page.waitForTimeout(200);
+  check(await page.locator('#list .row.on').count() === 0, `${tag}: Space did not deselect`);
+  await page.locator('table.voy tr.alt').first().focus();
+  await page.keyboard.press('Enter'); await page.waitForTimeout(300);
+  check(await page.locator('table.voy tr.on').count() === 1 && /from=/.test(await hashOf(page)), `${tag}: Enter on a voyage row did not draw it`);
+  await page.click('#voy-clear');
+
+  // table view under every chart
+  const charts = ['#c-exp', '#c-imp', '#c-choke', '#c-gap', '#c-expo', '#c-wave', '#c-scen', '#c-prices', '#c-storage', '#c-charter', '#c-fleet', '#c-tmlegs', '#c-regas', '#c-euutil', '#c-fsru'];
+  for (const c of charts) {
+    const det = page.locator(`details.tview[data-for="${c}"]`);
+    check(await det.count() === 1, `${tag}: ${c} has ${await det.count()} table views`);
+    if (!(await det.count())) continue;
+    check(await det.locator('tbody tr').count() >= 2, `${tag}: ${c} table view is empty`);
+  }
+  check(await page.locator('details.tview[data-for="#c-exp"] tbody tr').count() === lng.exporters2025.length, `${tag}: exporters table should list every exporter`);
+  check(await page.locator('details.tview[data-for="#c-regas"] tbody tr').count() === lng.regasCapacity.countries.length, `${tag}: regas table should list every country`);
+  const pricesN = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/prices.json'), 'utf8')).monthly.length;
+  check(await page.locator('details.tview[data-for="#c-prices"] table').first().locator('tbody tr').count() === pricesN, `${tag}: prices table should have ${pricesN} months`);
+  const sum = page.locator('details.tview[data-for="#c-regas"] summary');
+  await sum.scrollIntoViewIfNeeded(); await sum.click();
+  check(await page.locator('details.tview[data-for="#c-regas"] table').isVisible(), `${tag}: opening a table view did not show it`);
+  await page.locator('details.tview[data-for="#c-regas"]').locator('..').screenshot({ path: `${SHOTS}/${tag}-tableview.png` });
+  await noOverflow(page, tag, 'table view open');
+  // a resize redraws the charts: the table must not duplicate, and stays open
+  await page.setViewportSize({ width: vp[1] - 40, height: vp[2] });
+  await page.waitForTimeout(300);
+  check(await page.locator('details.tview[data-for="#c-regas"]').count() === 1 && await page.locator('details.tview[data-for="#c-regas"] .tv-wrap').count() === 1, `${tag}: resize duplicated a table view`);
+  check(await page.locator('details.tview[data-for="#c-regas"]').evaluate((d) => d.open), `${tag}: resize closed an open table view`);
+  await page.setViewportSize({ width: vp[1], height: vp[2] });
+  await page.waitForTimeout(300);
+
+  // print briefing: controls hidden, light page, charts fit the page
+  await page.locator('#list .row').first().click(); await page.waitForTimeout(1200);
+  await page.emulateMedia({ media: 'print' });
+  await page.evaluate(() => window.dispatchEvent(new Event('beforeprint')));
+  const pr = await page.evaluate(() => ({
+    bg: getComputedStyle(document.body).backgroundColor,
+    hidden: ['.topnav', '.toolbar', '#list', '#voy-in', '#arb-inputs', '.search'].filter((s) => getComputedStyle(document.querySelector(s)).display !== 'none'),
+    meta: document.querySelector('#print-meta').textContent,
+    detail: getComputedStyle(document.querySelector('#detail')).display,
+  }));
+  check(pr.bg === 'rgb(255, 255, 255)', `${tag}: print background is ${pr.bg}, not white`);
+  check(!pr.hidden.length, `${tag}: print still shows ${pr.hidden.join(', ')}`);
+  check(/Briefing printed .*#leg=/.test(pr.meta), `${tag}: print header lacks the date and link (${pr.meta})`);
+  check(pr.detail !== 'none', `${tag}: print hides the selected item's detail`);
+  if (vp[0] === 'desktop') {
+    await page.setViewportSize({ width: 794, height: 1123 }); // A4 at 96 dpi
+    await page.waitForTimeout(300);
+    await page.screenshot({ path: `${SHOTS}/${tag}-print.png`, fullPage: true });
+    await readmeShot(page, 'lng-print', { fullPage: true, clip: { x: 0, y: 0, width: 794, height: 1123 } });
+    await noOverflow(page, tag, 'print layout');
+    const pdf = await page.pdf({ format: 'A4', printBackground: true });
+    fs.writeFileSync(`${SHOTS}/${tag}-briefing.pdf`, pdf);
+    check(pdf.length > 50000, `${tag}: briefing PDF looks empty (${pdf.length} bytes)`);
+  }
+  await page.emulateMedia({ media: 'screen' });
+  for (const e of errors) failures.push(`${tag} ux: ${e}`);
+  await ctx.close();
+}
+
+// ------------------------------------------ index.html: links, keys, print
+async function testIndexUx(vp) {
+  const flows = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/flows.json'), 'utf8'));
+  const dis = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/disruptions.json'), 'utf8'));
+  const ready = (page) => page.waitForFunction(() => document.querySelectorAll('#route-list .route-card').length > 0, null, { timeout: 15000 });
+  const red = dis.routes.find((r) => (r.events || []).filter((e) => e.lat != null).length >= 2);
+  const evIdx = red.events.findIndex((e, i) => i > 0 && e.lat != null);
+  const links = [
+    [`#route=${flows.routes[0].id}`, flows.routes[0].title, 'flows'],
+    ['#choke=hormuz', 'Hormuz', 'flows'],
+    [`#disruption=${red.id}`, red.title, 'disruptions'],
+    [`#disruption=${red.id}&event=${evIdx + 1}`, red.events[evIdx].title, 'disruptions'],
+  ];
+  for (const [hash, text, mode] of links) {
+    const { page, ctx, errors, tag } = await openPage('index.html', vp, hash);
+    await ready(page); await page.waitForTimeout(1400);
+    check((await page.locator('#detail').innerText()).includes(text), `${tag} ${hash}: detail does not show "${text}"`);
+    check(await page.locator('.tab.active').getAttribute('data-mode') === mode, `${tag} ${hash}: wrong view`);
+    check((await hashOf(page)) === hash, `${tag} ${hash}: hash rewritten to ${await hashOf(page)}`);
+    if (/event/.test(hash)) check(await page.locator('#detail .ev-list li.on').count() === 1, `${tag} ${hash}: linked event not highlighted`);
+    for (const e of errors) failures.push(`${tag} ${hash}: ${e}`);
+    await ctx.close();
+  }
+  const { page, ctx, errors, tag } = await openPage('index.html', vp);
+  await ready(page); await page.waitForTimeout(800);
+  // keyboard: tabs and cards
+  await page.locator('.tab.active').focus();
+  await page.keyboard.press('ArrowRight'); await page.waitForTimeout(200);
+  check(await page.locator('.tab.active').getAttribute('data-mode') === 'disruptions' && (await hashOf(page)) === '#view=disruptions', `${tag}: ArrowRight did not switch to disruptions (or link not written)`);
+  await page.locator('#route-list .route-card').first().focus();
+  await page.keyboard.press('Enter'); await page.waitForTimeout(1300);
+  check(await page.locator('#route-list .route-card.active').count() === 1 && /^#disruption=/.test(await hashOf(page)), `${tag}: Enter on a card did not select it`);
+  check(await page.evaluate(() => document.activeElement.classList.contains('route-card')), `${tag}: focus lost after selecting a card`);
+  const evs = page.locator('#detail .ev-list li.mapped');
+  if (await evs.count()) {
+    await evs.first().focus(); await page.keyboard.press('Enter'); await page.waitForTimeout(1300);
+    check(/event=\d+/.test(await hashOf(page)) && await page.locator('#detail .ev-list li.on').count() === 1, `${tag}: Enter on an event row did not focus the event`);
+  }
+  await page.locator('.tabs .tab.active').focus();
+  await page.keyboard.press('ArrowLeft'); await page.waitForTimeout(200);
+  check(await page.locator('.tab.active').getAttribute('data-mode') === 'flows' && (await hashOf(page)) === '', `${tag}: ArrowLeft did not return to flows`);
+  // print (reset first: the keyboard steps above zoomed into a disruption event)
+  await page.click('#zreset'); await page.waitForTimeout(1300);
+  await page.locator('#route-list .route-card').first().click(); await page.waitForTimeout(1300);
+  await page.emulateMedia({ media: 'print' });
+  await page.evaluate(() => window.dispatchEvent(new Event('beforeprint')));
+  const pr = await page.evaluate(() => ({
+    bg: getComputedStyle(document.body).backgroundColor,
+    hidden: ['.topnav', '#zoombar', '.tabs', '#chips'].filter((s) => getComputedStyle(document.querySelector(s)).display !== 'none'),
+    meta: document.querySelector('#print-meta').textContent,
+  }));
+  check(pr.bg === 'rgb(255, 255, 255)', `${tag}: print background is ${pr.bg}`);
+  check(!pr.hidden.length, `${tag}: print still shows ${pr.hidden.join(', ')}`);
+  check(/Printed .*#route=/.test(pr.meta), `${tag}: print header lacks the link (${pr.meta})`);
+  if (vp[0] === 'desktop') {
+    await page.setViewportSize({ width: 794, height: 1123 });
+    await page.waitForTimeout(300);
+    await page.screenshot({ path: `${SHOTS}/${tag}-print.png`, fullPage: true });
+    await noOverflow(page, tag, 'print layout');
+  }
+  await page.emulateMedia({ media: 'screen' });
+  for (const e of errors) failures.push(`${tag} ux: ${e}`);
+  await ctx.close();
+}
+
 // ---------------------------------------------------------------- index.html
 async function testIndex(vp) {
   const { page, ctx, errors, tag } = await openPage('index.html', vp);
@@ -304,6 +542,7 @@ async function testIndex(vp) {
   await page.waitForTimeout(800);
   check(await page.locator('#globe path').count() > 10, `${tag}: globe did not draw`);
   await page.screenshot({ path: `${SHOTS}/${tag}-load.png` });
+  await readmeShot(page, vp[0] === 'desktop' ? 'flows-desktop' : 'flows-phone');
   await noOverflow(page, tag, 'on load');
   await topNav(page, tag, 'index.html');
 
@@ -370,6 +609,7 @@ async function testIndex(vp) {
     const ev = page.locator('#detail .ev-list li').first();
     if (await ev.count()) { await ev.scrollIntoViewIfNeeded(); await ev.click(); await page.waitForTimeout(300); }
     if (i === 0) await page.locator('main').screenshot({ path: `${SHOTS}/${tag}-disruption-0.png` });
+    if (i === 0 && vp[0] === 'desktop') await readmeShot(page.locator('main'), 'disruptions-desktop');
     await noOverflow(page, tag, `disruption ${i}`);
   }
   await page.screenshot({ path: `${SHOTS}/${tag}-full.png`, fullPage: true });
@@ -381,6 +621,7 @@ try {
   for (const vp of VIEWPORTS) {
     console.log(`index.html @ ${vp[1]}×${vp[2]}`); await testIndex(vp);
     console.log(`lng.html @ ${vp[1]}×${vp[2]}`); await testLng(vp);
+    console.log(`  links, search, keyboard, tables, print @ ${vp[1]}×${vp[2]}`); await testIndexUx(vp); await testLngUx(vp);
   }
 } catch (e) {
   failures.push(`test crashed: ${e.stack || e}`);

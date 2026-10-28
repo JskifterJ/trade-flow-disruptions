@@ -514,6 +514,8 @@ function applyHighlight() {
 // ---------- side panel ----------
 
 function renderList() {
+  // the list is rebuilt on every selection; keep keyboard focus on the same card
+  const focused = [...document.querySelectorAll('#route-list .route-card')].indexOf(document.activeElement);
   const list = d3.select('#route-list').html('');
   const routes = currentRoutes();
   if (state.mode === 'flows') {
@@ -531,6 +533,21 @@ function renderList() {
       card(list, r, r.dateRange + (n ? ` · ${n} events on map` : ''));
     });
   }
+  keyable('#route-list .route-card', 'active');
+  if (focused >= 0) document.querySelectorAll('#route-list .route-card')[focused]?.focus({ preventScroll: true });
+}
+
+// Cards and event rows act as buttons: Tab reaches them, Enter/Space selects, ↑/↓ moves between them.
+function keyable(sel, onClass) {
+  d3.selectAll(sel).attr('tabindex', 0).attr('role', 'button')
+    .attr('aria-pressed', function () { return this.classList.contains(onClass); })
+    .on('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); this.click(); return; }
+      if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+      e.preventDefault();
+      const all = [...document.querySelectorAll(sel)], i = all.indexOf(this);
+      all[Math.max(0, Math.min(all.length - 1, i + (e.key === 'ArrowDown' ? 1 : -1)))].focus();
+    });
 }
 
 function card(list, r, sub) {
@@ -619,8 +636,9 @@ function renderDetail() {
         (e.approx ? ' <span class="ev-tag">approx. location</span>' : '') + (e.lat == null ? ' <span class="ev-tag">not mapped</span>' : ''));
       body.append('div').attr('class', 'ev-text').text(e.text);
       body.append('div').attr('class', 'ev-src').style('color', t.c).text(t.label + (e.source ? ' · ' + e.source : ''));
-      if (e.lat != null) li.on('click', () => focusEvent(i));
+      if (e.lat != null) li.attr('class', (li.attr('class') || '') + ' mapped').on('click', () => focusEvent(i));
     });
+    keyable('#detail .ev-list li.mapped', 'on');
   }
   detail.append('div').attr('class', 'story').text(r.why || r.summary);
   detail.append('span').attr('class', 'source').text(`Source: ${r.source}`);
@@ -636,6 +654,7 @@ function select(target, opts = {}) {
   renderList();
   renderDetail();
   render();
+  writeHash();
   if (!state.active || opts.noFly) return;
   // spin (and, for disruptions, zoom) the globe so the selection faces the viewer
   let focus, k = state.k;
@@ -654,9 +673,13 @@ function focusEvent(i) {
   const r = activeDisruption();
   if (!r) return;
   state.focusEvent = state.focusEvent === i ? null : i;
+  // keep keyboard focus on the event row that was just rebuilt
+  const hadFocus = document.activeElement?.closest?.('#detail .ev-list') != null;
   applyHighlight();
   renderDetail();
   render();
+  writeHash();
+  if (hadFocus) document.querySelector('#detail .ev-list li.on, #detail .ev-list li.mapped')?.focus({ preventScroll: true });
   if (state.focusEvent == null) return;
   const e = r.events[i];
   rotateTo([e.lon, e.lat], Math.max(state.k, (r.focus ? r.focus.zoom : 2) * 1.5));
@@ -695,7 +718,9 @@ function setMode(mode) {
   state.mode = mode;
   state.active = null;
   state.focusEvent = null;
-  d3.selectAll('.tab').classed('active', function () { return this.dataset.mode === mode; });
+  d3.selectAll('.tab').classed('active', function () { return this.dataset.mode === mode; })
+    .attr('aria-selected', function () { return this.dataset.mode === mode; })
+    .attr('tabindex', function () { return this.dataset.mode === mode ? 0 : -1; });
   d3.select('#chips').style('display', mode === 'flows' ? null : 'none');
   d3.select('#legend-flows').style('display', mode === 'flows' ? null : 'none');
   d3.select('#legend-disruptions').style('display', mode === 'flows' ? 'none' : null);
@@ -703,10 +728,60 @@ function setMode(mode) {
   drawRoutes();
   renderList();
   renderDetail();
+  writeHash();
 }
+
+// ---------- deep links ----------
+// The hash mirrors the view: index.html#route=gulf-china, #choke=hormuz,
+// #disruption=redsea-2026, and #disruption=redsea-2026&event=2 (1-based) for one incident.
+let hashLock = true; // until boot has read the incoming hash
+function writeHash() {
+  if (hashLock) return;
+  const a = state.active, q = [];
+  if (a && a.kind === 'chokepoint') q.push(`choke=${a.id}`);
+  else if (a) q.push(`${state.mode === 'flows' ? 'route' : 'disruption'}=${a.id}`);
+  else if (state.mode === 'disruptions') q.push('view=disruptions');
+  if (a && state.focusEvent != null) q.push(`event=${state.focusEvent + 1}`);
+  const url = location.pathname + location.search + (q.length ? '#' + q.join('&') : '');
+  if (url !== location.pathname + location.search + location.hash) history.replaceState(null, '', url);
+}
+function applyHash() {
+  const q = new URLSearchParams(location.hash.slice(1));
+  hashLock = true;
+  const dis = q.get('disruption'), route = q.get('route'), choke = q.get('choke');
+  const mode = dis != null || q.get('view') === 'disruptions' ? 'disruptions' : 'flows';
+  if (mode !== state.mode || state.active) setMode(mode);
+  if (choke && FLOWS.chokepoints.some((c) => c.id === choke)) select({ kind: 'chokepoint', id: choke });
+  else {
+    const id = mode === 'flows' ? route : dis;
+    if (id != null && currentRoutes().some((r) => r.id === id)) {
+      const r = currentRoutes().find((x) => x.id === id);
+      const ev = parseInt(q.get('event'), 10) - 1;
+      if (r.events && r.events[ev] && r.events[ev].lat != null) { select({ kind: 'route', id }, { noFly: true }); focusEvent(ev); }
+      else select({ kind: 'route', id });
+    }
+  }
+  hashLock = false;
+  writeHash(); // drop anything unrecognised
+}
+window.addEventListener('hashchange', () => { if (FLOWS) applyHash(); });
 
 function buildChrome() {
   d3.selectAll('.tab').on('click', function () { setMode(this.dataset.mode); });
+  // tabs: ←/→/Home/End switch views (WAI-ARIA tabs pattern, automatic activation)
+  d3.select('.tabs').on('keydown', (e) => {
+    const tabs = [...document.querySelectorAll('.tabs .tab')], i = tabs.indexOf(document.activeElement);
+    if (i < 0) return;
+    const j = { ArrowRight: i + 1, ArrowDown: i + 1, ArrowLeft: i - 1, ArrowUp: i - 1, Home: 0, End: tabs.length - 1 }[e.key];
+    if (j == null) return;
+    e.preventDefault();
+    const t = tabs[(j + tabs.length) % tabs.length];
+    t.focus(); t.click();
+  });
+  d3.select('#print').on('click', () => window.print());
+  window.addEventListener('beforeprint', () => {
+    d3.select('#print-meta').text(`Printed ${new Date().toISOString().slice(0, 10)} from ${location.href} · disruptions data as of ${DISRUPTIONS.lastUpdated}`);
+  });
   const chips = d3.select('#chips');
   Object.entries(FLOWS.commodities).forEach(([key, c]) => {
     chips.append('button').attr('class', 'chip on').attr('type', 'button')
@@ -738,7 +813,7 @@ function buildChrome() {
   d3.select('#zout').on('click', () => svg.transition().duration(350).call(zoomer.scaleBy, 1 / 1.6));
   d3.select('#zreset').on('click', () => {
     state.active = null; state.focusEvent = null;
-    applyHighlight(); renderList(); renderDetail();
+    applyHighlight(); renderList(); renderDetail(); writeHash();
     rotateTo([55, 12], 1);
   });
 }
@@ -782,6 +857,9 @@ Promise.all([
   d3.select('#meta-row').text(
     `data current as of ${disruptions.lastUpdated} · disruptions refreshed ${disruptions.updateCadence}`);
   setMode('flows');
+  hashLock = false;
+  if (location.hash.length > 1) applyHash();
+  else writeHash();
 }).catch((err) => {
   d3.select('#meta-row').text('Could not load map/data — check the console (likely a local file:// CORS issue; serve via a local HTTP server).');
   console.error(err);

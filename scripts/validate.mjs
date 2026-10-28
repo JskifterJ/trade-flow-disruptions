@@ -202,6 +202,18 @@ function validateLng(D) {
   check(isStr(D.scenarios2026?.source), `${F}: scenarios2026.source missing`);
   check(isStr(D.capacityTotals?.source), `${F}: capacityTotals.source missing`);
 
+  // deep links (lng.js): #plant= / #terminal= / #project= find items by name slug, so
+  // slugs must be unique within each kind, and the short form (bracketed suffix dropped) must not hit another item
+  const slug = (s) => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  for (const [k, rows] of [['liquefaction', D.liquefaction], ['regas', D.regas], ['projects', D.projects]]) {
+    const full = rows.map((r) => slug(r.name));
+    full.forEach((s, i) => check(s && full.indexOf(s) === i, `${F} ${k}[${i}] ${rows[i].name}: link slug "${s}" is empty or not unique`));
+    rows.forEach((r, i) => {
+      const short = slug(r.name.replace(/\s*\(.*?\)/g, ''));
+      check(short === full[i] || !full.includes(short), `${F} ${k}[${i}] ${r.name}: short link slug "${short}" is another item's full slug`);
+    });
+  }
+
   if (errors.length === 0) validateRouter(D);
   return { legs: D.legs.length, plants: D.liquefaction.length, terminals: D.regas.length, legSumMt: +legSum.toFixed(1) };
 }

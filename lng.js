@@ -552,10 +552,11 @@ function activeLegIds() {
   return null;
 }
 
-function refresh() { styleLegs(); styleAssets(); renderList(); renderDetail(); render(); }
+function refresh() { styleLegs(); styleAssets(); renderList(); renderDetail(); render(); writeHash(); }
 
+// opts.force: always select (deep links, search), never toggle off
 function select(t, opts = {}) {
-  const same = state.active && state.active.kind === t.kind && state.active.id === t.id;
+  const same = !opts.force && state.active && state.active.kind === t.kind && state.active.id === t.id;
   state.active = same ? null : t;
   if (state.active) {
     const tabFor = { leg: 'legs', liq: 'liq', regas: 'regas', choke: 'choke', event: 'events', proj: 'proj' }[t.kind];
@@ -640,20 +641,50 @@ d3.select('#spin').on('click', () => {
 });
 d3.select('#zin').on('click', () => svg.transition().duration(350).call(zoomer.scaleBy, 1.6));
 d3.select('#zout').on('click', () => svg.transition().duration(350).call(zoomer.scaleBy, 1 / 1.6));
-d3.select('#zreset').on('click', () => { state.active = null; clearVoyage(); refresh(); flyTo([60, 18], 1); });
+d3.select('#zreset').on('click', () => { state.active = null; clearVoyage(); d3.selectAll('table.voy tr').classed('on', false); refresh(); flyTo([60, 18], 1); });
 
-d3.selectAll('#scenario button').on('click', function () {
-  state.scenario = this.dataset.s;
-  d3.selectAll('#scenario button').classed('on', function () { return this.dataset.s === state.scenario; });
+function setScenario(sc) {
+  state.scenario = sc;
+  d3.selectAll('#scenario button').classed('on', function () { return this.dataset.s === state.scenario; })
+    .attr('aria-pressed', function () { return this.dataset.s === state.scenario; });
   updateScenarioChrome();
   drawLegs(); updateLegTexts(); refresh();
-});
+}
+d3.selectAll('#scenario button').on('click', function () { setScenario(this.dataset.s); });
+d3.select('#print').on('click', () => window.print());
 d3.selectAll('#layers input').on('change', function () {
   state.layers[this.dataset.l] = this.checked;
   drawLegs(); drawAssets(); render();
 });
 d3.selectAll('#tabs .tab').on('click', function () { state.tab = this.dataset.t; syncTabs(); renderList(); render(); });
-function syncTabs() { d3.selectAll('#tabs .tab').classed('on', function () { return this.dataset.t === state.tab; }); }
+function syncTabs() {
+  d3.selectAll('#tabs .tab').classed('on', function () { return this.dataset.t === state.tab; })
+    .attr('aria-selected', function () { return this.dataset.t === state.tab; })
+    .attr('tabindex', function () { return this.dataset.t === state.tab ? 0 : -1; });
+  d3.select('#list').attr('aria-label', d3.select('#tabs .tab.on').text());
+}
+// tabs: ←/→/Home/End move between them (WAI-ARIA tabs pattern, automatic activation)
+d3.select('#tabs').on('keydown', (e) => {
+  const tabs = [...document.querySelectorAll('#tabs .tab')], i = tabs.indexOf(document.activeElement);
+  if (i < 0) return;
+  const j = { ArrowRight: i + 1, ArrowDown: i + 1, ArrowLeft: i - 1, ArrowUp: i - 1, Home: 0, End: tabs.length - 1 }[e.key];
+  if (j == null) return;
+  e.preventDefault();
+  const t = tabs[(j + tabs.length) % tabs.length];
+  t.focus(); t.click();
+});
+// List rows and table rows act as buttons: Tab reaches them, Enter/Space selects, ↑/↓ moves between them.
+function keyable(sel) {
+  d3.selectAll(sel).attr('tabindex', 0).attr('role', 'button')
+    .attr('aria-pressed', function () { return this.classList.contains('on'); })
+    .on('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); this.click(); return; }
+      if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+      e.preventDefault();
+      const all = [...document.querySelectorAll(sel)], i = all.indexOf(this);
+      all[Math.max(0, Math.min(all.length - 1, i + (e.key === 'ArrowDown' ? 1 : -1)))].focus();
+    });
+}
 
 function updateScenarioChrome() {
   const now = state.scenario === '2026';
@@ -686,8 +717,14 @@ function updateScenarioChrome() {
   });
 }
 
+function showProjects() {
+  if (!state.layers.proj) { state.layers.proj = true; d3.select('#layers input[data-l=proj]').property('checked', true); drawAssets(); }
+}
+
 // ------------------------------------------------------------------ side list
 function renderList() {
+  // the list is rebuilt on every selection; keep keyboard focus on the same row
+  const focused = [...document.querySelectorAll('#list .row')].indexOf(document.activeElement);
   const list = d3.select('#list').html('');
   const a = state.active;
   const on = (kind, id) => a && a.kind === kind && a.id === id;
@@ -764,10 +801,7 @@ function renderList() {
     d3.groups(D.projects, (p) => p.start).sort((x, y) => x[0] - y[0]).forEach(([yr, ps]) => {
       list.append('div').attr('class', 'group-label').text(`${yr} · +${fmt(d3.sum(ps, (p) => p.mtpa))} Mtpa`);
       ps.sort((x, y) => y.mtpa - x.mtpa).forEach((p) => {
-        const r = list.append('div').attr('class', 'row').classed('on', on('proj', p.name)).on('click', () => {
-          if (!state.layers.proj) { state.layers.proj = true; d3.select('#layers input[data-l=proj]').property('checked', true); drawAssets(); }
-          select({ kind: 'proj', id: p.name });
-        });
+        const r = list.append('div').attr('class', 'row').classed('on', on('proj', p.name)).on('click', () => { showProjects(); select({ kind: 'proj', id: p.name }); });
         r.append('div').attr('class', 't').text(p.name);
         r.append('div').attr('class', 'n').text(`${fmt(p.mtpa)} Mtpa`);
         const sub = r.append('div').attr('class', 'sub');
@@ -776,15 +810,27 @@ function renderList() {
       });
     });
   }
+  keyable('#list .row');
+  if (focused >= 0) document.querySelectorAll('#list .row')[focused]?.focus({ preventScroll: true });
 }
 
 function renderDetail() {
   const el = d3.select('#detail').html('');
   const a = state.active;
   if (!a) {
-    el.append('span').attr('class', 'placeholder').text('Select a shipping leg, plant, terminal, chokepoint, event or project, in the list or on the globe, to see its volume, share of world trade, the assets involved and its 2026 status.');
+    el.append('span').attr('class', 'placeholder').text('Select a shipping leg, plant, terminal, chokepoint, event or project, in the list, the search box or on the globe, to see its volume, share of world trade, the assets involved and its 2026 status.');
     return;
   }
+  renderDetailBody(el, a);
+  const btn = el.append('button').attr('class', 'btn linkbtn').attr('type', 'button').text('Copy link to this view')
+    .on('click', () => {
+      writeHash();
+      const done = () => btn.text('Link copied');
+      if (navigator.clipboard) navigator.clipboard.writeText(location.href).then(done, () => btn.text('Copy the address bar'));
+      else btn.text('Copy the address bar');
+    });
+}
+function renderDetailBody(el, a) {
   if (a.kind === 'leg') {
     const l = D.legs.find((x) => x.id === a.id), st = STATUS[l.status];
     const w = resolve(l.path);
@@ -911,6 +957,31 @@ function hbars(sel, rows, { color = C.leg, max, valueText, tipText, labelWidth }
   });
 }
 
+// Table view: a <details> under a chart with the same numbers, for keyboard and
+// screen-reader users, copying into a spreadsheet, and checking a value without hovering.
+// tables: [{ caption?, cols: [...], rows: [[...], ...] }]. A column named "Source" is set small.
+function tableView(chartSel, tables) {
+  const card = d3.select(d3.select(chartSel).node().closest('.card'));
+  let det = card.select(`details.tview[data-for="${chartSel}"]`);
+  if (det.empty()) {
+    det = card.append('details').attr('class', 'tview').attr('data-for', chartSel);
+    det.append('summary').text('Show as table');
+  }
+  det.selectAll('div.tv-wrap').remove();
+  const wrap = det.append('div').attr('class', 'tv-wrap');
+  tables.forEach((tb) => {
+    const t = wrap.append('table').attr('class', 'tv');
+    if (tb.caption) t.append('caption').text(tb.caption);
+    const src = tb.cols.indexOf('Source');
+    // numbers right-aligned: a column is numeric when its first filled cell starts like one
+    const isNum = (v) => /^[≈+−-]?\$?\d/.test(String(v ?? ''));
+    const numCol = tb.cols.map((c, i) => i > 0 && isNum(tb.rows.map((r) => r[i]).find((v) => v != null && v !== '')));
+    t.append('thead').append('tr').selectAll('th').data(tb.cols).join('th').attr('scope', 'col').classed('num', (d, i) => numCol[i]).text((d) => d);
+    t.append('tbody').selectAll('tr').data(tb.rows).join('tr').selectAll('td').data((r) => r).join('td')
+      .classed('src', (d, i) => i === src).classed('num', (d, i) => numCol[i]).text((d) => (d == null || d === '' ? '–' : d));
+  });
+}
+
 function renderCharts() {
   const T = D.globalTrade2025Mt;
   // the remainder row ("All others") is muted so it doesn't read as a country
@@ -919,6 +990,7 @@ function renderCharts() {
     valueText: (r) => `${fmt(r.v)} Mt · ${pct(100 * r.v / T)}`,
   });
   d3.select('#c-exp-src').text(D.exportersSource);
+  tableView('#c-exp', [{ cols: ['Exporter', 'Mt (2025)', '% of world'], rows: D.exporters2025.map((e) => [e.name, fmt(e.mt), pct(100 * e.mt / T)]) }]);
 
   const regC = { Asia: C.leg, Europe: C.s2, 'Middle East & Africa': C.liq, Americas: C.choke };
   const reg = d3.select('#c-imp-reg').html('');
@@ -931,6 +1003,10 @@ function renderCharts() {
     color: C.regas, max: d3.max(D.importers2025, (d) => d.mt), valueText: (r) => `${fmt(r.v)} Mt · ${pct(100 * r.v / T)}`,
   });
   d3.select('#c-imp-src').text(D.importersSource);
+  tableView('#c-imp', [
+    { caption: 'By region', cols: ['Region', 'Mt (2025)', '% of world'], rows: D.importRegions2025.map((r) => [r.name, fmt(r.mt), pct(100 * r.mt / T)]) },
+    { caption: 'By country', cols: ['Importer', 'Mt (2025)', '% of world'], rows: D.importers2025.map((r) => [r.name, fmt(r.mt), pct(100 * r.mt / T)]) },
+  ]);
 
   const ch = D.chokepoints.map((c) => ({ c, e: chokeExposure(c.id) })).filter((x) => x.e.mt25 > 0 || x.c.id === 'babelmandeb')
     .sort((a, b) => b.e.mt25 - a.e.mt25)
@@ -940,6 +1016,8 @@ function renderCharts() {
     valueText: (r) => `${pct(r.v)} → ${pct(r.v2)}`,
     tipText: (r) => `<b>${r.c.name}</b><br>2025: ${fmt(r.e.mt25)} Mt (${pct(r.v)})<br>Oct-2026 run-rate: ≈${fmt(r.e.mt26)} Mt/yr (${pct(r.v2)})<br>${r.c.status2026}`,
   });
+  tableView('#c-choke', [{ cols: ['Chokepoint', '2025 Mt', '2025 % of world', 'Oct-2026 ≈Mt/yr', 'Oct-2026 %'],
+    rows: ch.map((r) => [r.c.name, fmt(r.e.mt25), pct(r.v), '≈' + fmt(r.e.mt26), '≈' + pct(r.v2)]) }]);
 
   const byEx = d3.rollups(D.legs, (v) => ({ a: d3.sum(v, (l) => l.mt2025), b: d3.sum(v, (l) => l.mt2026 ?? l.mt2025) }), (l) => l.exporter)
     .map(([name, x]) => ({ name: name.length > 18 ? name.split(',')[0] + ' & others' : name, v: x.a, v2: x.b }))
@@ -948,6 +1026,8 @@ function renderCharts() {
     max: d3.max(byEx, (r) => Math.max(r.v, r.v2)),
     valueText: (r) => `${fmt(r.v)} → ${fmt(r.v2)} ${r.v2 > r.v + 0.5 ? '▲' : r.v2 < r.v - 0.5 ? '▼' : ''}`,
   });
+  tableView('#c-gap', [{ cols: ['Exporter', '2025 Mt', 'Oct-2026 ≈Mt/yr', 'Change'],
+    rows: byEx.map((r) => [r.name, fmt(r.v), '≈' + fmt(r.v2), `${r.v2 >= r.v ? '+' : '−'}${fmt(Math.abs(r.v2 - r.v))}`]) }]);
   const q = byEx.find((r) => r.name === 'Qatar');
   d3.select('#c-gap-foot').text(`Qatar alone: ${fmt(q.v)} → ≈${fmt(q.v2)} Mt/yr (≈${fmt(q.v - q.v2)} Mt/yr lost, about ${pct(100 * (q.v - q.v2) / T)} of world supply). US growth (+14% in 2026) and Golden Pass only partly fill it. 2026 values are estimates.`);
 
@@ -957,6 +1037,7 @@ function renderCharts() {
     tipText: (r) => `<b>${r.name}</b><br>${r.v}% of 2025 LNG imports came from Qatar + UAE (${fmt(r.mt)} Mt)`,
   });
   d3.select('#c-expo-src').text(D.exposure.note);
+  tableView('#c-expo', [{ cols: ['Importer', '% from Qatar + UAE', 'Mt'], rows: D.exposure.rows.map((r) => [r.name, r.pct + '%', fmt(r.mt)]) }]);
 }
 
 // ---------------------------------------------------- supply wave (2026–31)
@@ -1017,6 +1098,11 @@ function renderSupplyWave() {
   hbars('#c-scen', D.scenarios2026.rows.map((r) => ({ name: r.name, v: r.mt, color: /actual/.test(r.name) ? C.soft : /Pre-crisis/.test(r.name) ? C.leg : STATUS.serious.c })), {
     max: 500, labelWidth: 210, valueText: (r) => `${fmt(r.v)} Mt`,
   });
+  tableView('#c-wave', [
+    { cols: ['Start year', ...groups.map((g) => GROUP[g].label), 'Total Mtpa', 'Cumulative'], rows: byYear.map((r) => [r.year, ...groups.map((g) => (r[g] ? fmt(r[g]) : '')), fmt(r.total), fmt(r.cum)]) },
+    { caption: 'Projects', cols: ['Project', 'Country', 'Mtpa', 'Target start', 'Status'], rows: D.projects.slice().sort((a, b) => a.start - b.start || b.mtpa - a.mtpa).map((p) => [p.name, p.country, fmt(p.mtpa), p.start, p.status]) },
+  ]);
+  tableView('#c-scen', [{ cols: ['Scenario', 'Mt'], rows: D.scenarios2026.rows.map((r) => [r.name, fmt(r.mt)]) }]);
 }
 
 // ------------------------------------------------- prices & storage (data/prices.json)
@@ -1106,6 +1192,11 @@ function renderPrices() {
     `${fmtMonth(pre[0].date)}–Feb 2026 average: TTF $${d3.mean(pre, (r) => r.ttf).toFixed(2)}, Henry Hub $${d3.mean(pre, (r) => r.hh).toFixed(2)}. ` +
     `Source: World Bank Pink Sheet, monthly editions Jun 2024–Oct 2026; each month comes from the latest edition listing it, and Japan's two newest months are World Bank estimates. ` +
     `Starts Mar 2024 (Jan–Feb 2024 not retrieved). JKM monthly averages are Platts-licensed, so the dots are reported spot prints (Global LNG Hub, Reuters); ≈ means rounded in the report.`);
+  tableView('#c-prices', [
+    { caption: 'Monthly averages, $/MMBtu', cols: ['Month', 'TTF', 'Henry Hub', 'Japan LNG import', 'Source'],
+      rows: rows.map((r) => [fmtMonth(r.date), r.ttf.toFixed(2), r.hh.toFixed(2), (r.japanLngEstimate ? '≈' : '') + r.japanLng.toFixed(2), 'World Bank ' + r.edition]) },
+    { caption: 'JKM spot prints, $/MMBtu', cols: ['Date', 'JKM', 'Source'], rows: spots.map((d) => [fmtDay(d.date), (d.approx ? '≈' : '') + d.value, d.source]) },
+  ]);
 }
 
 function renderStorage() {
@@ -1156,6 +1247,13 @@ function renderStorage() {
   d3.select('#c-storage-src').text(`Latest: ${last.value}% on ${fmtDay(last.date)}, about ${Math.round(lastAvg.value - last.value)} points under the 2021–25 average for mid-October (${lastAvg.value}%) and below the range's minimum (${band[0].min}%). ` +
     `Hollow grey dots: average derived from a reported gap. The range is published for 14 Oct only. ` +
     `Sources: GIE AGSI+ data as reported by ENGIE EnergyScan, Voltstack, global-energy-flow.com, CES Intelligence, Rigzone and TASS (each point's source is in its tooltip).`);
+  const v = (d) => `${d.approx ? '≈' : ''}${d.value}%${d.derived ? ' (derived)' : ''}`;
+  tableView('#c-storage', [
+    { caption: '2026, % full', cols: ['Date', '2026', 'Source'], rows: f26.map((d) => [fmtDay(d.date), v(d), d.source]) },
+    { caption: '2025 and the 2021–25 average', cols: ['Date', 'Series', '% full', 'Source'],
+      rows: [...f25.map((d) => [fmtDay(d.orig), '2025', v(d), d.source]), ...avg.map((d) => [fmtDay(d.date), '2021–25 average', v(d), d.source]),
+        ...band.map((b) => [fmtDay(b.date), '2021–25 range', `${b.min}–${b.max}%`, b.source])] },
+  ]);
 }
 
 // ------------------------------------------------- fleet & freight (data/fleet.json)
@@ -1223,6 +1321,9 @@ function renderCharter() {
   d3.select('#c-charter-src').text(`Latest: Atlantic ${fmtRate(last.atlantic)}, Pacific ${fmtRate(lp.pacific)} (${printDay(lp)}). ` +
     (pre ? `Just before the war: ${fmtRate(pre.atlantic)} and ${fmtRate(pre.pacific)}. ` : '') +
     `Hollow dots: date or value approximate in the report. ${F.charter.coverageNote} Source: ${F.charter.source}`);
+  const r$ = (p, k) => (p[k] == null ? '' : `${p.approx ? '≈' : ''}${d3.format(',')(p[k])}`);
+  tableView('#c-charter', [{ caption: 'Spot charter prints, $/day', cols: ['Date', 'Atlantic', 'Pacific', 'Source'],
+    rows: prints.map((p) => [printDay(p), r$(p, 'atlantic'), r$(p, 'pacific'), p.source]) }]);
 }
 
 function renderFleetChart() {
@@ -1260,6 +1361,10 @@ function renderFleetChart() {
   const o = FL.orders;
   d3.select('#c-fleet-src').text(`New orders slowed: ${o.map((r) => `${r.ships} in ${r.period}`).join(' vs ')} (Drewry), so deliveries should fall back after the 2026–27 peak. ` +
     `${FL.definitionNote} Clarksons also counts ${FL.clarksons2026.onOrder} on order at 1 Jul 2026. Source: ${FL.source}`);
+  tableView('#c-fleet', [
+    { cols: ['Year', 'Ships', 'Status', 'Source'], rows: rows.map((r) => [r.year, r.ships, r.scheduled ? 'scheduled' : 'delivered', r.source]) },
+    { caption: 'Fleet snapshots', cols: ['Date', 'Active', 'On order', 'Source'], rows: FL.snapshots.map((x) => [x.date, d3.format(',')(x.active), d3.format(',')(x.orderbook), x.source]) },
+  ]);
 }
 
 // Tonne-miles and ships needed on the map's legs, 2025 vs the Oct-2026 run-rate.
@@ -1330,6 +1435,9 @@ function renderTonMiles() {
     .on('mousemove', (e, r) => showTip(e, `<b>${r.l.title}</b><br>${d3.format(',')(Math.round(r.nm))} nm laden<br>2025: ${fmt(r.v25)} Mt → ${d3.format(',')(Math.round(r.tm25))} bn t·nm<br>Oct-2026 run-rate: ≈${fmt(r.v26)} Mt → ${d3.format(',')(Math.round(r.tm26))} bn t·nm<br>Ships kept busy: ${r.ships25.toFixed(0)} → ${r.ships26.toFixed(0)}`))
     .on('mouseleave', hideTip);
   d3.select('#c-tmlegs-src').text('Volume × laden distance on each leg of the globe. Qatar to North Asia loses the most because it was both the biggest Gulf flow and a long voyage. Run-rates are estimates (≈).');
+  tableView('#c-tmlegs', [{ caption: 'Every leg on the globe, biggest change first (bn t·nm a year)', cols: ['Leg', 'Laden nm', '2025', 'Oct 2026 (≈)', 'Change'],
+    rows: rows.map((r) => ({ ...r, dtm: r.tm26 - r.tm25 })).sort((a, b) => Math.abs(b.dtm) - Math.abs(a.dtm))
+      .map((r) => [r.l.title, d3.format(',')(Math.round(r.nm)), d3.format(',')(Math.round(r.tm25)), '≈' + d3.format(',')(Math.round(r.tm26)), `${r.dtm >= 0 ? '+' : '−'}${Math.abs(r.dtm).toFixed(0)}`]) }]);
 }
 
 // ------------------------------------------------- import side (regasCapacity in data/lng.json)
@@ -1384,6 +1492,8 @@ function renderRegas() {
   d3.select('#c-regas-src').text(`Value: utilisation · capacity in Mtpa. Below 40%: ${lo.join(', ')}. ` +
     `Utilisation is computed as 2025 imports (GIIGNL 2026) ÷ capacity, with bcm converted at ${R.bcmPerMt} bcm per Mt; it ignores seasonality, reloads and outages. ` +
     `Capacities mix IGU (end-2024/25), SynMax (2025), operator and ministry figures because the GIIGNL 2026 country table could not be retrieved; Taiwan is left out (no published total found).`);
+  tableView('#c-regas', [{ cols: ['Country', 'Region', 'Imports 2025 (Mt)', 'Capacity', 'Capacity (Mtpa)', 'Utilisation', 'As of', 'Confidence', 'Source'],
+    rows: rows.map((r) => [r.name, r.region, fmt(r.mt), `${fmt(r.capacity)} ${r.unit === 'bcm' ? 'bcm/yr' : 'Mtpa'}`, fmt(r.cap), `${r.rough ? '≈' : ''}${Math.round(r.util)}%`, r.asOf, r.confidence, r.source + (r.derived ? ' (computed here)' : '')]) }]);
 
   // EU utilisation trend: one bar per year
   const U = R.euUtilisation;
@@ -1414,6 +1524,8 @@ function renderRegas() {
   const cap = R.euCapacity;
   d3.select('#c-euutil-src').text(`Utilisation peaked in 2022, when Europe replaced Russian pipeline gas with LNG, fell in 2024 as demand dropped and new terminals opened, and rose again in 2025–26 as storage refilled. ` +
     `EU import capacity: ${cap[0].bcm} bcm/yr in Jan 2025, ${cap.at(-1).approx ? '≈' : ''}${cap.at(-1).bcm} bcm/yr by Oct 2025 (ACER). Sources: IEEFA European LNG Tracker (May 2026) and Global LNG Outlook (Apr 2024); 2021 from GIE ALSI. No figure after Q1 2026 was found.`);
+  tableView('#c-euutil', [{ cols: ['Period', 'Utilisation', 'Basis', 'Source'],
+    rows: U.map((u) => [u.period, u.pct + '%', u.proxy ? 'other basis' : u.partial ? 'part year' : 'full year', u.source]) }]);
 
   // FSRUs: capacity added per start year, stacked by where the unit is now
   const F2 = R.fsrus.map((f) => ({ ...f, year: +f.start.slice(0, 4) }));
@@ -1456,6 +1568,12 @@ function renderRegas() {
   const noCap = F2.filter((f) => f.capacityBcm == null).map((f) => `${f.name} (${f.capacityText})`);
   d3.select('#c-fsru-src').text(`${started.length} units started from Sep 2022 to May 2025. ≈${fmt(live)} bcm/yr (≈${fmt(live / R.bcmPerMt)} Mtpa) is still operating; ${fmt(gone)} bcm/yr has gone again (Le Havre closed, Mukran's second unit's charter ended). ` +
     `Not in the bars: ${noCap.join(', ')}. Capacities are operators' nominal figures as reported; ≈ means approximate.`);
+
+  tableView('#c-fsru', [{ caption: 'bcm/yr by start year (unit-by-unit list in the next card)', cols: ['Start year', 'Still operating', 'Closed or left', 'Due', 'Total'],
+    rows: years.map((yr, i) => {
+      const by = (sts) => d3.sum(F2.filter((f) => f.year === yr && sts.includes(f.status)), (f) => f.capacityBcm ?? 0);
+      return [yr, fmt(by(['operating', 'moved'])), fmt(by(['left', 'closed'])), fmt(by(['due'])), fmt(tot[i])];
+    }) }]);
 
   const tb = d3.select('#c-fsru-table').html('').append('table').attr('class', 'conv fsru');
   tb.append('tr').html('<th>Terminal</th><th>Vessel</th><th>Start</th><th>bcm/yr</th><th>Now</th>');
@@ -1542,7 +1660,7 @@ function renderVoyageInputs() {
   const sel = (label, key, opts) => {
     const lab = box.append('label').attr('class', 'sel');
     lab.append('span').text(label);
-    const s = lab.append('select').on('change', function () { VOY[key] = this.value; renderVoyage(); });
+    const s = lab.append('select').attr('data-k', key).on('change', function () { VOY[key] = this.value; renderVoyage(); });
     d3.groups(opts, (o) => o.country).forEach(([country, os]) => {
       const og = s.append('optgroup').attr('label', country);
       os.forEach((o) => og.append('option').attr('value', o.name).property('selected', o.name === VOY[key]).text(o.name));
@@ -1623,11 +1741,12 @@ function renderVoyage(draw = true) {
   tbl.append('tr').html('<th>Route</th><th>Distance</th><th>One way</th><th>Round trip</th><th>Ships for volume</th><th>Freight</th><th>Via</th>');
   alts.forEach((a, i) => {
     const r = a.r;
-    const tr = tbl.append('tr').classed('on', draw && i === 0).style('cursor', 'pointer')
+    const tr = tbl.append('tr').attr('class', 'alt').classed('on', draw && i === 0).style('cursor', 'pointer')
       .on('click', function () { tbl.selectAll('tr').classed('on', false); d3.select(this).classed('on', true); showVoyage(r, true); });
     tr.html(`<td><b>${a.label}</b></td><td>${d3.format(',')(Math.round(r.nm))} nm</td><td>${r.oneWay.toFixed(1)} d</td><td>${r.rt.toFixed(0)} d</td>` +
       `<td>${r.ships.toFixed(1)} ships</td><td>$${r.freight.toFixed(2)}/MMBtu</td><td>${r.chokes.map((c) => CHOKE_LABEL[c]).join(', ') || 'open ocean'}</td>`);
   });
+  keyable('table.voy tr.alt');
   const r = best;
   const warn = [];
   if (r.chokes.includes('hormuz')) warn.push('Hormuz is effectively closed to LNG (Oct 2026).');
@@ -1656,9 +1775,9 @@ function showVoyage(r, fly) {
     }
   }
   d3.select('#voy-clear').style('display', r ? null : 'none');
-  styleLegs(); render();
+  styleLegs(); render(); writeHash();
 }
-function clearVoyage() { state.voyage = null; gVoyage.selectAll('*').remove(); d3.select('#voy-clear').style('display', 'none'); }
+function clearVoyage() { state.voyage = null; gVoyage.selectAll('*').remove(); d3.select('#voy-clear').style('display', 'none'); writeHash(); }
 
 // ------------------------------------------------------------ arbitrage calc
 const ARB = { hh: 3.07, ttf: 24.09, jkm: 25.43, fee: 2.5, fEu: 1.2, fPan: 2.2, canal: 0.6, fCape: 3.4, regas: 0.5 };
@@ -1732,8 +1851,18 @@ function renderArb() {
 }
 
 // -------------------------------------------------------------- timeline etc
+// The weekly refresh appends to the timeline, so sort it here by its free-text dates
+// ("7–13 Oct 2026", "Jun–Oct 2025", "2027"): first day and month given, year-only last in its year.
+const MONTHS = 'jan feb mar apr may jun jul aug sep oct nov dec'.split(' ');
+function timelineKey(date) {
+  const yr = +(date.match(/\d{4}/g) || [9999]).at(-1);
+  const mo = MONTHS.findIndex((m) => new RegExp(`\\b${m}`, 'i').test(date));
+  const day = date.match(/^(\d{1,2})\b/);
+  return yr * 1e4 + (mo < 0 ? 13 : mo + 1) * 100 + (day ? +day[1] : 15);
+}
 function renderTimeline() {
-  d3.select('#timeline').selectAll('li').data(D.timeline).join('li')
+  const rows = D.timeline.map((d, i) => ({ ...d, i })).sort((a, b) => timelineKey(a.date) - timelineKey(b.date) || a.i - b.i);
+  d3.select('#timeline').selectAll('li').data(rows).join('li')
     .attr('class', (d) => (/2027/.test(d.date) ? 'future' : /2026/.test(d.date) ? 'war' : ''))
     .html((d) => `<b>${d.date}</b>${d.text}`);
 }
@@ -1759,6 +1888,147 @@ function renderGlossary() {
   const dl = d3.select('#gloss');
   g.forEach(([t, d]) => { dl.append('dt').text(t); dl.append('dd').text(d); });
 }
+
+// ------------------------------------------------------------- deep links
+// The hash mirrors the view, e.g. lng.html#leg=us-europe, #event=3 (1-based, oldest
+// first), #plant=sabine-pass, #terminal=dahej, #choke=hormuz, #project=golden-pass-t1-t2,
+// #scenario=2026, and for the voyage calculator #from=ras-laffan&to=tokyo-bay-terminals&open=hormuz,panama.
+// Names are matched by slug, so links survive capitalisation and accents; a bracketed
+// suffix is dropped when the rest is unique ("Ras Laffan (14 trains)" → ras-laffan).
+const LINK = { leg: 'leg', plant: 'liq', terminal: 'regas', choke: 'choke', event: 'event', project: 'proj' };
+const slug = (s) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const VOY_DEFAULT = { from: VOY.from, to: VOY.to, open: Object.keys(VOY.allow).filter((k) => VOY.allow[k]).join(',') };
+let hashLock = true; // until boot has read the incoming hash
+const POOL = (kind) => ({ liq: D.liquefaction, regas: D.regas, proj: D.projects }[kind]);
+const shortSlug = (name) => slug(name.replace(/\s*\(.*?\)/g, ''));
+function nameSlug(kind, name) {
+  const s = shortSlug(name);
+  return POOL(kind).filter((p) => shortSlug(p.name) === s).length === 1 ? s : slug(name);
+}
+function linkValue(a) {
+  if (a.kind === 'event') return String(a.id + 1);
+  return a.kind === 'leg' || a.kind === 'choke' ? a.id : nameSlug(a.kind, a.id);
+}
+function fromLink(kind, v) {
+  if (v == null) return null;
+  if (kind === 'event') { const i = parseInt(v, 10) - 1; return D.events[i] ? i : null; }
+  if (kind === 'leg') return D.legs.some((l) => l.id === v) ? v : null;
+  if (kind === 'choke') return D.chokepoints.some((c) => c.id === v) ? v : null;
+  const hit = POOL(kind).find((p) => slug(p.name) === slug(v)) || POOL(kind).find((p) => nameSlug(kind, p.name) === slug(v));
+  return hit ? hit.name : null;
+}
+function writeHash() {
+  if (!D || hashLock) return;
+  const q = [];
+  if (state.scenario === '2026') q.push('scenario=2026');
+  if (state.active) q.push(`${Object.keys(LINK).find((k) => LINK[k] === state.active.kind)}=${linkValue(state.active)}`);
+  const open = Object.keys(VOY.allow).filter((k) => VOY.allow[k]).join(',');
+  if (state.voyage || VOY.from !== VOY_DEFAULT.from || VOY.to !== VOY_DEFAULT.to) q.push(`from=${nameSlug('liq', VOY.from)}`, `to=${nameSlug('regas', VOY.to)}`);
+  if (open !== VOY_DEFAULT.open) q.push(`open=${open || 'none'}`);
+  const url = location.pathname + location.search + (q.length ? '#' + q.join('&') : '');
+  if (url !== location.pathname + location.search + location.hash) history.replaceState(null, '', url);
+}
+function applyHash() {
+  const q = new URLSearchParams(location.hash.slice(1));
+  hashLock = true;
+  const sc = q.get('scenario') === '2026' ? '2026' : '2025';
+  if (sc !== state.scenario) setScenario(sc);
+  const from = fromLink('liq', q.get('from')), to = fromLink('regas', q.get('to'));
+  const voy = from || to || q.has('open');
+  if (voy) {
+    if (from) VOY.from = from;
+    if (to) VOY.to = to;
+    if (q.has('open')) { const o = q.get('open').split(','); Object.keys(VOY.allow).forEach((k) => { VOY.allow[k] = o.includes(k); }); }
+    renderVoyageInputs();
+    renderVoyage(true);
+  }
+  let target = null;
+  Object.entries(LINK).forEach(([k, kind]) => { const id = fromLink(kind, q.get(k)); if (id != null) target = { kind, id }; });
+  if (target) {
+    if (target.kind === 'proj') showProjects();
+    select(target, { force: true });
+  } else {
+    if (state.active) { state.active = null; refresh(); }
+    if (voy && state.voyage) showVoyage(state.voyage, true);
+  }
+  hashLock = false;
+  writeHash(); // drop anything unrecognised
+}
+window.addEventListener('hashchange', () => { if (D) applyHash(); });
+
+// ------------------------------------------------------------------ search
+// One box over every plant, terminal, leg, chokepoint, event and project (ARIA combobox).
+const KIND_LABEL = { leg: 'shipping leg', liq: 'export plant', regas: 'import terminal', choke: 'chokepoint', event: '2026 event', proj: 'under construction' };
+const norm = (s) => String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
+let SEARCH = [];
+function buildSearch() {
+  SEARCH = [
+    ...D.liquefaction.map((p) => ({ kind: 'liq', id: p.name, label: p.name, sub: p.country, more: p.owner })),
+    ...D.regas.map((t) => ({ kind: 'regas', id: t.name, label: t.name, sub: t.country, more: t.type })),
+    ...D.legs.map((l) => ({ kind: 'leg', id: l.id, label: l.title, sub: l.exporter, more: '' })),
+    ...D.chokepoints.map((c) => ({ kind: 'choke', id: c.id, label: c.name, sub: '', more: '' })),
+    ...D.events.map((e, i) => ({ kind: 'event', id: i, label: e.title, sub: e.date, more: e.type })),
+    ...D.projects.map((p) => ({ kind: 'proj', id: p.name, label: p.name, sub: `${p.country} · ${p.start}`, more: '' })),
+  ].map((it) => ({ ...it, hay: norm(`${it.label} ${it.sub} ${it.more} ${KIND_LABEL[it.kind]}`), lab: norm(it.label) }));
+}
+function searchMatches(text) {
+  const n = norm(text);
+  if (!n) return [];
+  const words = n.split(' ');
+  return SEARCH.filter((it) => words.every((w) => it.hay.includes(w)))
+    .map((it) => ({ it, score: it.lab.startsWith(n) ? 0 : it.lab.split(' ').some((w) => w.startsWith(words[0])) ? 1 : 2 }))
+    .sort((a, b) => a.score - b.score || a.it.label.localeCompare(b.it.label)).slice(0, 8).map((x) => x.it);
+}
+function initSearch() {
+  buildSearch();
+  const input = d3.select('#q'), res = d3.select('#q-res');
+  let hits = [], cur = -1;
+  const close = () => { res.attr('hidden', '').html(''); input.attr('aria-expanded', 'false').attr('aria-activedescendant', null); hits = []; cur = -1; };
+  const mark = () => {
+    res.selectAll('li').attr('aria-selected', (d, i) => i === cur);
+    input.attr('aria-activedescendant', cur >= 0 ? `q-opt-${cur}` : null);
+    const li = res.node().querySelectorAll('li')[cur];
+    if (li) li.scrollIntoView({ block: 'nearest' });
+  };
+  const choose = (it) => {
+    if (!it) return;
+    if (it.kind === 'proj') showProjects();
+    select({ kind: it.kind, id: it.id }, { force: true });
+    input.property('value', '');
+    close();
+  };
+  input.on('input', function () {
+    hits = searchMatches(this.value); cur = hits.length ? 0 : -1;
+    res.html('');
+    if (!this.value.trim()) return close();
+    res.attr('hidden', null); input.attr('aria-expanded', 'true');
+    if (!hits.length) { res.append('li').attr('class', 'none').attr('role', 'option').attr('aria-disabled', 'true').text('No match'); return; }
+    res.selectAll('li').data(hits).join('li').attr('role', 'option').attr('id', (d, i) => `q-opt-${i}`)
+      .html((d) => `<b></b><span></span>`)
+      .on('mousedown', (e) => e.preventDefault()) // keep focus in the input
+      .on('click', (e, d) => choose(d))
+      .each(function (d) {
+        d3.select(this).select('b').text(d.label);
+        d3.select(this).select('span').text(`${KIND_LABEL[d.kind]}${d.sub ? ' · ' + d.sub : ''}`);
+      });
+    mark();
+  });
+  input.on('keydown', (e) => {
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      if (!hits.length) return;
+      e.preventDefault();
+      cur = (cur + (e.key === 'ArrowDown' ? 1 : -1) + hits.length) % hits.length; mark();
+    } else if (e.key === 'Enter') { e.preventDefault(); choose(hits[cur]); }
+    else if (e.key === 'Escape') { input.property('value', ''); close(); }
+  });
+  input.on('blur', () => setTimeout(close, 120));
+}
+
+// ------------------------------------------------------------------ print
+// "print briefing": the print stylesheet in lng.html does the layout; this stamps the date and the link.
+window.addEventListener('beforeprint', () => {
+  d3.select('#print-meta').text(`Briefing printed ${new Date().toISOString().slice(0, 10)} from ${location.href} · data as of ${D ? D.lastUpdated : '?'}`);
+});
 
 // ------------------------------------------------------------------- boot
 Promise.all([
@@ -1801,6 +2071,10 @@ Promise.all([
   d3.select('#meta-row').text(`data as of ${D.lastUpdated} · ${D.legs.length} shipping legs · ${D.liquefaction.length} export plants · ${D.projects.length} projects under construction · ${D.regas.length} import terminals · ${D.events.length} 2026 events`);
   d3.select('#upd').text(D.lastUpdated);
   d3.select('#sources').selectAll('li').data(D.sources).join('li').text((d) => d);
+  initSearch();
+  syncTabs();
+  hashLock = false;
+  if (location.hash.length > 1) applyHash();
   let lastTS = TS, lastChartW = d3.select('#c-prices').node().clientWidth;
   window.addEventListener('resize', () => {
     updateScreenScale();
