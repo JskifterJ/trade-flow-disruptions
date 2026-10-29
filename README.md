@@ -4,6 +4,8 @@
 
 Two interactive globes covering how oil, LNG and refined products move by sea, and what the 2026 disruptions (the Hormuz closure, Qatar's LNG force majeure, the Red Sea, Panama, Russian sanctions) did to those flows. Every number on the page has a cited source in `data/*.json`. Estimates are marked ≈.
 
+**New to LNG?** [`docs/BRIEFING.md`](docs/BRIEFING.md) is a one-page, sourced "LNG in 10 minutes" explainer of the market and the 2026 shock, built from the same numbers, with links into the matching views of the tool.
+
 ![LNG page: the globe in the Oct-2026 scenario, with leg status colours, and the asset list](docs/img/lng-2026.jpg)
 
 ## The two pages
@@ -132,6 +134,8 @@ On every run, it:
 - Checks the shared top nav, the main page's route labels (no overlaps, one label per selected route), the route and chokepoint detail panels, and every disruption.
 - Clicks through the LNG page: the scenario toggle, every tab and a sample of rows, zoom, layer toggles, the voyage calculator, the charter-rate and arbitrage presets, and the price, fleet and regas charts with their tooltips.
 - Opens deep links of every kind on both pages, and checks that selections, voyage changes and pasted hashes keep the URL in sync and that unknown values are dropped.
+- Opens every `lng.html#…` link quoted in `docs/BRIEFING.md` and checks that it still resolves.
+- Checks that switching the main page back to Main flows resets the zoom, and that chokepoint names aren't cut off at the globe's edge.
 - Runs a search with the keyboard (type, ↑/↓, Enter, Esc, no match).
 - Moves through tabs and rows with the keyboard and checks that focus survives a redraw.
 - Checks that every chart has exactly one non-empty table view and that it survives a resize.

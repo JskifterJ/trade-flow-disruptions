@@ -48,8 +48,8 @@ Rules for every run are in the routine prompt; the short version: work on branch
   search box, keyboard access to lists and tabs, a table view for each chart, mobile layout pass,
   and a print-friendly "briefing" layout. README overhaul with screenshots from task 1's harness. (done 2026-10-28)
 
-- [ ] **8. "LNG in 10 minutes" briefing + final review.** `docs/BRIEFING.md`: a one-page,
+- [x] **8. "LNG in 10 minutes" briefing + final review.** `docs/BRIEFING.md`: a one-page,
   sourced explainer of the market and the 2026 shock, using the tool's numbers. Then run every
-  test, fix leftovers, and write a summary of the week at the top of `docs/BUILD_LOG.md`.
+  test, fix leftovers, and write a summary of the week at the top of `docs/BUILD_LOG.md`. (done 2026-10-29)
 
 When every box is ticked: do a QA-only run (tests + screenshots + fix regressions), log it, and stop.

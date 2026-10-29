@@ -356,6 +356,19 @@ async function testLngUx(vp) {
     for (const e of errors) failures.push(`${tag} combined link: ${e}`);
     await ctx.close();
   }
+  // every deep link quoted in docs/BRIEFING.md still resolves (an unknown value would be dropped from the hash)
+  if (vp[0] === 'desktop') {
+    const brief = fs.readFileSync(path.join(ROOT, 'docs/BRIEFING.md'), 'utf8');
+    const bl = [...new Set([...brief.matchAll(/\(\.\.\/lng\.html(#[^)]+)\)/g)].map((m) => m[1]))];
+    check(bl.length >= 3, `BRIEFING.md: expected at least 3 deep links into lng.html, found ${bl.length}`);
+    for (const hash of bl) {
+      const { page, ctx, errors, tag } = await openPage('lng.html', vp, hash);
+      await lngReady(page); await page.waitForTimeout(1000);
+      check((await hashOf(page)) === hash, `${tag} BRIEFING.md link ${hash}: hash rewritten to ${await hashOf(page)}`);
+      for (const e of errors) failures.push(`${tag} briefing link ${hash}: ${e}`);
+      await ctx.close();
+    }
+  }
   {
     const { page, ctx, errors, tag } = await openPage('lng.html', vp, '#leg=no-such-leg&event=999');
     await lngReady(page); await page.waitForTimeout(500);
@@ -612,6 +625,14 @@ async function testIndex(vp) {
     if (i === 0 && vp[0] === 'desktop') await readmeShot(page.locator('main'), 'disruptions-desktop');
     await noOverflow(page, tag, `disruption ${i}`);
   }
+  // back to the flows view: the disruption's zoom is dropped
+  check(await page.evaluate(() => state.k) > 1.01, `${tag}: expected the last disruption to zoom in`);
+  await page.click('.tab[data-mode="flows"]'); await page.waitForTimeout(1400);
+  check(Math.abs(await page.evaluate(() => state.k) - 1) < 0.01, `${tag}: switching back to flows kept the disruption zoom`);
+  // chokepoint names stay inside the globe's viewBox (they flip left at the right edge)
+  const offEdge = await page.evaluate(() => [...document.querySelectorAll('#globe text')].filter((t) => t.getAttribute('fill') && t.closest('g')?.style.display !== 'none' && /Strait|Canal|Cape|Straits/.test(t.textContent))
+    .filter((t) => { const b = t.getBoundingClientRect(), s = document.querySelector('#globe').getBoundingClientRect(); return b.width > 0 && (b.right > s.right + 1 || b.left < s.left - 1); }).map((t) => t.textContent));
+  check(offEdge.length === 0, `${tag}: chokepoint labels cut off at the globe edge: ${offEdge.join(', ')}`);
   await page.screenshot({ path: `${SHOTS}/${tag}-full.png`, fullPage: true });
   for (const e of errors) failures.push(`${tag}: ${e}`);
   await ctx.close();

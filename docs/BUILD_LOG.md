@@ -2,6 +2,61 @@
 
 Newest first. Each nightly run adds: date, task, what changed, what was verified, open issues.
 
+## Week in review · 22–29 Oct 2026 (nightly tasks 1–8)
+Eight nightly runs took the LNG page from a never-opened draft to a tested, sourced tool. All eight plan tasks are done.
+- **Quality net (tasks 1–2).** A Playwright smoke suite (now 584 checks at 1440×900 and 390×844, failing on any console error or overflow) and a data validator (6,950 checks: schema, allowed values, sources, totals = 427.9 Mt, router reachability), both run in CI on every push.
+- **Content (tasks 3–5).**
+  - Prices and EU storage: World Bank Pink Sheet and GIE AGSI+ via trackers.
+  - Fleet and freight: IGU and Spark prints, the ACP toll and computed tonne-miles.
+  - The import side: regas utilisation by country, the EU utilisation trend and the 13 FSRUs started since 2022.
+  - Each figure carries its publisher and date in `data/*.json`.
+- **Main page (task 6).** It now has sourced route volumes and shares of seaborne trade. The LNG routes are sums of the LNG page's legs, so the two pages can't disagree. A shared nav links the pages.
+- **UX (task 7).** Deep links, asset search, keyboard access, a table view for every chart, a print briefing, and a README with screenshots.
+- **Explainer (task 8).** `docs/BRIEFING.md`.
+- **Weakest data, check before relying on it in an interview:**
+  - The regas capacity patchwork (mixed dates and bases).
+  - Oil route volumes derived from shares × totals.
+  - The one-month products denominator.
+  - Spark charter prints from aggregators, with no prints for Mar–Jul 2026.
+  - Monthly "JKM" is a Japan import-price proxy; real JKM is only shown as spot prints.
+  - The arbitrage calculator's freight, canal and regas defaults are illustrative.
+  - The sandbox blocked every primary PDF and data download, so all figures come from web-search extracts. The exact items to spot-check are listed under each day below.
+- **From here:** the plan is complete. Later runs are QA-only unless the owner adds tasks.
+
+## 2026-10-29 · task 8: "LNG in 10 minutes" briefing + final review (nightly run)
+- **Merged `origin/main`**: already up to date. No new weekly refresh since 26 Oct.
+- **`docs/BRIEFING.md` (new).** A one-page explainer in six parts:
+  1. The market: 2025 trade, top exporters and importers, capacity, fleet.
+  2. Pricing and the US FOB netback. It includes a worked example from the arbitrage calculator's 5 Oct defaults: the JKM–TTF spread of $1.34 is below Panama's extra cost of ≈$1.60, so the cargo goes to Europe.
+  3. The chokepoints.
+  4. The 2026 shock in seven dates, with Hormuz exposure by importer and the effects on prices, storage, freight and tonne-miles, plus GIIGNL's three output scenarios.
+  5. The 2027 supply wave, including how much of it sits behind Hormuz.
+  6. Five interview questions.
+  - Every figure comes from the repo's data files and names its source. Arithmetic is marked "computed here":
+    - Top-3 exporters 63%.
+    - Qatar+UAE 85.6 Mt = 20%.
+    - Hormuz oil 26% of seaborne.
+    - Qatar+UAE ≈7.1 Mt/month in 2025.
+    - Pipeline 219 Mtpa, of which 100 targets 2027, 117 is US and 58 sits behind Hormuz.
+  - It has four deep links into `lng.html`, and the README links to it from the top.
+- **Leftovers fixed (from the 28 Oct open issues):**
+  - `app.js`: switching the main page from Disruptions back to Main flows (by click or by keyboard) now returns to the home globe instead of keeping the disruption's zoom.
+  - `app.js`: a chokepoint name that would run off the globe's right edge now flips to the left of its diamond. Its collision footprint follows the label. "Strait of Malacca" is no longer clipped at 390px.
+- **Smoke tests: 584 checks, up from 573.**
+  - Every `lng.html#…` link in `BRIEFING.md` must load without being rewritten.
+  - The zoom must reset when switching back to flows.
+  - No chokepoint label may extend past the globe's edges.
+- **Sources:** no new figures. The briefing uses existing data: GIIGNL Annual Report 2026, IGU World LNG Report 2026, World Bank Pink Sheet, GIE AGSI+ via trackers, Spark via Reuters/LNG Prime, ACP tariff, EIA chokepoints, Kpler/Reuters, Bloomberg.
+- **Verified:**
+  - `npm test` is green: 6,950 data checks and 584 browser checks at both viewports, with no console errors and no overflow.
+  - I looked at the main-page load screenshots on desktop (unchanged) and phone (Malacca label now inside the globe).
+  - I checked the briefing's arithmetic against the data files with Node: the leg sums, the project totals by start year and Hormuz flag, and the arbitrage margins of 16.36, 16.10 and 15.50 $/MMBtu.
+- **Open issues for the owner:**
+  - **Read `docs/BRIEFING.md` once for tone and emphasis.** It is written for interview prep, so the "five questions" section states interpretations, such as why Henry Hub fell, as well as sourced facts.
+  - **The briefing is a snapshot (data as of 26 Oct).** It does not update itself when `lng.json` or the weekly refresh changes. Re-check sections 3–4 after each refresh.
+  - The pipeline figure (219 Mtpa) counts only the 24 projects the tool tracks. That is GIIGNL's 200 Mtpa under construction plus starting trains, not a complete list.
+  - The main page still has no search box; I judged it unnecessary for 14 routes. The briefing PDF still prints charts one per row.
+
 ## 2026-10-28 · task 7: UX polish (nightly run)
 - **Merged `origin/main`**: already up to date, no new weekly refresh since 26 Oct.
 - **Deep links on both pages.** The hash now mirrors the view, updated with `history.replaceState`, so the address bar is always a shareable link. Opening a link restores the view, and editing the hash in an open tab moves it. Unknown values are dropped.

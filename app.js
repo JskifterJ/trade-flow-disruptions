@@ -221,9 +221,19 @@ function render() {
   };
   gPorts.selectAll('g').each(place);
   gChokepoints.selectAll('g').each(place);
-  gLabels.selectAll('g').each(place);
+  gLabels.selectAll('g').each(place).each(flipAtEdge);
   gEvents.selectAll('g.ev').each(place);
   placeMapText();
+}
+
+// A chokepoint name that would run off the globe's right edge goes on the left of its diamond.
+function flipAtEdge(d) {
+  const t = this.querySelector('text'), p = projection([d.lon, d.lat]);
+  if (!p || this.style.display === 'none') return;
+  if (!t.__w) t.__w = t.getComputedTextLength();
+  t.__flip = p[0] + 8 + t.__w > WIDTH - 2;
+  t.setAttribute('x', t.__flip ? -8 : 8);
+  t.setAttribute('text-anchor', t.__flip ? 'end' : 'start');
 }
 
 // Greedy label placement: highest-priority labels first, each tries its
@@ -246,7 +256,7 @@ function placeMapText() {
     if (!p) return;
     if (!t.__w) t.__w = t.getComputedTextLength();
     const h = 10.5 * TS;
-    placed.push({ x: p[0] - 7, y: p[1] - 7, w: 14, h: 14 }, { x: p[0] + 6, y: p[1] + 4 * TS - h, w: t.__w + 4, h: h + 3 });
+    placed.push({ x: p[0] - 7, y: p[1] - 7, w: 14, h: 14 }, { x: t.__flip ? p[0] - 10 - t.__w : p[0] + 6, y: p[1] + 4 * TS - h, w: t.__w + 4, h: h + 3 });
   });
   gEvents.selectAll('g.ev').each(function (d) {
     if (this.style.display === 'none' || !d.on) return;
@@ -767,7 +777,12 @@ function applyHash() {
 window.addEventListener('hashchange', () => { if (FLOWS) applyHash(); });
 
 function buildChrome() {
-  d3.selectAll('.tab').on('click', function () { setMode(this.dataset.mode); });
+  d3.selectAll('.tab').on('click', function () {
+    const changed = this.dataset.mode !== state.mode;
+    setMode(this.dataset.mode);
+    // a new view starts from the home globe, not the last disruption's zoom
+    if (changed && state.k > 1.01) rotateTo([55, 12], 1);
+  });
   // tabs: ←/→/Home/End switch views (WAI-ARIA tabs pattern, automatic activation)
   d3.select('.tabs').on('keydown', (e) => {
     const tabs = [...document.querySelectorAll('.tabs .tab')], i = tabs.indexOf(document.activeElement);
