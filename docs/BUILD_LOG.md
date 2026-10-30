@@ -2,6 +2,24 @@
 
 Newest first. Each nightly run adds: date, task, what changed, what was verified, open issues.
 
+## 2026-10-30 · QA-only run (nightly run)
+- **Plan status:** all eight tasks in `docs/NIGHTLY_PLAN.md` are ticked, so this run only did QA.
+- **Merged `origin/main`:** already up to date. There has been no new weekly refresh since 26 Oct, so `disruptions.json` still says `lastUpdated` 2026-10-26.
+- **Changed:** nothing except this log entry. I found no regressions to fix.
+- **Verified:**
+  - `npm run validate`: 6,950 checks passed.
+  - `npm run smoke` with `PW_CHROMIUM` pointing at this sandbox's preinstalled Chromium: 584 checks and 0 failures at 1440×900 and 390×844, with no console errors. This sandbox's Chromium (build 1243) doesn't match pinned Playwright 1.56.1 (build 1194). CI installs its own browser and is unaffected.
+  - Screenshots I looked at:
+    - LNG page load on desktop.
+    - Prices and storage on phone.
+    - Voyage calculator on phone.
+    - Main page load on phone.
+    - Main page Hormuz disruption on desktop.
+  - Labels, charts and tables all render without overflow.
+- **Open issues for the owner:**
+  - The 28 Oct and 29 Oct items still stand: read `BRIEFING.md`, and re-check its sections 3–4 after the next weekly refresh.
+  - In the Hormuz disruption close-up, the "28 Feb 2026 · Strait closes" label sits close to the route line. It is still readable, so I left it as is.
+
 ## Week in review · 22–29 Oct 2026 (nightly tasks 1–8)
 Eight nightly runs took the LNG page from a never-opened draft to a tested, sourced tool. All eight plan tasks are done.
 - **Quality net (tasks 1–2).** A Playwright smoke suite (now 584 checks at 1440×900 and 390×844, failing on any console error or overflow) and a data validator (6,950 checks: schema, allowed values, sources, totals = 427.9 Mt, router reachability), both run in CI on every push.
