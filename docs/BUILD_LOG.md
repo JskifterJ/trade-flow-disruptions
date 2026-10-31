@@ -11,7 +11,7 @@ Newest first. Each nightly run adds: date, task, what changed, what was verified
   - `npm run smoke` with `PW_CHROMIUM=/opt/pw-browsers/chromium` (the sandbox's preinstalled build 1243): 584 checks, 0 failures at 1440×900 and 390×844, no console errors.
   - Screenshots looked at (ones not reviewed in the 30 Oct run): LNG regas panel on phone, LNG "Now (Oct 2026)" globe on desktop, main-page Hormuz disruption on phone. Charts, labels, legends and the FSRU table render cleanly with no overflow.
 - **Open issues for the owner:**
-  - The weekly refresh on `main` is now 5 days old with no new commit. If it should have run (it last ran 26 Oct), check the refresh routine.
+  - The weekly refresh last ran on 26 Oct, so the next one is due around 2 Nov. It is not overdue yet.
   - The 28–30 Oct items still stand: read `BRIEFING.md`, and re-check its sections 3–4 after the next weekly refresh.
 
 ## 2026-10-30 · QA-only run (nightly run)
