@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-10-26",
+  "lastUpdated": "2026-11-02",
   "globalTrade2025Mt": 427.9,
   "notes": "2025 volumes come from GIIGNL's Annual Report 2026 (exporter-by-importer matrix, with Kpler). Each leg groups the reported flows from one exporter to the destinations named. Where a country's exports are split across several of its plants (Australia's WA / Queensland / NT legs), the split is an estimate (marked ≈). Paths are illustrative routing through real ports and straits, not AIS tracks. 2026 run-rates are rough indications of current flow, not forecasts.",
   "points": {
@@ -2548,6 +2548,10 @@
       "text": "QatarEnergy extends LNG force majeure into November (early December for Edison); 35 Edison cargoes undelivered."
     },
     {
+      "date": "27 Oct 2026",
+      "text": "QatarEnergy agrees to buy up to 4 Mt/yr of US LNG from Cheniere; Plaquemines Phase 1 reaches commercial operations."
+    },
+    {
       "date": "1 Jan 2027",
       "text": "EU ban on all Russian LNG imports and on maritime services to Russian LNG carriers takes effect."
     },
@@ -3131,6 +3135,26 @@
       "lon": 51.55,
       "approx": true,
       "source": "Bloomberg / The National (28 Sep 2026)"
+    },
+    {
+      "date": "27 Oct 2026",
+      "type": "policy",
+      "title": "Qatar signs for US LNG",
+      "text": "QatarEnergy agreed to buy up to 4 Mt/yr of Cheniere's US Gulf Coast LNG, its first such long-term purchase.",
+      "lat": 29.76,
+      "lon": -95.37,
+      "approx": true,
+      "source": "Semafor / Reuters (27 Oct 2026)"
+    },
+    {
+      "date": "Oct 2026",
+      "type": "supply",
+      "title": "Plaquemines Phase 1 commercial",
+      "text": "Venture Global declared Plaquemines Phase 1 in commercial operation; Shell took the first long-term cargo. US feed gas for LNG sits near record ~19 Bcf/d.",
+      "lat": 29.4,
+      "lon": -89.6,
+      "approx": true,
+      "source": "gCaptain / Industrial Info (Oct 2026)"
     }
   ],
   "zones": [

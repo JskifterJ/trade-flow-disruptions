@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-10-26",
+  "lastUpdated": "2026-11-02",
   "updateCadence": "weekly",
   "focus": "Energy and commodity trade flows: what has broken in 2026 and where the barrels and cargoes went instead",
   "chokepoints": [
@@ -40,7 +40,7 @@
       "title": "Strait of Hormuz effectively closed",
       "category": "transport",
       "severity": "critical",
-      "dateRange": "Since late Feb / early Mar 2026, still live Oct 2026; attacks spiked early Oct and stayed elevated through mid-Oct",
+      "dateRange": "Since late Feb / early Mar 2026, still live Oct 2026; attacks spiked early Oct and stayed elevated through end-Oct",
       "waypoints": [
         {
           "name": "Ras Tanura, Saudi Arabia",
@@ -68,8 +68,8 @@
           "lon": 101.0
         }
       ],
-      "summary": "The US–Iran war has shut most commercial traffic through Hormuz for about eight months, with no durable diplomatic fix in sight. A June interim deal (the Islamabad MoU) briefly eased flows but collapsed; Iran now wants a return to it plus US backing for a separate Iran-Oman coordinated shipping-route deal, while Trump rejected Iran's latest seven-day reopening proposal. Attacks have stayed elevated rather than fading: Reuters counted at least 12 strikes on oil, LNG and LPG tankers in the week of 28 Sep-5 Oct, the highest weekly total since the war began, and UKMTO logged at least 11 further incidents in the Gulf between 11-14 October, including an Iranian-claimed strike on an ADNOC Logistics & Services VLCC. Harassment has widened beyond the strait itself to a container ship and sites off Qatar, Fujairah and Sohar, with the IRGC ordering at least one inbound tanker to turn back on 5 October. Yet despite the attacks, Kpler data show Middle East crude shipments through Hormuz recovered to roughly 80% of pre-war levels by September (~16 mb/d) as tankers sail on under US Navy-escorted convoys rather than diverting outright. For a trader, the questions are which barrels can still move (see the bypass pipelines entry), who replaces what doesn't (Atlantic Basin crude, Brazil, US, West Africa), and how freight and insurance reprice for ships that keep sailing into an active-strike zone.",
-      "source": "Reuters via gvwire (7 Oct 2026); Seatrade Maritime (2 & 13 Oct 2026); gCaptain (2 & 5 Oct 2026); Engine (15 Oct 2026); IEA Oil Market Report, Sep 2026; IMF PortWatch via straits.live, Oct 2026",
+      "summary": "The US–Iran war has shut most commercial traffic through Hormuz for about eight months, with no durable diplomatic fix in sight. A June interim deal (the Islamabad MoU) briefly eased flows but collapsed; Iran now wants a return to it plus US backing for a separate Iran-Oman coordinated shipping-route deal, while Trump rejected Iran's latest seven-day reopening proposal. Attacks have stayed elevated rather than fading: Reuters counted at least 12 strikes on oil, LNG and LPG tankers in the week of 28 Sep-5 Oct, the highest weekly total since the war began, and UKMTO logged at least 11 further incidents in the Gulf between 11-14 October, including an Iranian-claimed strike on an ADNOC Logistics & Services VLCC. Harassment has widened beyond the strait itself to a container ship and sites off Qatar, Fujairah and Sohar, with the IRGC ordering at least one inbound tanker to turn back on 5 October. Yet despite the attacks, Kpler data show Middle East crude shipments through Hormuz recovered to roughly 80% of pre-war levels by September (~16 mb/d) as tankers sail on under US Navy-escorted convoys rather than diverting outright. For a trader, the questions are which barrels can still move (see the bypass pipelines entry), who replaces what doesn't (Atlantic Basin crude, Brazil, US, West Africa), and how freight and insurance reprice for ships that keep sailing into an active-strike zone. Update 30 Oct: another tanker was hit by an explosives-rigged boat; UKMTO logged 43 incidents involving commercial vessels in October, 30 of them on tankers. Brent settled near $117, a six-month high and a fourth straight monthly gain, on fears of renewed US-Iran fighting.",
+      "source": "Reuters via gvwire (7 Oct 2026); Seatrade Maritime (2 & 13 Oct 2026); gCaptain (2 & 5 Oct 2026); Engine (15 Oct 2026); IEA Oil Market Report, Sep 2026; IMF PortWatch via straits.live, Oct 2026; The National, CNBC (30 Oct 2026)",
       "focus": {
         "lat": 26.4,
         "lon": 56.3,
@@ -157,6 +157,16 @@
           "lon": 56.95,
           "approx": true,
           "source": "UKMTO via TASS / Ynet (13 Oct 2026)"
+        },
+        {
+          "date": "29 Oct 2026",
+          "type": "attack",
+          "title": "Tanker hit by explosive boat",
+          "text": "UKMTO: a tanker was damaged by an explosives-rigged boat in the strait. October's tally is 43 incidents, 30 on tankers; the IRGC claimed four tankers hit mines (unconfirmed).",
+          "lat": 26.6,
+          "lon": 56.4,
+          "approx": true,
+          "source": "UKMTO via The National / CNBC (30 Oct 2026)"
         }
       ],
       "zones": [
@@ -393,7 +403,7 @@
         }
       ],
       "summary": "About 93% of Qatar's and 96% of the UAE's LNG exports pass through Hormuz, roughly 19% of global LNG trade, and none of it has a pipeline bypass. Qatar declared force majeure in March after Iranian strikes damaged the Ras Laffan complex, and the disruption is proving far more durable than oil's: Kpler now estimates Qatari LNG exports will total just 0.6 Mt in October, against a normal cadence of roughly 6-7 Mt/month, even as Gulf crude shipments have recovered to ~80% of pre-war levels. QatarEnergy has pushed back its own repair estimate for the ~17% of capacity knocked out to three to five years, far beyond the 'weeks' timeline floated after June's ceasefire, and force majeure notices to several Asian and European buyers have been renewed month by month and now run into November (Pakistan, Bangladesh) and early December (Italy's Edison, 35 cargoes undelivered), with no public lift confirmed. The one bright spot is additive, not restorative: the first train of the North Field East expansion is due to begin commissioning in November 2026, targeting initial output in early 2027 — new supply arriving on top of an already-disrupted market rather than replacing the lost trains. European gas (TTF) more than doubled to roughly €70-77/MWh in late August-early September, a three-year high, and US Gulf Coast LNG remains the marginal supplier bidding against both Europe and Asia, which is why Panama Canal slots and Atlantic freight keep mattering so much.",
-      "source": "Cyprus Mail (12 Oct 2026); meobserver.news (12-13 Oct 2026); Zawya/Reuters Bousso column (Oct 2026); EIA Today in Energy; GIIGNL Annual Report 2026; Bloomberg (28 Sep 2026); The National (28 Sep 2026); LNG Prime (Edison)",
+      "source": "Cyprus Mail (12 Oct 2026); meobserver.news (12-13 Oct 2026); Zawya/Reuters Bousso column (Oct 2026); EIA Today in Energy; GIIGNL Annual Report 2026; Bloomberg (28 Sep 2026); The National (28 Sep 2026); LNG Prime (Edison); Semafor (27 Oct 2026)",
       "focus": {
         "lat": 25.8,
         "lon": 53.5,
@@ -454,6 +464,16 @@
           "lon": 51.55,
           "approx": true,
           "source": "Bloomberg / The National (28 Sep 2026)"
+        },
+        {
+          "date": "27 Oct 2026",
+          "type": "policy",
+          "title": "QatarEnergy buys US LNG",
+          "text": "QatarEnergy agreed to buy up to 4 Mt/yr of US Gulf Coast LNG from Cheniere, its first long-term deal of this kind, to cover lost output; talks with Venture Global (3+ Mt/yr) were reported.",
+          "lat": 29.76,
+          "lon": -95.37,
+          "approx": true,
+          "source": "Semafor / Reuters (27-28 Oct 2026)"
         }
       ],
       "zones": [
