@@ -2,6 +2,19 @@
 
 Newest first. Each nightly run adds: date, task, what changed, what was verified, open issues.
 
+## 2026-11-02 · QA-only run (nightly run)
+- **Plan status:** all eight tasks are ticked, so this run only did QA.
+- **Merged `origin/main`:** already up to date. `disruptions.json` still says `lastUpdated` 2026-10-26. This run started at 00:04 UTC on 2 Nov, so the weekly refresh may still land later today.
+- **Changed:** nothing except this log entry. No regressions found.
+- **Verified:**
+  - `npm ci`, then `npm run validate`: 6,950 checks passed, and all 1,634 plant→terminal pairs are routable.
+  - `npm run smoke` with `PW_CHROMIUM=/opt/pw-browsers/chromium`: 584 checks, 0 failures at 1440×900 and 390×844, no console errors.
+  - Screenshots looked at (not reviewed in recent runs): LNG Pipeline tab on phone, LNG arbitrage calculator on desktop, main-page first disruption (Hormuz) on desktop. All render cleanly with no overflow.
+- **Open issues for the owner:**
+  - If the next run's merge still shows no refresh after 26 Oct, check the weekly workflow on `main`.
+  - Minor: on the phone Pipeline view, the "Rio Grande LNG T1–T3 (2027)" and "T4–T5 (2030)" map labels sit side by side and close together. They are still readable, so I left them.
+  - Earlier items still stand: read `BRIEFING.md`, and re-check its sections 3–4 after the next weekly refresh.
+
 ## 2026-11-01 · QA-only run (nightly run)
 - **Plan status:** all eight tasks are ticked, so this run only did QA.
 - **Merged `origin/main`:** already up to date. There has still been no weekly refresh since 26 Oct (`disruptions.json` `lastUpdated` 2026-10-26).
