@@ -66,8 +66,11 @@ single comparison is what moves ships between the Atlantic and the Pacific each 
 5. **Jun–Jul.** The Islamabad MoU fails to hold. JKM front-month is **$21.45** at end-July.
 6. **Sep.** Qatar ships only **1.6 Mt**, a third of it to Kuwait inside the Gulf [Kpler via Reuters]. North Field East slips to H1 2027 [Bloomberg].
    Asian and European spot prices reach ≈3× pre-war levels.
-7. **Oct.** At least 18 ships are attacked around Hormuz. Kpler expects ≈0.6 Mt of Qatari exports for the month,
+7. **Oct.** UKMTO counts **43** incidents around Hormuz for the month, 30 of them on tankers [UKMTO via The National / CNBC, 30 Oct].
+   Kpler expects ≈0.6 Mt of Qatari exports for the month,
    against a 2025 average of ≈7.1 Mt/month for Qatar and the UAE (85.6 ÷ 12, computed here). Force majeure is extended into November.
+   On 27 Oct QatarEnergy agrees to buy up to **4 Mt/yr** of US LNG from Cheniere, its first long-term purchase of this kind
+   [Semafor / Reuters], and Plaquemines Phase 1 reaches commercial operation.
 
 → [Timeline and event markers](../lng.html#scenario=2026)
 

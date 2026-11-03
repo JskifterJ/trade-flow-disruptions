@@ -2,6 +2,19 @@
 
 Newest first. Each nightly run adds: date, task, what changed, what was verified, open issues.
 
+## 2026-11-03 · QA-only run (nightly run)
+- **Plan status:** all eight tasks are ticked, so this run only did QA.
+- **Merged `origin/main`:** the weekly refresh for 2 Nov landed (commit 2dd6e95). It brought the end-Oct Hormuz attacks (29 Oct: UKMTO counted 43 October incidents, 30 of them on tankers), Brent at a six-month high, QatarEnergy's purchase of US LNG from Cheniere (27 Oct) and Plaquemines Phase 1 reaching commercial operation. `data/disruptions.json` merged cleanly. `data/lng.json` conflicted only at the end of the file: main's closing `]}` collided with this branch's `regasCapacity` block. I kept the branch block. Main's new events, timeline entry and `lastUpdated` 2026-11-02 merged automatically, and both JSON files parse.
+- **Changed:** `docs/BRIEFING.md` §4 item 7 (Oct). The "at least 18 ships attacked" line is replaced by UKMTO's October tally of 43 incidents, 30 on tankers [UKMTO via The National / CNBC, 30 Oct 2026]. The item also adds the QatarEnergy–Cheniere deal of up to 4 Mt/yr [Semafor / Reuters, 27 Oct 2026] and Plaquemines Phase 1 reaching commercial operation [gCaptain / Industrial Info, Oct 2026]. All of these figures are already sourced in the data files.
+- **Verified:**
+  - `npm ci`, then `npm run validate`: 6,992 checks passed, and all 1,634 plant→terminal pairs are routable.
+  - `npm run smoke` with `PW_CHROMIUM=/opt/pw-browsers/chromium`: 584 checks, 0 failures at 1440×900 and 390×844, no console errors.
+  - Screenshots looked at: main-page Hormuz disruption on desktop (shows the new end-Oct summary and source) and the LNG "2026 events" tab on phone (the new Qatar–US LNG and Plaquemines markers render, and the detail card reads correctly).
+- **Open issues for the owner:**
+  - The refresh on `main` tagged the Qatar–Cheniere purchase as `type: "policy"`, so the LNG page shows it with the "sanctions / rules" icon. "key fact / flow change" may suit it better. That change belongs in the weekly-refresh prompt on `main`.
+  - The LNG events list follows the order of the file, not the date. The 28 Sep force-majeure item appears after the October items. Sorting by date in the data, or in `lng.js`, would fix this. I left it alone this run because QA runs should not reshape the data.
+  - Earlier minor label-crowding notes still stand.
+
 ## 2026-11-02 · QA-only run (nightly run)
 - **Plan status:** all eight tasks are ticked, so this run only did QA.
 - **Merged `origin/main`:** already up to date. `disruptions.json` still says `lastUpdated` 2026-10-26. This run started at 00:04 UTC on 2 Nov, so the weekly refresh may still land later today.
