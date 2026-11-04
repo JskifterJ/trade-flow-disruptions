@@ -785,7 +785,8 @@ function renderList() {
   } else if (state.tab === 'events') {
     if (!state.layers.events) list.append('div').attr('class', 'group-label').text('Tick "2026 events" above to show these on the globe');
     list.append('div').attr('class', 'group-label').text(`${D.events.length} events, oldest first · click to fly there`);
-    D.events.forEach((e, i) => {
+    // The file is not in date order (weekly refreshes append), so sort for display; ids stay file indices.
+    D.events.map((e, i) => ({ e, i })).sort((a, b) => eventSortKey(a.e.date) - eventSortKey(b.e.date) || a.i - b.i).forEach(({ e, i }) => {
       const t = EVENT[e.type];
       const r = list.append('div').attr('class', 'row ev-row').classed('on', on('event', i)).classed('nomap', e.lat == null)
         .on('click', () => select({ kind: 'event', id: i }));
@@ -2089,3 +2090,12 @@ Promise.all([
   d3.select('#meta-row').text('Could not load map/data. Serve the folder over HTTP (python -m http.server) rather than opening the file directly. ' + err.message);
   console.error(err);
 });
+
+// "28 Feb 2026", "1–13 Oct 2026", "Oct 2026", "Jan 2024 →" → sortable number (month-only dates sort first in their month).
+function eventSortKey(date) {
+  const y = +(String(date).match(/\d{4}/) || [0])[0];
+  const mi = String(date).match(/Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec/);
+  const m = mi ? 'JanFebMarAprMayJunJulAugSepOctNovDec'.indexOf(mi[0]) / 3 : 0;
+  const dm = String(date).match(/^(\d{1,2})\D/);
+  return y * 10000 + m * 100 + (dm ? +dm[1] : 0);
+}

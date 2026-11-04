@@ -2,6 +2,18 @@
 
 Newest first. Each nightly run adds: date, task, what changed, what was verified, open issues.
 
+## 2026-11-04 · QA-only run (nightly run)
+- **Plan status:** all eight tasks are ticked, so this run only did QA.
+- **Merged `origin/main`:** already up to date. The 2 Nov refresh was merged in the previous run.
+- **Changed:** `lng.js`. The "2026 events" list said "oldest first" but showed events in file order. Weekly refreshes append to the end of the file, so the 28 Sep force-majeure item appeared after the October items (flagged in the 3 Nov entry). A new `eventSortKey()` parses dates like "28 Feb 2026", "1–13 Oct 2026", "Oct 2026" and "Jan 2024 →", and the list now sorts by it. Month-only dates go first within their month, and ties keep file order. Only the display order changed. The data file is untouched, and selection, map ids and `#event=N` deep links still use file indices, so existing links keep working. No new numbers, so no new sources.
+- **Verified:**
+  - `npm ci`, then `npm run validate`: 6,992 checks passed, and all 1,634 plant→terminal pairs are routable.
+  - `npm run smoke` with `PW_CHROMIUM=/opt/pw-browsers/chromium`: 584 checks, 0 failures at 1440×900 and 390×844, no console errors.
+  - Screenshot looked at: LNG "2026 events" tab on desktop. The list now runs 20 Sep → 28 Sep → Oct → 1–13 Oct → 7 Oct → 27 Oct, and the selected 27 Oct item still opens its detail card.
+- **Open issues for the owner:**
+  - Still stands: the Qatar–Cheniere purchase is tagged `type: "policy"` (the "sanctions / rules" icon). Fix it in the weekly-refresh prompt on `main` if you want "key fact / flow change".
+  - The minor label-crowding notes from earlier entries still stand.
+
 ## 2026-11-03 · QA-only run (nightly run)
 - **Plan status:** all eight tasks are ticked, so this run only did QA.
 - **Merged `origin/main`:** the weekly refresh for 2 Nov landed (commit 2dd6e95). It brought the end-Oct Hormuz attacks (29 Oct: UKMTO counted 43 October incidents, 30 of them on tankers), Brent at a six-month high, QatarEnergy's purchase of US LNG from Cheniere (27 Oct) and Plaquemines Phase 1 reaching commercial operation. `data/disruptions.json` merged cleanly. `data/lng.json` conflicted only at the end of the file: main's closing `]}` collided with this branch's `regasCapacity` block. I kept the branch block. Main's new events, timeline entry and `lastUpdated` 2026-11-02 merged automatically, and both JSON files parse.
