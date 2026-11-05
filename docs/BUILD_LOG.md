@@ -2,6 +2,18 @@
 
 Newest first. Each nightly run adds: date, task, what changed, what was verified, open issues.
 
+## 2026-11-05 · QA-only run (nightly run)
+- **Plan status:** all eight tasks are ticked, so this run only did QA.
+- **Merged `origin/main`:** already up to date. The latest refresh on `main` is still the one from 2 Nov, and it is already merged.
+- **Changed:** nothing except this log entry. No regressions found.
+- **Verified:**
+  - `npm ci`, then `npm run validate`: 6,992 checks passed, and all 1,634 plant→terminal pairs are routable.
+  - `npm run smoke` with `PW_CHROMIUM=/opt/pw-browsers/chromium`: 584 checks, 0 failures at 1440×900 and 390×844, no console errors.
+  - Screenshots looked at (not reviewed in recent runs): LNG prices and storage on phone, LNG regas cards on desktop. Charts, legends, annotations and the FSRU table render cleanly with no overflow.
+- **Open issues for the owner:**
+  - The FSRU table lists Stade (Energos Force, 3.2 bcm/yr) as "due" for Nov 2026. It is now November, so the next weekly refresh or a manual check should confirm whether it has started and update its status.
+  - Still stand: the Qatar–Cheniere `type: "policy"` tag, and the minor label-crowding notes from earlier entries.
+
 ## 2026-11-04 · QA-only run (nightly run)
 - **Plan status:** all eight tasks are ticked, so this run only did QA.
 - **Merged `origin/main`:** already up to date. The 2 Nov refresh was merged in the previous run.
