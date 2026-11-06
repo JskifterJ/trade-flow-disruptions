@@ -2,6 +2,19 @@
 
 Newest first. Each nightly run adds: date, task, what changed, what was verified, open issues.
 
+## 2026-11-06 · QA-only run (nightly run)
+- **Plan status:** all eight tasks are ticked, so this run only did QA.
+- **Merged `origin/main`:** already up to date. The latest refresh on `main` is still the one from 2 Nov, and it is already merged.
+- **Changed:** nothing except this log entry. No regressions found.
+- **Verified:**
+  - `npm ci`, then `npm run validate`: 6,992 checks passed, and all 1,634 plant→terminal pairs are routable.
+  - `npm run smoke` with `PW_CHROMIUM=/opt/pw-browsers/chromium`: 584 checks, 0 failures at 1440×900 and 390×844, no console errors.
+  - Screenshots looked at (not reviewed in recent runs): LNG fleet and freight on phone (charter-rate chart, deliveries bars, ton-mile table, leg bar chart), and the main page's first route on phone. All render with no overflow.
+- **Stade FSRU check (open issue from 5 Nov):** a web search found reports that Energos Force cooled down its tanks in Rotterdam and returned to Stade ahead of a November start-up (LNG Prime; Baird Maritime). No report confirms a first cargo or a commercial start yet, so its status in `lng.json` stays "due" for Nov 2026. Check again next week.
+- **Open issues for the owner:**
+  - Minor: on the phone view of the main page, the "≈8.7 mb/d · 20%" route label touches the "Strait of Malacca" label. It is still readable.
+  - Still stand: the Qatar–Cheniere `type: "policy"` tag, and the label-crowding notes from earlier entries.
+
 ## 2026-11-05 · QA-only run (nightly run)
 - **Plan status:** all eight tasks are ticked, so this run only did QA.
 - **Merged `origin/main`:** already up to date. The latest refresh on `main` is still the one from 2 Nov, and it is already merged.
