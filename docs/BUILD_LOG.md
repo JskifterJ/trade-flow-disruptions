@@ -2,6 +2,18 @@
 
 Newest first. Each nightly run adds: date, task, what changed, what was verified, open issues.
 
+## 2026-11-07 · QA-only run (nightly run)
+- **Plan status:** all eight tasks are ticked, so this run only did QA.
+- **Merged `origin/main`:** already up to date. The latest refresh on `main` is still the one from 2 Nov.
+- **Changed:** `data/lng.json`, text only. This follows up the Stade FSRU check from 5–6 Nov. energate messenger reported on 3 Nov 2026 that the first LNG cargo was unloaded onto Energos Force in Stade on 2 Nov: 160,000 m³ carried by the Lech Kaczynski from Plaquemines. LNG Prime ran the same news on 3 Nov. This cargo starts commissioning; it is not a commercial start. So the FSRU's status stays "due" and no number changes, but I updated its `source`, added a `note` (both show in the FSRU chart tooltip), and updated the note on the Germany regas row. Energos Infrastructure's press release supports the mid-Sep docking date.
+- **Verified:**
+  - `npm ci`, then `npm run validate`: 6,992 checks passed, and all 1,634 plant→terminal pairs are routable.
+  - `npm run smoke` with `PW_CHROMIUM=/opt/pw-browsers/chromium`: 584 checks, 0 failures at 1440×900 and 390×844, no console errors.
+  - Screenshot looked at: LNG regas cards on phone (utilisation bars, EU terminal utilisation, FSRU chart and table). Everything renders without overflow, and Stade still shows "due" for Nov 2026.
+- **Open issues for the owner:**
+  - When DET confirms commercial operation at Stade, set its status to "operating" and add its 3.2 bcm/yr to the Germany regas total (18.4 → 21.6 bcm). The total is computed from the FSRU list and marked `derived`.
+  - Still stand: the Qatar–Cheniere `type: "policy"` tag, and the minor label-crowding notes from earlier entries.
+
 ## 2026-11-06 · QA-only run (nightly run)
 - **Plan status:** all eight tasks are ticked, so this run only did QA.
 - **Merged `origin/main`:** already up to date. The latest refresh on `main` is still the one from 2 Nov, and it is already merged.

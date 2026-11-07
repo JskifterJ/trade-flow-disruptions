@@ -3816,7 +3816,7 @@
         "confidence": "low",
         "derived": true,
         "source": "Sum of the German FSRUs operating in 2026 in regasCapacity.fsrus (Wilhelmshaven 1 + 2, Brunsbüttel, Mukran/Neptune)",
-        "note": "Stade (Energos Force) is due to start in Nov 2026."
+        "note": "Stade (Energos Force) took its first, commissioning cargo on 2 Nov 2026 (energate, 3 Nov 2026); commercial start still pending."
       },
       {
         "name": "Poland",
@@ -4007,7 +4007,8 @@
         "start": "2026-11",
         "capacityBcm": 3.2,
         "status": "due",
-        "source": "Deutsche Energy Terminal / Hanseatic Energy Hub: docked mid-Sep 2026, first cargo expected early Nov 2026; 1.7 bcm to end-2026, 3.2 bcm/yr in 2027"
+        "source": "Deutsche Energy Terminal / Hanseatic Energy Hub: docked mid-Sep 2026 (Energos Infrastructure, Sep 2026); first commissioning cargo unloaded 2 Nov 2026 from Lech Kaczynski, 160,000 m³ from Plaquemines (energate messenger / LNG Prime, 3 Nov 2026); 1.7 bcm to end-2026, 3.2 bcm/yr in 2027",
+        "note": "Commissioning under way; still marked due until DET confirms commercial operation."
       }
     ]
   }
