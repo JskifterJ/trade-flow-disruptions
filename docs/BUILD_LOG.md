@@ -2,6 +2,21 @@
 
 Newest first. Each nightly run adds: date, task, what changed, what was verified, open issues.
 
+## 2026-11-08 · QA-only run (nightly run)
+- **Plan status:** all eight tasks are ticked, so this run only did QA.
+- **Merged `origin/main`:** already up to date. The latest refresh on `main` is still the one from 2 Nov, and it is already merged. The next weekly refresh is due around 9 Nov.
+- **Changed:** nothing except this log entry. No regressions found.
+- **Data checks (no edits):**
+  - Prices: `prices.json` ends at Sep 2026 (Pink Sheet, Oct 2026 edition). A web search found no November 2026 Pink Sheet with October averages yet, so nothing was added.
+  - Stade FSRU: a web search found no report of commercial operation after the 2 Nov commissioning cargo, so its status stays "due".
+- **Verified:**
+  - `npm ci`, then `npm run validate`: 6,992 checks passed, and all 1,634 plant→terminal pairs are routable.
+  - `npm run smoke` with `PW_CHROMIUM=/opt/pw-browsers/chromium`: 584 checks, 0 failures at 1440×900 and 390×844, no console errors.
+  - Screenshots looked at (not reviewed in recent runs): the LNG voyage calculator on desktop (Sabine Pass→Tokyo: 9,449 nm via Panama, the Panama cap warning matches the 15 Oct data in `lng.json`) and the main page's print layout. Both render cleanly.
+- **Open issues for the owner:**
+  - When the November Pink Sheet is out, add Oct 2026 to `prices.json`. The arbitrage "latest month" preset picks it up automatically.
+  - Still stand: Stade commercial start (status → operating, Germany regas 18.4 → 21.6 bcm), the Qatar–Cheniere `type: "policy"` tag, and the minor "≈8.7 mb/d · 20%" / Strait of Malacca label crowding (it also shows in the print layout).
+
 ## 2026-11-07 · QA-only run (nightly run)
 - **Plan status:** all eight tasks are ticked, so this run only did QA.
 - **Merged `origin/main`:** already up to date. The latest refresh on `main` is still the one from 2 Nov.
