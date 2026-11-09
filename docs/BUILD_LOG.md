@@ -2,6 +2,21 @@
 
 Newest first. Each nightly run adds: date, task, what changed, what was verified, open issues.
 
+## 2026-11-09 · QA-only run (nightly run)
+- **Plan status:** all eight tasks are ticked, so this run only did QA.
+- **Merged `origin/main`:** already up to date. The weekly refresh due around 9 Nov had not landed on `main` when this run started (00:03 UTC).
+- **Changed:** nothing except this log entry. No regressions found.
+- **Data checks (no edits):**
+  - Prices: a web search found no primary November 2026 Pink Sheet with October averages. One secondary price-tracker page lists a World Bank Europe gas value for Oct 2026, but it was not used because it cannot be checked against the Pink Sheet. `prices.json` still ends at Sep 2026.
+  - Stade FSRU: no report of commercial operation after the 2 Nov commissioning cargo, so its status stays "due".
+- **Verified:**
+  - `npm ci`, then `npm run validate`: 6,992 checks passed, and all 1,634 plant→terminal pairs are routable.
+  - `npm run smoke` with `PW_CHROMIUM=/opt/pw-browsers/chromium`: 584 checks, 0 failures at 1440×900 and 390×844, no console errors.
+  - Screenshots looked at (not reviewed in recent runs): the arbitrage calculator on phone (sliders, presets, cost bars and legend fit at 390px) and the Pipeline tab on desktop (Rio Grande T4–T5 detail card and its source). Both render cleanly. Minor: the US Gulf event labels near Sabine Pass ("27 Oct 2026 · Qatar signs…", "Nov 2025 · Plaquemines…") sit close together but stay readable.
+- **Open issues for the owner:**
+  - When the November Pink Sheet is out, add Oct 2026 to `prices.json`.
+  - Still stand: Stade commercial start (status → operating, Germany regas 18.4 → 21.6 bcm), the Qatar–Cheniere `type: "policy"` tag, and the minor label crowding on the main page (Malacca) and the LNG page (US Gulf).
+
 ## 2026-11-08 · QA-only run (nightly run)
 - **Plan status:** all eight tasks are ticked, so this run only did QA.
 - **Merged `origin/main`:** already up to date. The latest refresh on `main` is still the one from 2 Nov, and it is already merged. The next weekly refresh is due around 9 Nov.
