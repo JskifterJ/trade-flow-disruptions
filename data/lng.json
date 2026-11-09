@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-11-02",
+  "lastUpdated": "2026-11-09",
   "globalTrade2025Mt": 427.9,
   "notes": "2025 volumes come from GIIGNL's Annual Report 2026 (exporter-by-importer matrix, with Kpler). Each leg groups the reported flows from one exporter to the destinations named. Where a country's exports are split across several of its plants (Australia's WA / Queensland / NT legs), the split is an estimate (marked ≈). Paths are illustrative routing through real ports and straits, not AIS tracks. 2026 run-rates are rough indications of current flow, not forecasts.",
   "points": {
@@ -3155,6 +3155,23 @@
       "lon": -89.6,
       "approx": true,
       "source": "gCaptain / Industrial Info (Oct 2026)"
+    },
+    {
+      "date": "6 Nov 2026",
+      "type": "attack",
+      "title": "Hormuz tanker incidents resume",
+      "text": "IRGC reported tanker fires and claimed mine hits near Hormuz; Qatar's LNG outlet remains constrained by force majeure with repairs guided at 3-5 years.",
+      "lat": 26.6,
+      "lon": 56.4,
+      "approx": true,
+      "source": "Invezz / OilPrice (6 Nov 2026)"
+    },
+    {
+      "date": "23 Jul 2026",
+      "type": "policy",
+      "title": "EU 21st package vs Russian LNG",
+      "text": "EU ban on Russian LNG starts 1 Jan 2027 for long-term contracts; Russia is expanding its LNG shadow fleet to ~25 vessels.",
+      "source": "Skuld / Hellenic Shipping News"
     }
   ],
   "zones": [
