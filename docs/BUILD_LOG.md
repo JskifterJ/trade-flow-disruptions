@@ -2,6 +2,19 @@
 
 Newest first. Each nightly run adds: date, task, what changed, what was verified, open issues.
 
+## 2026-11-10 · QA-only run (nightly run)
+- **Plan status:** all eight tasks are ticked, so this run only did QA.
+- **Merged `origin/main`:** the 9 Nov weekly refresh (34bc009) merged cleanly with no conflicts. It brings `disruptions.json` up to date to 9 Nov: the Hormuz dateRange now runs "into early Nov", a 6 Nov tanker fires/mine-claims event, a 5 Nov JMIC "quieter Red Sea" event, and a 23 Jul EU 21st-package event on the Russia entry. `lng.json` gets two new events: 6 Nov Hormuz incidents, and EU 21st package vs Russian LNG (no coordinates, so it shows in the list only). The map-layer fields (focus/events/zones/regions) are intact.
+- **Changed:** `data/lng.json`, one field only. The new "EU 21st package vs Russian LNG" event had a source with no date ("Skuld / Hellenic Shipping News"). I added "(Jul–Aug 2026)" to match the same item in `disruptions.json`.
+- **Data checks (no edits):** a web search again found no primary November 2026 Pink Sheet, so `prices.json` still ends at Sep 2026. Aggregator pages (Cbonds) were not used.
+- **Verified:**
+  - `npm ci`, then `npm run validate`: 7,034 checks passed (up from 6,992, because of the new events), and all 1,634 plant→terminal pairs are routable.
+  - `npm run smoke` with `PW_CHROMIUM=/opt/pw-browsers/chromium`: 584 checks, 0 failures at 1440×900 and 390×844, no console errors.
+  - Screenshots looked at: LNG "2026 events" tab on desktop. The 6 Nov event sorts last, opens its detail card with the approx-location note, and its map label sits beside the Hormuz marker and stays readable. The main page's Hormuz detail on desktop renders cleanly.
+- **Open issues for the owner:**
+  - The 6 Nov refresh text cites Invezz/OilPrice for IRGC claims, which are unconfirmed. The wording says so, but you may want a Reuters/UKMTO source once one is available.
+  - Still stand: add Oct 2026 to `prices.json` when the November Pink Sheet is out; Stade commercial start (status → operating, Germany regas 18.4 → 21.6 bcm); the Qatar–Cheniere `type: "policy"` tag; the minor label crowding (Malacca on the main page, US Gulf and now the Hormuz cluster on the LNG page).
+
 ## 2026-11-09 · QA-only run (nightly run)
 - **Plan status:** all eight tasks are ticked, so this run only did QA.
 - **Merged `origin/main`:** already up to date. The weekly refresh due around 9 Nov had not landed on `main` when this run started (00:03 UTC).
