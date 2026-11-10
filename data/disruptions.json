@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-11-02",
+  "lastUpdated": "2026-11-09",
   "updateCadence": "weekly",
   "focus": "Energy and commodity trade flows: what has broken in 2026 and where the barrels and cargoes went instead",
   "chokepoints": [
@@ -40,7 +40,7 @@
       "title": "Strait of Hormuz effectively closed",
       "category": "transport",
       "severity": "critical",
-      "dateRange": "Since late Feb / early Mar 2026, still live Oct 2026; attacks spiked early Oct and stayed elevated through end-Oct",
+      "dateRange": "Since late Feb / early Mar 2026, still live Oct 2026; attacks spiked early Oct and stayed elevated into early Nov",
       "waypoints": [
         {
           "name": "Ras Tanura, Saudi Arabia",
@@ -69,7 +69,7 @@
         }
       ],
       "summary": "The US–Iran war has shut most commercial traffic through Hormuz for about eight months, with no durable diplomatic fix in sight. A June interim deal (the Islamabad MoU) briefly eased flows but collapsed; Iran now wants a return to it plus US backing for a separate Iran-Oman coordinated shipping-route deal, while Trump rejected Iran's latest seven-day reopening proposal. Attacks have stayed elevated rather than fading: Reuters counted at least 12 strikes on oil, LNG and LPG tankers in the week of 28 Sep-5 Oct, the highest weekly total since the war began, and UKMTO logged at least 11 further incidents in the Gulf between 11-14 October, including an Iranian-claimed strike on an ADNOC Logistics & Services VLCC. Harassment has widened beyond the strait itself to a container ship and sites off Qatar, Fujairah and Sohar, with the IRGC ordering at least one inbound tanker to turn back on 5 October. Yet despite the attacks, Kpler data show Middle East crude shipments through Hormuz recovered to roughly 80% of pre-war levels by September (~16 mb/d) as tankers sail on under US Navy-escorted convoys rather than diverting outright. For a trader, the questions are which barrels can still move (see the bypass pipelines entry), who replaces what doesn't (Atlantic Basin crude, Brazil, US, West Africa), and how freight and insurance reprice for ships that keep sailing into an active-strike zone. Update 30 Oct: another tanker was hit by an explosives-rigged boat; UKMTO logged 43 incidents involving commercial vessels in October, 30 of them on tankers. Brent settled near $117, a six-month high and a fourth straight monthly gain, on fears of renewed US-Iran fighting.",
-      "source": "Reuters via gvwire (7 Oct 2026); Seatrade Maritime (2 & 13 Oct 2026); gCaptain (2 & 5 Oct 2026); Engine (15 Oct 2026); IEA Oil Market Report, Sep 2026; IMF PortWatch via straits.live, Oct 2026; The National, CNBC (30 Oct 2026)",
+      "source": "Reuters via gvwire (7 Oct 2026); Seatrade Maritime (2 & 13 Oct 2026); gCaptain (2 & 5 Oct 2026); Engine (15 Oct 2026); IEA Oil Market Report, Sep 2026; IMF PortWatch via straits.live, Oct 2026; The National, CNBC (30 Oct 2026); Invezz, OilPrice (6 Nov 2026)",
       "focus": {
         "lat": 26.4,
         "lon": 56.3,
@@ -167,6 +167,16 @@
           "lon": 56.4,
           "approx": true,
           "source": "UKMTO via The National / CNBC (30 Oct 2026)"
+        },
+        {
+          "date": "6 Nov 2026",
+          "type": "attack",
+          "title": "Tanker fires; IRGC claims more mine hits",
+          "text": "The IRGC said two tankers and a tug caught fire in separate incidents in the strait and claimed two more tankers hit mines (unconfirmed). Brent rebounded to ~$100 after a sharp weekly fall, with Iran–Saudi/Qatar diplomacy ongoing but a US–Iran deal doubtful.",
+          "lat": 26.6,
+          "lon": 56.4,
+          "approx": true,
+          "source": "Invezz / OilPrice / House of Saud (6 Nov 2026)"
         }
       ],
       "zones": [
@@ -606,7 +616,7 @@
         }
       ],
       "summary": "The Houthis' 2025 pause ended at the end of February 2026, when they announced renewed attacks on Red Sea shipping, linked to the strikes on Iran. In July they declared a complete naval blockade on Saudi Arabia, aimed squarely at the oil Saudi Arabia was rerouting to Yanbu to avoid Hormuz, and in September seized the port of Mokha plus Mayun (Perim) island and the Hanish islands, giving them effective control of both shores of Bab-el-Mandeb despite a Saudi-backed counter-offensive claim on 4 October. The conflict escalated sharply in early October: Houthi missiles struck Riyadh's airport twice (9–10 Oct), killing at least 13 people, and the group has warned airlines and travelers to avoid all Saudi airports and airspace except Mecca and Medina — widening this from a shipping chokepoint into an aviation one too. Bab-el-Mandeb traffic has fallen to roughly 32 ships/day from a pre-blockade ~50. Around 30 tankers near Yanbu sit within Houthi strike range, and most Asia–Europe tankers and container ships still go round the Cape, adding about 10–14 days. That ties up ships and lifts freight rates on every route, not just this one.",
-      "source": "CNN (10 Oct 2026); PBS NewsHour (2026); Reuters via aaj.tv (11 Aug 2026); CNBC (22 Jul 2026); CFR; Lloyd's List Intelligence Red Sea brief (Aug 2026)",
+      "source": "CNN (10 Oct 2026); PBS NewsHour (2026); Reuters via aaj.tv (11 Aug 2026); CNBC (22 Jul 2026); CFR; Lloyd's List Intelligence Red Sea brief (Aug 2026); JMIC / Gulf News (5 Nov 2026)",
       "focus": {
         "lat": 17.0,
         "lon": 41.5,
@@ -706,6 +716,16 @@
           "title": "12 attacks in the south",
           "text": "12 Houthi attacks or attempted attacks on commercial vessels in the southern Red Sea since July. Most Asia–Europe tankers and boxships still go round the Cape (+10–14 days).",
           "source": "Africa Center for Strategic Studies (2026)"
+        },
+        {
+          "date": "5 Nov 2026",
+          "type": "info",
+          "title": "JMIC: quieter, one suspicious incident",
+          "text": "A JMIC advisory reported one suspicious-activity incident in the southern Red Sea and no confirmed attacks elsewhere; Bab al-Mandab traffic shows tentative recovery. Saudi Arabia warned Yanbu could be a Houthi target.",
+          "lat": 13.0,
+          "lon": 43.0,
+          "approx": true,
+          "source": "JMIC advisory via Gulf News (5 Nov 2026)"
         }
       ],
       "zones": [
@@ -1121,6 +1141,13 @@
           "lat": -34.35,
           "lon": 18.47,
           "source": "KSE Institute (May 2026)"
+        },
+        {
+          "date": "23 Jul 2026",
+          "type": "policy",
+          "title": "EU 21st package",
+          "text": "Adds 41 shadow-fleet vessels (>670 total) and targets bunkering/STS support. The EU ban on Russian LNG takes effect 1 Jan 2027 for long-term contracts; Russia is expanding a ~25-ship LNG shadow fleet.",
+          "source": "Skuld / Hellenic Shipping News (Jul–Aug 2026)"
         }
       ],
       "zones": [],
