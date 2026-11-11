@@ -2,6 +2,32 @@
 
 Newest first. Each nightly run adds: date, task, what changed, what was verified, open issues.
 
+## 2026-11-11 · QA-only run (nightly run)
+- **Plan status:** all eight tasks are ticked, so this run did QA plus one small data update.
+- **Merged `origin/main`:** already up to date. The 9 Nov refresh was merged last night.
+- **Changed:**
+  - `data/prices.json`: added the EU storage reading for gas day 1 Nov 2026, **74.56%**, and the same date in 2025, **82.86%**. Both come from oEnergetice.cz (3 Nov 2026), which cites GIE AGSI+. The figure fits the 74.62% we have for 21 Oct, and the IEA said EU storage was "75% at end-October" (as reported by MLex). `lastUpdated` is now 2026-11-11.
+  - `lng.js` (`renderStorage`): the caption under the storage chart used to compare the latest point with the mid-October average, which would have been wrong now that the latest point is 1 Nov. It now says: the latest value; whether it is short of the 1 Nov target; the gap to the same day in 2025, when that point exists; then the mid-Oct gap, measured with the 2026 reading closest to 14 Oct (13 Oct, ≈15 pts). oEnergetice.cz is added to the source list.
+  - `docs/BRIEFING.md`: the storage bullet now uses the 1 Nov figure and says the 80% target was missed.
+- **Data checks (no edits):**
+  - Prices: still no primary November Pink Sheet with October averages turned up. worldbank.org cannot be reached from this cloud session (DNS blocked), so `prices.json` still ends at Sep 2026.
+  - Stade FSRU: nothing confirms commercial operation, so its status stays "due". energy-terminal.de cannot be reached from this session either.
+- **Verified:**
+  - `npm ci`, then `npm run validate`: 7,040 checks passed, and all 1,634 plant→terminal pairs are routable.
+  - `npm run smoke` with `PW_CHROMIUM=/opt/pw-browsers/chromium`: 584 checks, 0 failures at 1440×900 and 390×844, no console errors. I ran it before and after the change.
+  - Screenshots looked at:
+    - Storage card at 390px: the new 1 Nov point and its "74.6% · 1 Nov" label, the 2025 hollow dot above the target line, and the new caption all fit without overflow.
+    - Prices chart on desktop and the 2026 events tab on phone: no regressions.
+- **Open issues for the owner:**
+  - The 1 Nov storage figure comes from a secondary site. I couldn't open the page from here, so it is taken from the search result's quote of the article. If you can, check it against AGSI+.
+  - Allowing worldbank.org, energy-terminal.de and agsi.gie.eu in the environment's network settings would let the nightly runs check primary sources directly.
+  - Still stand from earlier entries:
+    - Oct 2026 prices, when the November Pink Sheet is out.
+    - Stade commercial start: status → operating, and Germany regas 18.4 → 21.6 bcm.
+    - The Qatar–Cheniere `type: "policy"` tag.
+    - Minor label crowding.
+    - A Reuters/UKMTO source for the 6 Nov Hormuz item.
+
 ## 2026-11-10 · QA-only run (nightly run)
 - **Plan status:** all eight tasks are ticked, so this run only did QA.
 - **Merged `origin/main`:** the 9 Nov weekly refresh (34bc009) merged cleanly with no conflicts. It brings `disruptions.json` up to date to 9 Nov: the Hormuz dateRange now runs "into early Nov", a 6 Nov tanker fires/mine-claims event, a 5 Nov JMIC "quieter Red Sea" event, and a 23 Jul EU 21st-package event on the Russia entry. `lng.json` gets two new events: 6 Nov Hormuz incidents, and EU 21st package vs Russian LNG (no coordinates, so it shows in the list only). The map-layer fields (focus/events/zones/regions) are intact.

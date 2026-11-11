@@ -1,5 +1,5 @@
 {
- "lastUpdated": "2026-10-24",
+ "lastUpdated": "2026-11-11",
  "unit": "$/MMBtu, monthly average",
  "series": {
   "ttf": {
@@ -361,6 +361,11 @@
     "date": "2026-10-21",
     "value": 74.62,
     "source": "global-energy-flow.com, GIE AGSI+ direct read, gas day 21 Oct 2026"
+   },
+   {
+    "date": "2026-11-01",
+    "value": 74.56,
+    "source": "oEnergetice.cz, 3 Nov 2026 (GIE AGSI+), gas day 1 Nov 2026"
    }
   ],
   "fill2025": [
@@ -373,6 +378,11 @@
     "date": "2025-10-15",
     "value": 83.04,
     "source": "energynews.pro, Oct 2026: same date a year earlier"
+   },
+   {
+    "date": "2025-11-01",
+    "value": 82.86,
+    "source": "oEnergetice.cz, 3 Nov 2026 (GIE AGSI+): same date a year earlier"
    }
   ],
   "fiveYearAvg": [

@@ -1245,9 +1245,16 @@ function renderStorage() {
     .attr('fill', C.ink).text(`${d3.format('.1f')(last.value)}% · ${d3.utcFormat('%-d %b')(last.date)}`);
 
   const lastAvg = avg[avg.length - 1];
-  d3.select('#c-storage-src').text(`Latest: ${last.value}% on ${fmtDay(last.date)}, about ${Math.round(lastAvg.value - last.value)} points under the 2021–25 average for mid-October (${lastAvg.value}%) and below the range's minimum (${band[0].min}%). ` +
+  // compare the 2021–25 average with the 2026 reading nearest its date, and last year with the same calendar day
+  const nearAvg = f26.reduce((a, b) => (Math.abs(b.date - lastAvg.date) < Math.abs(a.date - lastAvg.date) ? b : a));
+  const same25 = f25.find((d) => +d.date === +last.date);
+  const target = S.target.value;
+  d3.select('#c-storage-src').text(`Latest: ${last.value}% on ${fmtDay(last.date)}` +
+    (last.value < target && last.date >= parseDay('2026-11-01') ? `, short of the ${target}% 1 Nov target` : '') +
+    (same25 ? `, ${d3.format('.1f')(same25.value - last.value)} points below the same date in 2025 (${same25.value}%)` : '') + '. ' +
+    `On ${fmtDay(nearAvg.date)} it was about ${Math.round(lastAvg.value - nearAvg.value)} points under the 2021–25 average for mid-October (${lastAvg.value}%) and below the range's minimum (${band[0].min}%). ` +
     `Hollow grey dots: average derived from a reported gap. The range is published for 14 Oct only. ` +
-    `Sources: GIE AGSI+ data as reported by ENGIE EnergyScan, Voltstack, global-energy-flow.com, CES Intelligence, Rigzone and TASS (each point's source is in its tooltip).`);
+    `Sources: GIE AGSI+ data as reported by ENGIE EnergyScan, Voltstack, global-energy-flow.com, CES Intelligence, Rigzone, TASS and oEnergetice.cz (each point's source is in its tooltip).`);
   const v = (d) => `${d.approx ? '≈' : ''}${d.value}%${d.derived ? ' (derived)' : ''}`;
   tableView('#c-storage', [
     { caption: '2026, % full', cols: ['Date', '2026', 'Source'], rows: f26.map((d) => [fmtDay(d.date), v(d), d.source]) },

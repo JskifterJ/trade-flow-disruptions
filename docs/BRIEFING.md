@@ -84,9 +84,9 @@ directly, but it had to outbid Asia for the cargoes that were still sailing.
 - **Prices.** TTF rose from **$11.24** (Feb) to **$17.91** (Mar) and **$25.42** (Sep). Henry Hub *fell*,
   from $3.61 to $2.95: the US is long gas and export plants were already running full [World Bank Pink Sheet].
   The TTF–HH spread is the profit pool that pays for new US plants.
-- **Storage.** EU storage was ≈**30%** full on 20 Apr and **74.6%** on 21 Oct. The 2021–25 average for mid-Oct is
-  **88.9%**, and the 1 Nov target was cut to **80%** [GIE AGSI+ via trackers; see `prices.json`].
-  Europe enters winter short.
+- **Storage.** EU storage was ≈**30%** full on 20 Apr and **74.6%** on 1 Nov, against **82.9%** a year earlier.
+  The 2021–25 average for mid-Oct is **88.9%**, and even the 1 Nov target, cut to **80%**, was missed
+  [GIE AGSI+ via trackers; see `prices.json`]. Europe enters winter short.
 - **Freight.** Spot charter rates spiked in early March, as ships were stranded and rerouted, then collapsed.
   By 6 Oct they were **91% (Atlantic) and 83% (Pacific)** below their peaks. The latest prints are ≈**$21,750/day**
   in the Atlantic and **$30,750** in the Pacific (≈23 Oct) [Spark via Reuters]. With **107** newbuilds due
