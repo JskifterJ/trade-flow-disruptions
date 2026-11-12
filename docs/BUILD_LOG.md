@@ -2,6 +2,19 @@
 
 Newest first. Each nightly run adds: date, task, what changed, what was verified, open issues.
 
+## 2026-11-12 · QA-only run (nightly run)
+- **Plan status:** all eight tasks are ticked, so this run only did QA.
+- **Merged `origin/main`:** already up to date. The 9 Nov refresh was merged on 10 Nov.
+- **Changed:** nothing except this log entry. No regressions found.
+- **Data checks (no edits):**
+  - Prices: a web search again found no primary November 2026 Pink Sheet with October averages, so `prices.json` still ends at Sep 2026.
+  - Stade FSRU: no report of commercial operation after the 2 Nov commissioning cargo, so its status stays "due".
+- **Verified:**
+  - `npm ci`, then `npm run validate`: 7,040 checks passed, and all 1,634 plant→terminal pairs are routable.
+  - `npm run smoke` with `PW_CHROMIUM=/opt/pw-browsers/chromium`: 584 checks, 0 failures at 1440×900 and 390×844, no console errors.
+  - Screenshots looked at (not reviewed in recent runs): the LNG fleet & freight card on phone (charter-rate chart, deliveries bars, ton-mile table and per-leg bars fit at 390px) and the main page's disruption view on phone (Hormuz zone labels, legend, event cards). Both render cleanly.
+- **Open issues for the owner:** unchanged from 11 Nov: Oct 2026 prices when the November Pink Sheet is out; Stade commercial start (status → operating, Germany regas 18.4 → 21.6 bcm); check the 1 Nov storage figure against AGSI+; the Qatar–Cheniere `type: "policy"` tag; minor label crowding; a Reuters/UKMTO source for the 6 Nov Hormuz item.
+
 ## 2026-11-11 · QA-only run (nightly run)
 - **Plan status:** all eight tasks are ticked, so this run did QA plus one small data update.
 - **Merged `origin/main`:** already up to date. The 9 Nov refresh was merged last night.
