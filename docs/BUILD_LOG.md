@@ -2,6 +2,25 @@
 
 Newest first. Each nightly run adds: date, task, what changed, what was verified, open issues.
 
+## 2026-11-13 · QA-only run (nightly run)
+- **Plan status:** all eight tasks are ticked, so this run only did QA.
+- **Merged `origin/main`:** already up to date. No new weekly refresh since the 9 Nov one, which is already merged.
+- **Changed:** nothing except this log entry. No regressions found.
+- **Data checks (no edits):**
+  - Prices: a web search found no primary November 2026 Pink Sheet with October averages, only weekly secondary reports (GlobalLNGHub). `prices.json` still ends at Sep 2026.
+  - Stade FSRU: no report of commercial operation, so its status stays "due".
+- **Verified:**
+  - `npm ci`, then `npm run validate`: 7,040 checks passed, and all 1,634 plant→terminal pairs are routable.
+  - `npm run smoke` with `PW_CHROMIUM=/opt/pw-browsers/chromium`: 584 checks, 0 failures at 1440×900 and 390×844, no console errors.
+  - Screenshots looked at (not reviewed in recent runs): the LNG Chokepoints tab on phone (list, Bab-el-Mandeb detail card, legend) and the main page's first route selected on phone (Arabian Gulf → Asia detail and route list). Both render cleanly. Minor: on the phone globe the "≈8.7 mb/d · 20%" route label sits right next to the Strait of Malacca label. This is the label crowding already noted.
+- **Open issues for the owner:** unchanged from 11 Nov:
+  - Oct 2026 prices, when the November Pink Sheet is out.
+  - Stade commercial start: status → operating, and Germany regas 18.4 → 21.6 bcm.
+  - Check the 1 Nov storage figure against AGSI+.
+  - The Qatar–Cheniere `type: "policy"` tag.
+  - Minor label crowding.
+  - A Reuters/UKMTO source for the 6 Nov Hormuz item.
+
 ## 2026-11-12 · QA-only run (nightly run)
 - **Plan status:** all eight tasks are ticked, so this run only did QA.
 - **Merged `origin/main`:** already up to date. The 9 Nov refresh was merged on 10 Nov.
