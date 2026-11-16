@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-11-09",
+  "lastUpdated": "2026-11-16",
   "globalTrade2025Mt": 427.9,
   "notes": "2025 volumes come from GIIGNL's Annual Report 2026 (exporter-by-importer matrix, with Kpler). Each leg groups the reported flows from one exporter to the destinations named. Where a country's exports are split across several of its plants (Australia's WA / Queensland / NT legs), the split is an estimate (marked ≈). Paths are illustrative routing through real ports and straits, not AIS tracks. 2026 run-rates are rough indications of current flow, not forecasts.",
   "points": {
@@ -2552,6 +2552,10 @@
       "text": "QatarEnergy agrees to buy up to 4 Mt/yr of US LNG from Cheniere; Plaquemines Phase 1 reaches commercial operations."
     },
     {
+      "date": "11 Nov 2026",
+      "text": "Iran denies talks with the US and says Hormuz stays closed until its conditions are met; Qatar LNG outage continues."
+    },
+    {
       "date": "1 Jan 2027",
       "text": "EU ban on all Russian LNG imports and on maritime services to Russian LNG carriers takes effect."
     },
@@ -3172,6 +3176,16 @@
       "title": "EU 21st package vs Russian LNG",
       "text": "EU ban on Russian LNG starts 1 Jan 2027 for long-term contracts; Russia is expanding its LNG shadow fleet to ~25 vessels.",
       "source": "Skuld / Hellenic Shipping News"
+    },
+    {
+      "date": "11 Nov 2026",
+      "type": "blockade",
+      "title": "Iran: Hormuz stays shut",
+      "text": "Iran said Hormuz remains closed until its demands are met, so Qatari and UAE LNG remain stranded behind force majeure.",
+      "lat": 26.6,
+      "lon": 56.4,
+      "approx": true,
+      "source": "Al Jazeera (11 Nov 2026)"
     }
   ],
   "zones": [
