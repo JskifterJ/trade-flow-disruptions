@@ -2,6 +2,25 @@
 
 Newest first. Each nightly run adds: date, task, what changed, what was verified, open issues.
 
+## 2026-11-18 · QA-only run (nightly run)
+- **Plan status:** all eight tasks are ticked, so this run only did QA.
+- **Merged `origin/main`:** already up to date. No weekly refresh since 16 Nov.
+- **Changed:** nothing except this log entry. No regressions found.
+- **Data checks (no edits):**
+  - Prices: a web search again found no primary November 2026 Pink Sheet with October averages. Only aggregator end-of-month values and euro-denominated TTF quotes turned up (Trading Economics: about €82.5–90/MWh in early November). `prices.json` still ends at Sep 2026.
+  - Stade FSRU: the newest primary item is still DET's June 2026 note targeting September. No report of commercial operation, so its status stays "due".
+- **Verified:**
+  - `npm ci`, then `npm run validate`: 7,072 checks passed, and all 1,634 plant→terminal pairs are routable.
+  - `npm run smoke` with `PW_CHROMIUM=/opt/pw-browsers/chromium`: 584 checks, 0 failures at 1440×900 and 390×844, no console errors.
+  - Screenshots looked at (not reviewed in recent runs): the fleet & freight section on phone (charter-rate chart, deliveries bars, ton-mile table, per-leg bars) and the desktop prices & storage charts. Both render cleanly at their widths. Minor: on phone, the "$21.8k" end label sits close to the last charter-rate dots.
+- **Open issues for the owner:** unchanged from 17 Nov:
+  - Oct 2026 prices, when the Pink Sheet is out.
+  - Stade commercial start: status → operating, and Germany regas 18.4 → 21.6 bcm.
+  - Check the 1 Nov storage figure against AGSI+.
+  - The Qatar–Cheniere `type: "policy"` tag.
+  - Label crowding: the Hormuz event labels on the LNG globe.
+  - A Reuters/UKMTO source for the 6 Nov Hormuz item.
+
 ## 2026-11-17 · QA-only run (nightly run)
 - **Plan status:** all eight tasks are ticked, so this run only did QA.
 - **Merged `origin/main`:** brought in the weekly refreshes of 2 Nov, 9 Nov and 16 Nov (`d2b0868`).
