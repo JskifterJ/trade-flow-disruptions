@@ -1,0 +1,224 @@
+{
+ "lastUpdated": "2026-10-25",
+ "charter": {
+  "unit": "$/day, spot charter for a 174,000 m³ two-stroke LNG carrier",
+  "series": {
+   "atlantic": {
+    "name": "Atlantic (Spark30S)",
+    "definition": "Spark Commodities' Atlantic spot freight assessment: a 174,000 m³ two-stroke carrier on the US Gulf (Sabine Pass) to NW Europe round voyage. The benchmark behind ICE's Spark30S freight futures."
+   },
+   "pacific": {
+    "name": "Pacific (Spark25S)",
+    "definition": "Spark Commodities' Pacific spot freight assessment: a 174,000 m³ two-stroke carrier on the Gladstone (Australia) to Tokyo Bay round voyage. The benchmark behind ICE's Spark25S freight futures."
+   }
+  },
+  "source": "Spark Commodities assessments, as published by Spark (on X) or reported by LNG Prime, Reuters, Riviera Maritime Media, Timera Energy, MNI and ShipUniverse. Spark's full daily history is licensed, so these are dated prints, not a continuous series.",
+  "coverageNote": "Prints are sparse before 2026 and there is a gap from mid-March to early August 2026: no dated print in that window could be confirmed by the build agent. Lines on the chart join prints and are not data in between.",
+  "prints": [
+   {
+    "date": "2024-10-31",
+    "atlantic": 18250,
+    "source": "Spark Commodities on X, 31 Oct 2024: first Spark30S print below $20k/day for a 174k two-stroke ship"
+   },
+   {
+    "date": "2024-11-05",
+    "atlantic": 19750,
+    "pacific": 29000,
+    "approxDate": true,
+    "source": "LNG Prime, early Nov 2024, citing Spark Commodities (Tuesday assessment); Spark noted Q4 rates below $50k/day for the first time in five years"
+   },
+   {
+    "date": "2025-01-22",
+    "atlantic": 11000,
+    "pacific": 16750,
+    "source": "Spark Commodities on X and MNI Markets, 22 Jan 2025: record lows for a 174k two-stroke ship"
+   },
+   {
+    "date": "2025-02-27",
+    "atlantic": 13750,
+    "source": "Spark Commodities on X, 27 Feb 2025: up $5.25k on the day, the largest daily rise since June 2024"
+   },
+   {
+    "date": "2025-10-31",
+    "atlantic": 61250,
+    "source": "LNG Prime, 31 Oct 2025, citing Spark Commodities: weekly jump on more spot activity"
+   },
+   {
+    "date": "2025-12-15",
+    "atlantic": 106940,
+    "pacific": 79710,
+    "kind": "monthlyAverage",
+    "source": "Spark Commodities on X, 2 Jan 2026: December 2025 averages, the highest month of 2025"
+   },
+   {
+    "date": "2026-01-02",
+    "atlantic": 71750,
+    "pacific": 55000,
+    "source": "Spark Commodities on X, 2 Jan 2026"
+   },
+   {
+    "date": "2026-02-27",
+    "atlantic": 42750,
+    "pacific": 28250,
+    "source": "Reuters, 7 Oct 2026 (via BOE Report), and ShipUniverse, Oct 2026, citing Spark: levels immediately before the war"
+   },
+   {
+    "date": "2026-03-03",
+    "atlantic": 161750,
+    "pacific": 98750,
+    "source": "Riviera Maritime Media, 3 Mar 2026, citing Spark: the largest one-day rise on record, 3.7× the pre-war Friday"
+   },
+   {
+    "date": "2026-03-04",
+    "atlantic": 278250,
+    "source": "LNG Prime and Riviera Maritime Media, 4 Mar 2026, citing Spark: highest since Dec 2022"
+   },
+   {
+    "date": "2026-03-06",
+    "atlantic": 287500,
+    "pacific": 225750,
+    "approxDate": true,
+    "source": "Reuters, 7 Oct 2026 (Atlantic peak, \"early March\") and ShipUniverse, Oct 2026 (Pacific peak), citing Spark. Exact day not given; Timera reports a record drop of ~$60k/day over 6–8 Mar after QatarEnergy offered idle ships for relet"
+   },
+   {
+    "date": "2026-08-07",
+    "atlantic": 51750,
+    "source": "LNG Prime, 7 Aug 2026, citing Spark: lowest since the war began"
+   },
+   {
+    "date": "2026-08-14",
+    "atlantic": 40000,
+    "source": "LNG Prime, 14 Aug 2026, citing Spark"
+   },
+   {
+    "date": "2026-08-21",
+    "atlantic": 20000,
+    "pacific": 61500,
+    "source": "LNG Prime, 21 Aug 2026, and Reuters (Spark analyst Qasim Afghan), citing Spark: Atlantic at the lowest on record for the time of year"
+   },
+   {
+    "date": "2026-08-24",
+    "atlantic": 9000,
+    "source": "Timera Energy, \"Freight rates collapse as Europe's LNG pull grows\", citing Spark: Atlantic cargoes netting back to Europe shorten average tonne-miles"
+   },
+   {
+    "date": "2026-08-28",
+    "atlantic": 11750,
+    "source": "LNG Prime, 28 Aug 2026, citing Spark"
+   },
+   {
+    "date": "2026-09-25",
+    "atlantic": 30000,
+    "approx": true,
+    "source": "LNG Prime, 25 Sep 2026, citing Spark: \"almost $30,000 per day\""
+   },
+   {
+    "date": "2026-10-02",
+    "atlantic": 31500,
+    "source": "LNG Prime, 2 Oct 2026, citing Spark: fifth weekly rise in a row"
+   },
+   {
+    "date": "2026-10-06",
+    "atlantic": 25750,
+    "pacific": 39000,
+    "source": "Reuters, 7 Oct 2026 (via BOE Report / EnergyNow), and ShipUniverse, citing Spark: 91% (Atlantic) and 83% (Pacific) below the early-March peaks"
+   },
+   {
+    "date": "2026-10-23",
+    "atlantic": 21750,
+    "pacific": 30750,
+    "approxDate": true,
+    "source": "Reuters weekly Global LNG column (Spark analyst Qasim Afghan), as republished by rallies.ai about 23-24 Oct 2026; LNG Prime (16 Oct) reported both basins falling week on week"
+   }
+  ]
+ },
+ "annotations": [
+  {
+   "date": "2026-02-28",
+   "label": "Hormuz closed"
+  }
+ ],
+ "fleet": {
+  "source": "International Gas Union (IGU), World LNG Report 2024, 2025 and 2026 editions (fleet and shipping chapters). Counts are LNG carriers above small-scale size, including FSRUs and FSUs in the active fleet.",
+  "definitionNote": "Fleet counts differ by publisher: IGU counts 804 active vessels at end-2025, Clarksons 908 in service at 1 Jul 2026 and GIIGNL 899 at end-2025, because they include different vessel types and sizes. Drewry counts 89 deliveries in 2025 against IGU's 79. The chart uses IGU throughout.",
+  "deliveries": [
+   {
+    "year": 2023,
+    "ships": 32,
+    "source": "IGU World LNG Report 2024: 32 carriers delivered in 2023, fleet +5%"
+   },
+   {
+    "year": 2024,
+    "ships": 64,
+    "source": "IGU World LNG Report 2025: 64 newbuilds delivered in 2024, all 174,000–200,000 m³"
+   },
+   {
+    "year": 2025,
+    "ships": 79,
+    "source": "IGU World LNG Report 2026: 79 vessels delivered in 2025, all 172,600–200,000 m³"
+   },
+   {
+    "year": 2026,
+    "ships": 107,
+    "scheduled": true,
+    "source": "IGU World LNG Report 2026: 107 carriers due for delivery in 2026 on the end-2025 orderbook"
+   }
+  ],
+  "snapshots": [
+   {
+    "date": "2024-02-29",
+    "active": 701,
+    "orderbook": 359,
+    "source": "IGU World LNG Report 2024: 701 active vessels (incl. 47 FSRUs, 10 FSUs) and 359 on order at end-Feb 2024 (51% of the fleet)"
+   },
+   {
+    "date": "2024-12-31",
+    "active": 742,
+    "activeDerived": true,
+    "orderbook": 337,
+    "source": "IGU World LNG Report 2025: 337 on order at end-2024, equal to 45.4% of the active fleet (active count derived: 337 / 0.454)"
+   },
+   {
+    "date": "2025-12-31",
+    "active": 804,
+    "orderbook": 301,
+    "source": "IGU World LNG Report 2026: fleet +8.4% to 804 active units (incl. 49 FSRUs, 11 FSUs); 301 on order, 37.4% of the active fleet, deliveries through 2031"
+   }
+  ],
+  "orders": [
+   {
+    "period": "Jan–Sep 2024",
+    "ships": 86,
+    "source": "Drewry, Q3 2025 LNG shipping review"
+   },
+   {
+    "period": "Jan–Sep 2025",
+    "ships": 38,
+    "source": "Drewry, Q3 2025 LNG shipping review: orders down 56% year on year"
+   }
+  ],
+  "clarksons2026": {
+   "date": "2026-07-01",
+   "inService": 908,
+   "onOrder": 338,
+   "source": "Clarksons Research, as reported by Xinde Marine News: 908 LNG carriers in service (139.7 million m³) and 338 on order (54.3 million m³, 38.9% of capacity) at 1 Jul 2026. Wider scope than IGU."
+  }
+ },
+ "canalFees": {
+  "cargoM3": 174000,
+  "panama": {
+   "ratePerM3": 2.05,
+   "ratePerM3_2024": 1.7,
+   "basis": "LNG carrier capacity toll, Neopanamax locks, per m³ of cargo capacity, laden transit",
+   "estimateBallast": true,
+   "note": "Toll only: tugs, pilots, booking and slot-auction fees are extra and not included. The ACP charges a lower rate for ballast transits within 60 days of a laden one; that rate was not retrieved, so the calculator charges the laden rate both ways (an upper bound on the toll).",
+   "source": "Panama Canal Authority (ACP), Official Tariff item 1010.0000 Tolls, effective 1 Jan 2025 ($2.05/m³ Neopanamax LNG; $1.70 in the 1 Jan 2024 tariff)"
+  },
+  "suez": {
+   "perTransitUsd": 600000,
+   "estimate": true,
+   "note": "Illustrative. The SCA's base dues for LNG carriers were not retrieved. From 15 Jul 2026 the SCA's temporary surcharge on LNG carriers rose from 7% to 19% of standard transit dues.",
+   "source": "Surcharge change: GMK Center, 10 Jun 2026, reporting SCA navigation circulars. Base figure: illustrative estimate"
+  }
+ }
+}

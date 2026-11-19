@@ -1,0 +1,18 @@
+{
+  "name": "trade-flow-disruptions",
+  "private": true,
+  "type": "module",
+  "description": "Static D3 globes of energy and LNG trade flows. No build step; package.json only holds the test tooling.",
+  "scripts": {
+    "validate": "node scripts/validate.mjs",
+    "smoke": "node tests/smoke.mjs",
+    "test": "npm run validate && npm run smoke",
+    "shots": "README_SHOTS=1 node tests/smoke.mjs"
+  },
+  "devDependencies": {
+    "d3": "7.9.0",
+    "playwright": "1.56.1",
+    "topojson-client": "3.1.0",
+    "world-atlas": "2.0.2"
+  }
+}

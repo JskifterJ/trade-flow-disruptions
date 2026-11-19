@@ -29,7 +29,11 @@ const SEV_HEX = {
   moderate: '#d8c252',
   structural: '#7c8fe0',
 };
-const SIZE_WIDTH = { 1: 1.6, 2: 3, 3: 5 };
+// Main-flows line width from the route's share of its own seaborne trade
+// (crude, products or LNG), so a 20% route is drawn as thick on any commodity.
+const flowWidth = (share) => Math.min(9, 1.1 + share * 0.38);
+// Route-label text colour per commodity: a lighter tint of the line colour.
+const LABEL_HEX = { crude: '#f2c08a', lng: '#a9cdf5', products: '#d5bdf0' };
 
 // Event types for the disruptions map layer: color + glyph + legend label.
 const EVENT = {
@@ -97,6 +101,14 @@ const state = {
 let FLOWS = null, DISRUPTIONS = null;
 
 // ---------- tooltip ----------
+// On a phone the 640-unit viewBox is drawn at ~360px; TS scales map label
+// text (sizes and offsets) so it stays readable there. Set once at load.
+let TS = 1;
+function updateScreenScale() {
+  const w = svg.node().getBoundingClientRect().width || WIDTH;
+  TS = Math.max(1, Math.min(1.7, (WIDTH / w) * 0.85));
+}
+
 const tip = d3.select('#tip');
 function showTip(event, html) {
   tip.html(html).style('display', 'block');
@@ -126,6 +138,16 @@ function arcLine(waypoints) {
     }
   }
   return { type: 'LineString', coordinates: coords };
+}
+
+// Point roughly halfway along a LineString, by arc length (route label anchor).
+function midpoint(line) {
+  const c = line.coordinates;
+  const seg = c.slice(1).map((p, i) => d3.geoDistance(c[i], p));
+  const half = d3.sum(seg) / 2;
+  let acc = 0;
+  for (let i = 0; i < seg.length; i++) { acc += seg[i]; if (acc >= half) return c[i + 1]; }
+  return c[Math.floor(c.length / 2)];
 }
 
 // Zone geometry: a polygon ring of [lon, lat] or a circle [lon, lat, radiusDeg].
@@ -199,9 +221,19 @@ function render() {
   };
   gPorts.selectAll('g').each(place);
   gChokepoints.selectAll('g').each(place);
-  gLabels.selectAll('g').each(place);
+  gLabels.selectAll('g').each(place).each(flipAtEdge);
   gEvents.selectAll('g.ev').each(place);
   placeMapText();
+}
+
+// A chokepoint name that would run off the globe's right edge goes on the left of its diamond.
+function flipAtEdge(d) {
+  const t = this.querySelector('text'), p = projection([d.lon, d.lat]);
+  if (!p || this.style.display === 'none') return;
+  if (!t.__w) t.__w = t.getComputedTextLength();
+  t.__flip = p[0] + 8 + t.__w > WIDTH - 2;
+  t.setAttribute('x', t.__flip ? -8 : 8);
+  t.setAttribute('text-anchor', t.__flip ? 'end' : 'start');
 }
 
 // Greedy label placement: highest-priority labels first, each tries its
@@ -216,7 +248,16 @@ function placeMapText() {
   // measure before hiding: hidden text has no computed length
   nodes.forEach((n) => { if (!n.__w) { n.style.display = null; n.__w = n.getComputedTextLength(); } });
   gMapText.selectAll('text').style('display', 'none');
-  // marker footprints block labels too
+  // marker footprints block labels too: chokepoint diamonds and their names
+  gLabels.selectAll('g').each(function (d) {
+    if (this.style.display === 'none') return;
+    const p = projection([d.lon, d.lat]);
+    const t = this.querySelector('text');
+    if (!p) return;
+    if (!t.__w) t.__w = t.getComputedTextLength();
+    const h = 10.5 * TS;
+    placed.push({ x: p[0] - 7, y: p[1] - 7, w: 14, h: 14 }, { x: t.__flip ? p[0] - 10 - t.__w : p[0] + 6, y: p[1] + 4 * TS - h, w: t.__w + 4, h: h + 3 });
+  });
   gEvents.selectAll('g.ev').each(function (d) {
     if (this.style.display === 'none' || !d.on) return;
     const p = projection([d.lon, d.lat]);
@@ -233,7 +274,7 @@ function placeMapText() {
       : d.anchor === 'end' ? ['end', 'start', 'above', 'below'] : ['start', 'end', 'above', 'below'];
     for (const pos of sides) {
       const side = pos === 'start' || pos === 'end' ? pos : 'middle';
-      const dy = { above: -11, below: 19, up: d.dy - 13, down: d.dy + 13 }[pos] ?? d.dy;
+      const dy = { above: -11, below: 19 * TS, up: d.dy - 13 * TS, down: d.dy + 13 * TS }[pos] ?? d.dy;
       const x = side === 'start' ? p[0] + d.dx : side === 'end' ? p[0] - d.dx - w : p[0] - w / 2;
       const y = p[1] + dy - h + 3;
       const box = { x: x - 2, y: y - 1, w: w + 4, h: h + 2 };
@@ -255,10 +296,19 @@ function currentRoutes() {
   if (state.mode === 'flows') {
     return FLOWS.routes
       .filter((r) => state.commodities.has(r.commodity))
-      .map((r) => ({ ...r, color: FLOWS.commodities[r.commodity].color, width: SIZE_WIDTH[r.size] || 2 }));
+      .map((r) => ({ ...r, color: FLOWS.commodities[r.commodity].color, width: flowWidth(shareOf(r)) }));
   }
   return DISRUPTIONS.routes.map((r) => ({ ...r, color: SEV_HEX[r.severity] || '#999', width: 2.2 }));
 }
+
+// Share (%) of the route's commodity moved by sea worldwide; units are checked
+// to match by scripts/validate.mjs.
+function shareOf(r) {
+  return (100 * r.flow.value) / FLOWS.seaborneTotals[r.commodity].value;
+}
+const fmtNum = (v) => (Number.isInteger(v) || v >= 100 ? d3.format(',.0f')(v) : d3.format('.1f')(v));
+const fmtPct = (v) => (v < 1 ? '<1%' : `${Math.round(v)}%`);
+const flowText = (r) => `${r.flow.approx ? '≈' : ''}${fmtNum(r.flow.value)} ${r.flow.unit}`;
 
 function currentChokepoints() {
   return state.mode === 'flows' ? FLOWS.chokepoints : [];
@@ -336,8 +386,8 @@ function drawRoutes() {
     (enter) => {
       const g = enter.append('g').style('pointer-events', 'none');
       g.append('text').attr('x', 8).attr('y', 4)
-        .attr('fill', COLOR.chokepoint).attr('font-size', 10.5)
-        .attr('paint-order', 'stroke').attr('stroke', COLOR.ocean).attr('stroke-width', 3)
+        .attr('fill', COLOR.chokepoint).attr('font-size', 10.5 * TS)
+        .attr('paint-order', 'stroke').attr('stroke', COLOR.ocean).attr('stroke-width', 3 * TS)
         .text((d) => d.name.replace(' + SUMED pipeline', '').replace(' (Bosphorus)', ''));
       return g;
     });
@@ -374,8 +424,14 @@ function drawDisruptionLayer() {
       focusEvent(d.idx);
     }));
 
-  // text layer: region names, zone names, event labels
+  // text layer: route volume labels (main flows), region names, zone names, event labels
   const texts = [];
+  if (!on) {
+    currentRoutes().forEach((r) => {
+      const [lon, lat] = r.labelAt || midpoint(arcLine(r.waypoints));
+      texts.push({ kind: 'route', route: r.id, key: `rt-${r.id}`, name: `${flowText(r)} · ${fmtPct(shareOf(r))}`, lon, lat, commodity: r.commodity });
+    });
+  }
   routes.forEach((r) => {
     (r.regions || []).forEach((g) => texts.push({ kind: 'region', route: r.id, key: `rg-${r.id}-${g.name}`, ...g }));
     (r.zones || []).forEach((z) => {
@@ -396,12 +452,15 @@ function drawDisruptionLayer() {
         t.text(d.name).attr('font-size', d.small ? 9.5 : 11).attr('letter-spacing', d.small ? '0.06em' : '0.16em')
           .attr('font-style', d.land ? 'normal' : 'italic').attr('font-weight', d.land ? 600 : 500)
           .attr('fill', d.land ? '#7f8fa0' : '#8fc1f0').attr('stroke-width', 3);
+      } else if (d.kind === 'route') {
+        t.text(d.name).attr('font-size', 10.5).attr('font-weight', 600).attr('fill', LABEL_HEX[d.commodity]).attr('stroke-width', 3.2);
       } else if (d.kind === 'zone') {
         t.text(d.name).attr('font-size', 9.5).attr('font-style', 'italic')
           .attr('fill', ZONE_STYLE[d.zkind].stroke).attr('stroke-width', 3);
       } else {
         t.text(d.name).attr('font-size', 10.5).attr('font-weight', 600).attr('fill', '#e8edf2').attr('stroke-width', 3.2);
       }
+      t.attr('font-size', +t.attr('font-size') * TS).attr('stroke-width', +t.attr('stroke-width') * TS);
     });
 }
 
@@ -444,14 +503,18 @@ function applyHighlight() {
   gMapText.selectAll('text').each(function (d) {
     const mine = act && d.route === act.id;
     let show = false, priority = 0;
-    if (d.kind === 'event') { show = !!mine; priority = state.focusEvent === d.idx && mine ? 100 : 50; }
+    if (d.kind === 'route') {
+      const r = FLOWS.routes.find((x) => x.id === d.route);
+      show = !ids || ids.has(d.route);
+      priority = ids ? 95 : 60 + shareOf(r);
+    } else if (d.kind === 'event') { show = !!mine; priority = state.focusEvent === d.idx && mine ? 100 : 50; }
     else if (d.kind === 'zone') { show = !!mine; priority = 15; }
     else if (mine) { show = true; priority = d.land ? 25 : 40; }
     else if (!act && !d.small && !d.land && !seen.has(d.name)) { show = true; priority = 5; seen.add(d.name); }
     this.__d = {
-      ...d, show, priority, force: priority === 100,
-      size: d.kind === 'region' ? (d.small ? 9.5 : 11) : d.kind === 'zone' ? 9.5 : 10.5,
-      dx: d.kind === 'event' ? 11 : 0, dy: d.kind === 'event' ? 4 : 4,
+      ...d, show, priority, force: priority === 100 || (d.kind === 'route' && state.active?.kind === 'route'),
+      size: (d.kind === 'region' ? (d.small ? 9.5 : 11) : d.kind === 'zone' ? 9.5 : 10.5) * TS,
+      dx: d.kind === 'event' ? 11 : 0, dy: 4 * TS,
       anchor: d.kind === 'event' ? (d.side === 'left' ? 'end' : 'start') : 'middle',
     };
     d3.select(this).attr('opacity', d.kind === 'region' && !act ? 0.55 : 1);
@@ -461,14 +524,18 @@ function applyHighlight() {
 // ---------- side panel ----------
 
 function renderList() {
+  // the list is rebuilt on every selection; keep keyboard focus on the same card
+  const focused = [...document.querySelectorAll('#route-list .route-card')].indexOf(document.activeElement);
   const list = d3.select('#route-list').html('');
   const routes = currentRoutes();
   if (state.mode === 'flows') {
     Object.entries(FLOWS.commodities).forEach(([key, c]) => {
-      const group = routes.filter((r) => r.commodity === key);
+      const group = routes.filter((r) => r.commodity === key).sort((x, y) => y.flow.value - x.flow.value);
       if (!group.length) return;
-      list.append('div').attr('class', 'group-label').text(c.label);
-      group.forEach((r) => card(list, r, r.volume));
+      const tot = FLOWS.seaborneTotals[key];
+      list.append('div').attr('class', 'group-label')
+        .text(`${c.label} · % of ${tot.approx ? '≈' : ''}${fmtNum(tot.value)} ${tot.unit} seaborne (${tot.period})`);
+      group.forEach((r) => card(list, r, null));
     });
   } else {
     routes.forEach((r) => {
@@ -476,6 +543,21 @@ function renderList() {
       card(list, r, r.dateRange + (n ? ` · ${n} events on map` : ''));
     });
   }
+  keyable('#route-list .route-card', 'active');
+  if (focused >= 0) document.querySelectorAll('#route-list .route-card')[focused]?.focus({ preventScroll: true });
+}
+
+// Cards and event rows act as buttons: Tab reaches them, Enter/Space selects, ↑/↓ moves between them.
+function keyable(sel, onClass) {
+  d3.selectAll(sel).attr('tabindex', 0).attr('role', 'button')
+    .attr('aria-pressed', function () { return this.classList.contains(onClass); })
+    .on('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); this.click(); return; }
+      if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+      e.preventDefault();
+      const all = [...document.querySelectorAll(sel)], i = all.indexOf(this);
+      all[Math.max(0, Math.min(all.length - 1, i + (e.key === 'ArrowDown' ? 1 : -1)))].focus();
+    });
 }
 
 function card(list, r, sub) {
@@ -485,7 +567,17 @@ function card(list, r, sub) {
   const row = el.append('div').attr('class', 'title-row');
   row.append('span').attr('class', 'sev-dot').style('background', r.color);
   row.append('h3').text(r.title);
-  el.append('div').attr('class', 'date-range').text(sub);
+  if (r.flow) {
+    // main flows: volume and share, with a bar scaled to share of seaborne trade
+    const sh = shareOf(r);
+    row.append('span').attr('class', 'n').html(`${flowText(r)} · <b>${fmtPct(sh)}</b>`);
+    el.append('div').attr('class', 'bar').append('i').style('width', Math.min(100, sh * 2.5) + '%').style('background', r.color);
+  } else el.append('div').attr('class', 'date-range').text(sub);
+}
+
+// Figure tiles shared by route and chokepoint details (same layout as lng.html).
+function figTiles(detail, tiles) {
+  detail.append('div').attr('class', 'fig').html(tiles.map(([v, l]) => `<div><b>${v}</b>${l}</div>`).join(''));
 }
 
 function renderDetail() {
@@ -500,18 +592,46 @@ function renderDetail() {
   if (a.kind === 'chokepoint') {
     const c = FLOWS.chokepoints.find((x) => x.id === a.id);
     detail.append('h4').text(c.name);
+    if (c.oil) {
+      const oilTot = FLOWS.seaborneTotals.oil;
+      figTiles(detail, [
+        [`${c.oil.approx ? '≈' : ''}${fmtNum(c.oil.value)} mb/d`, `oil, ${c.oil.period}`],
+        [fmtPct((100 * c.oil.value) / oilTot.value), `of seaborne oil (${oilTot.approx ? '≈' : ''}${fmtNum(oilTot.value)} mb/d)`],
+      ]);
+    }
     detail.append('div').attr('class', 'figure').text(c.flow);
     detail.append('div').text(c.why);
     const through = FLOWS.routes.filter((r) => (r.via || []).includes(c.id));
     if (through.length) {
-      detail.append('div').attr('class', 'through').text('Main flows through here: ' + through.map((r) => r.title).join(' · '));
+      detail.append('div').attr('class', 'through').html('<b style="color:var(--ink)">Main flows through here:</b> ' +
+        through.map((r) => `${r.title} (${flowText(r)})`).join(' · '));
     }
-    detail.append('span').attr('class', 'source').text(`Source: ${c.source}`);
+    detail.append('span').attr('class', 'source').text(`Source: ${c.source}` + (c.oil && c.oil.source !== c.source ? ` · volume: ${c.oil.source}` : ''));
     return;
   }
   const pool = state.mode === 'flows' ? FLOWS.routes : DISRUPTIONS.routes;
   const r = pool.find((x) => x.id === a.id);
   detail.append('h4').text(r.title);
+  if (r.flow) {
+    const tot = FLOWS.seaborneTotals[r.commodity];
+    figTiles(detail, [
+      [flowText(r), r.flow.period],
+      [fmtPct(shareOf(r)), `of seaborne ${FLOWS.commodities[r.commodity].label.toLowerCase()}`],
+      [r.via.length ? r.via.length : 'none', r.via.length === 1 ? 'chokepoint' : 'chokepoints'],
+    ]);
+    detail.append('div').attr('class', 'basis').text(`Counts: ${r.flow.basis}` + (r.flow.approx ? ' (estimate, marked ≈)' : ''));
+    if (r.via.length) {
+      detail.append('div').attr('class', 'through').html('<b style="color:var(--ink)">Via:</b> ' +
+        r.via.map((v) => FLOWS.chokepoints.find((c) => c.id === v).name).join(', '));
+    }
+    if (r.commodity === 'lng') detail.append('div').attr('class', 'through').html('Leg-by-leg detail, plants and terminals: <a href="lng.html">LNG supply chain page</a>.');
+    detail.append('div').attr('class', 'figure').style('margin-top', '8px').text(r.volume);
+    detail.append('div').attr('class', 'story').text(r.why);
+    detail.append('span').attr('class', 'source').text(`Source: ${r.source}`);
+    detail.append('span').attr('class', 'source').style('margin-top', '2px')
+      .text(`Volume: ${r.flow.source} · share = ${flowText(r)} ÷ ${tot.approx ? '≈' : ''}${fmtNum(tot.value)} ${tot.unit} (${tot.source})`);
+    return;
+  }
   if (r.volume) detail.append('div').attr('class', 'figure').text(r.volume);
   if (r.events && r.events.length) {
     detail.append('div').attr('class', 'ev-head').text('What happened, where (click to fly there)');
@@ -526,8 +646,9 @@ function renderDetail() {
         (e.approx ? ' <span class="ev-tag">approx. location</span>' : '') + (e.lat == null ? ' <span class="ev-tag">not mapped</span>' : ''));
       body.append('div').attr('class', 'ev-text').text(e.text);
       body.append('div').attr('class', 'ev-src').style('color', t.c).text(t.label + (e.source ? ' · ' + e.source : ''));
-      if (e.lat != null) li.on('click', () => focusEvent(i));
+      if (e.lat != null) li.attr('class', (li.attr('class') || '') + ' mapped').on('click', () => focusEvent(i));
     });
+    keyable('#detail .ev-list li.mapped', 'on');
   }
   detail.append('div').attr('class', 'story').text(r.why || r.summary);
   detail.append('span').attr('class', 'source').text(`Source: ${r.source}`);
@@ -543,6 +664,7 @@ function select(target, opts = {}) {
   renderList();
   renderDetail();
   render();
+  writeHash();
   if (!state.active || opts.noFly) return;
   // spin (and, for disruptions, zoom) the globe so the selection faces the viewer
   let focus, k = state.k;
@@ -561,9 +683,13 @@ function focusEvent(i) {
   const r = activeDisruption();
   if (!r) return;
   state.focusEvent = state.focusEvent === i ? null : i;
+  // keep keyboard focus on the event row that was just rebuilt
+  const hadFocus = document.activeElement?.closest?.('#detail .ev-list') != null;
   applyHighlight();
   renderDetail();
   render();
+  writeHash();
+  if (hadFocus) document.querySelector('#detail .ev-list li.on, #detail .ev-list li.mapped')?.focus({ preventScroll: true });
   if (state.focusEvent == null) return;
   const e = r.events[i];
   rotateTo([e.lon, e.lat], Math.max(state.k, (r.focus ? r.focus.zoom : 2) * 1.5));
@@ -602,7 +728,9 @@ function setMode(mode) {
   state.mode = mode;
   state.active = null;
   state.focusEvent = null;
-  d3.selectAll('.tab').classed('active', function () { return this.dataset.mode === mode; });
+  d3.selectAll('.tab').classed('active', function () { return this.dataset.mode === mode; })
+    .attr('aria-selected', function () { return this.dataset.mode === mode; })
+    .attr('tabindex', function () { return this.dataset.mode === mode ? 0 : -1; });
   d3.select('#chips').style('display', mode === 'flows' ? null : 'none');
   d3.select('#legend-flows').style('display', mode === 'flows' ? null : 'none');
   d3.select('#legend-disruptions').style('display', mode === 'flows' ? 'none' : null);
@@ -610,10 +738,65 @@ function setMode(mode) {
   drawRoutes();
   renderList();
   renderDetail();
+  writeHash();
 }
 
+// ---------- deep links ----------
+// The hash mirrors the view: index.html#route=gulf-china, #choke=hormuz,
+// #disruption=redsea-2026, and #disruption=redsea-2026&event=2 (1-based) for one incident.
+let hashLock = true; // until boot has read the incoming hash
+function writeHash() {
+  if (hashLock) return;
+  const a = state.active, q = [];
+  if (a && a.kind === 'chokepoint') q.push(`choke=${a.id}`);
+  else if (a) q.push(`${state.mode === 'flows' ? 'route' : 'disruption'}=${a.id}`);
+  else if (state.mode === 'disruptions') q.push('view=disruptions');
+  if (a && state.focusEvent != null) q.push(`event=${state.focusEvent + 1}`);
+  const url = location.pathname + location.search + (q.length ? '#' + q.join('&') : '');
+  if (url !== location.pathname + location.search + location.hash) history.replaceState(null, '', url);
+}
+function applyHash() {
+  const q = new URLSearchParams(location.hash.slice(1));
+  hashLock = true;
+  const dis = q.get('disruption'), route = q.get('route'), choke = q.get('choke');
+  const mode = dis != null || q.get('view') === 'disruptions' ? 'disruptions' : 'flows';
+  if (mode !== state.mode || state.active) setMode(mode);
+  if (choke && FLOWS.chokepoints.some((c) => c.id === choke)) select({ kind: 'chokepoint', id: choke });
+  else {
+    const id = mode === 'flows' ? route : dis;
+    if (id != null && currentRoutes().some((r) => r.id === id)) {
+      const r = currentRoutes().find((x) => x.id === id);
+      const ev = parseInt(q.get('event'), 10) - 1;
+      if (r.events && r.events[ev] && r.events[ev].lat != null) { select({ kind: 'route', id }, { noFly: true }); focusEvent(ev); }
+      else select({ kind: 'route', id });
+    }
+  }
+  hashLock = false;
+  writeHash(); // drop anything unrecognised
+}
+window.addEventListener('hashchange', () => { if (FLOWS) applyHash(); });
+
 function buildChrome() {
-  d3.selectAll('.tab').on('click', function () { setMode(this.dataset.mode); });
+  d3.selectAll('.tab').on('click', function () {
+    const changed = this.dataset.mode !== state.mode;
+    setMode(this.dataset.mode);
+    // a new view starts from the home globe, not the last disruption's zoom
+    if (changed && state.k > 1.01) rotateTo([55, 12], 1);
+  });
+  // tabs: ←/→/Home/End switch views (WAI-ARIA tabs pattern, automatic activation)
+  d3.select('.tabs').on('keydown', (e) => {
+    const tabs = [...document.querySelectorAll('.tabs .tab')], i = tabs.indexOf(document.activeElement);
+    if (i < 0) return;
+    const j = { ArrowRight: i + 1, ArrowDown: i + 1, ArrowLeft: i - 1, ArrowUp: i - 1, Home: 0, End: tabs.length - 1 }[e.key];
+    if (j == null) return;
+    e.preventDefault();
+    const t = tabs[(j + tabs.length) % tabs.length];
+    t.focus(); t.click();
+  });
+  d3.select('#print').on('click', () => window.print());
+  window.addEventListener('beforeprint', () => {
+    d3.select('#print-meta').text(`Printed ${new Date().toISOString().slice(0, 10)} from ${location.href} · disruptions data as of ${DISRUPTIONS.lastUpdated}`);
+  });
   const chips = d3.select('#chips');
   Object.entries(FLOWS.commodities).forEach(([key, c]) => {
     chips.append('button').attr('class', 'chip on').attr('type', 'button')
@@ -645,7 +828,7 @@ function buildChrome() {
   d3.select('#zout').on('click', () => svg.transition().duration(350).call(zoomer.scaleBy, 1 / 1.6));
   d3.select('#zreset').on('click', () => {
     state.active = null; state.focusEvent = null;
-    applyHighlight(); renderList(); renderDetail();
+    applyHighlight(); renderList(); renderDetail(); writeHash();
     rotateTo([55, 12], 1);
   });
 }
@@ -679,6 +862,7 @@ Promise.all([
 ]).then(([landTopo, flows, disruptions]) => {
   FLOWS = flows;
   DISRUPTIONS = disruptions;
+  updateScreenScale();
   drawLand(landTopo);
   // detailed coastline for close zooms, loaded in the background
   d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/land-50m.json')
@@ -688,6 +872,9 @@ Promise.all([
   d3.select('#meta-row').text(
     `data current as of ${disruptions.lastUpdated} · disruptions refreshed ${disruptions.updateCadence}`);
   setMode('flows');
+  hashLock = false;
+  if (location.hash.length > 1) applyHash();
+  else writeHash();
 }).catch((err) => {
   d3.select('#meta-row').text('Could not load map/data — check the console (likely a local file:// CORS issue; serve via a local HTTP server).');
   console.error(err);
