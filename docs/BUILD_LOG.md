@@ -2,6 +2,28 @@
 
 Newest first. Each nightly run adds: date, task, what changed, what was verified, open issues.
 
+## 2026-11-19 · QA-only run (nightly run)
+- **Plan status:** all eight tasks are ticked, so this run only did QA.
+- **Merged `origin/main`:** already up to date. No weekly refresh since 16 Nov.
+- **Changed:** nothing except this log entry. No regressions found.
+- **Data checks (no edits):**
+  - Prices: a web search again found no primary November 2026 Pink Sheet with October averages, only weekly secondary reports (GlobalLNGHub, 2, 9 and 16 Nov). `prices.json` still ends at Sep 2026.
+- **Verified:**
+  - `npm ci`, then `npm run validate`: 7,072 checks passed, and all 1,634 plant→terminal pairs are routable.
+  - `npm run smoke` with `PW_CHROMIUM=/opt/pw-browsers/chromium`: 584 checks, 0 failures at 1440×900 and 390×844, no console errors.
+  - Screenshots looked at (not reviewed in recent runs):
+    - Desktop regas section: utilisation bars, EU terminal utilisation chart, FSRU bars and the FSRU table.
+    - Phone table view: the regas table opened at 390px.
+    - Print layout of the main page.
+  - All three render cleanly. On phone, the regas table's rows are tall because the Source column wraps at its 200px minimum. The table scrolls sideways inside its own box, so the page itself never scrolls horizontally. Left as is.
+- **Open issues for the owner:** unchanged from 18 Nov:
+  - Oct 2026 prices, when the Pink Sheet is out.
+  - Stade commercial start: status → operating, and Germany regas 18.4 → 21.6 bcm.
+  - Check the 1 Nov storage figure against AGSI+.
+  - The Qatar–Cheniere `type: "policy"` tag.
+  - Label crowding: the Hormuz event labels on the LNG globe.
+  - A Reuters/UKMTO source for the 6 Nov Hormuz item.
+
 ## 2026-11-18 · QA-only run (nightly run)
 - **Plan status:** all eight tasks are ticked, so this run only did QA.
 - **Merged `origin/main`:** already up to date. No weekly refresh since 16 Nov.
