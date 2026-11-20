@@ -10,7 +10,13 @@ permissions:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    # Linux is pinned: ubuntu-latest became 26.04 (Nov 2026), which Playwright 1.56.1 cannot install Chromium on.
+    # Windows runs too, so the tests keep working on the owner's Windows PC.
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-latest]
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
@@ -29,6 +35,6 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: screenshots
+          name: screenshots-${{ matrix.os }}
           path: tests/screenshots/
           if-no-files-found: ignore

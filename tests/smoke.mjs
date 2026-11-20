@@ -30,10 +30,11 @@ const server = http.createServer((req, res) => {
 await new Promise((r) => server.listen(0, '127.0.0.1', r));
 const BASE = `http://127.0.0.1:${server.address().port}`;
 
-// README_SHOTS=1 (npm run shots) also saves the README's images to docs/img/ as JPEGs.
+// npm run shots (--shots, or README_SHOTS=1) also saves the README's images to docs/img/ as JPEGs.
+const SHOTS_MODE = process.argv.includes('--shots') || !!process.env.README_SHOTS;
 const README_IMG = path.join(ROOT, 'docs', 'img');
 async function readmeShot(target, name, opts = {}) {
-  if (!process.env.README_SHOTS) return;
+  if (!SHOTS_MODE) return;
   fs.mkdirSync(README_IMG, { recursive: true });
   await target.screenshot({ path: path.join(README_IMG, `${name}.jpg`), type: 'jpeg', quality: 78, ...opts });
 }
