@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-11-16",
+  "lastUpdated": "2026-11-23",
   "globalTrade2025Mt": 427.9,
   "notes": "2025 volumes come from GIIGNL's Annual Report 2026 (exporter-by-importer matrix, with Kpler). Each leg groups the reported flows from one exporter to the destinations named. Where a country's exports are split across several of its plants (Australia's WA / Queensland / NT legs), the split is an estimate (marked ≈). Paths are illustrative routing through real ports and straits, not AIS tracks. 2026 run-rates are rough indications of current flow, not forecasts.",
   "points": {
@@ -3230,6 +3230,25 @@
       "lon": 56.4,
       "approx": true,
       "source": "Al Jazeera (11 Nov 2026)"
+    },
+    {
+      "date": "16 Nov 2026",
+      "type": "attack",
+      "title": "Hormuz: seizure, mines, LPG carrier hit",
+      "text": "Iran seized a tanker in the Gulf of Oman (14 Nov) and tankers were attacked or reported mined near Hormuz (16-17 Nov, incl. LPG carrier TARA GAS). Qatari/UAE LNG stays stranded.",
+      "lat": 26.4,
+      "lon": 56.4,
+      "approx": true,
+      "source": "Lloyd's List; UANI shipping updates (14-18 Nov 2026)"
+    },
+    {
+      "date": "16 Nov 2026",
+      "type": "supply",
+      "title": "Stade LNG terminal formally commissioned",
+      "text": "DET formally commissioned the Stade FSRU terminal (Energos Force, ~6 bcm/yr) on 16 Nov; commercial-operation confirmation still awaited.",
+      "lat": 53.65,
+      "lon": 9.5,
+      "source": "Baird Maritime (16 Nov 2026)"
     }
   ],
   "zones": [
@@ -3847,7 +3866,7 @@
         "confidence": "low",
         "derived": true,
         "source": "Sum of the German FSRUs operating in 2026 in regasCapacity.fsrus (Wilhelmshaven 1 + 2, Brunsbüttel, Mukran/Neptune)",
-        "note": "Stade (Energos Force) took its first, commissioning cargo on 2 Nov 2026 (energate, 3 Nov 2026); commercial start still pending."
+        "note": "Stade (Energos Force) took its first, commissioning cargo on 2 Nov 2026 (energate, 3 Nov 2026); formally commissioned 16 Nov 2026 (Baird Maritime); DET commercial-operation release still pending."
       },
       {
         "name": "Poland",

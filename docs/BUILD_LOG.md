@@ -2,6 +2,22 @@
 
 Newest first. Each nightly run adds: date, task, what changed, what was verified, open issues.
 
+## 2026-11-23 · Weekly refresh
+- **Changed:**
+  - `disruptions.json`: Hormuz gets two events (14 Nov Talara seizure; 16-17 Nov tanker/mine attacks and LPG carrier TARA GAS struck). Red Sea gets a 12 Nov event (Suez October transits 1,338, 34% below pre-crisis; Gemini services returning). Severities unchanged.
+  - `lng.json`: events for the Hormuz incidents and the 16 Nov Stade formal commissioning; Stade note updated. Status left "due" and Germany regas left at 18.4 bcm.
+  - Panama already reflected the 9-12 Nov easing. No new route warranted.
+- **Not changed:** `prices.json` (no primary Nov Pink Sheet with October found), `fleet.json` and `flows.json` (no new sourced prints).
+- **Sources:** Lloyd's List, United Against Nuclear Iran shipping updates (13-18 Nov), CBS News, Ahram, Lloyd's List Intelligence Red Sea Brief (12 Nov), gCaptain (16 Nov), Baird Maritime (16 Nov).
+- **Verified:** `npm run validate` 7,120 checks passed; `npm run smoke` run (see commit for result).
+- **Open issues for the owner:**
+  - Oct 2026 prices, when the Pink Sheet is out.
+  - Stade commercial start: status → operating, Germany regas 18.4 → 21.6 bcm (DET release needed; only formal commissioning found).
+  - Check the 1 Nov storage figure against AGSI+.
+  - The Qatar–Cheniere `type: "policy"` tag.
+  - Label crowding of Hormuz event labels (now more events).
+  - A Reuters/UKMTO source for the 6 Nov Hormuz item.
+
 ## 2026-11-19 · QA-only run (nightly run)
 - **Plan status:** all eight tasks are ticked, so this run only did QA.
 - **Merged `origin/main`:** already up to date. No weekly refresh since 16 Nov.

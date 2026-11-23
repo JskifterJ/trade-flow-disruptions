@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-11-16",
+  "lastUpdated": "2026-11-23",
   "updateCadence": "weekly",
   "focus": "Energy and commodity trade flows: what has broken in 2026 and where the barrels and cargoes went instead",
   "chokepoints": [
@@ -69,7 +69,7 @@
         }
       ],
       "summary": "The US–Iran war has shut most commercial traffic through Hormuz for about eight months, with no durable diplomatic fix in sight. A June interim deal (the Islamabad MoU) briefly eased flows but collapsed; Iran now wants a return to it plus US backing for a separate Iran-Oman coordinated shipping-route deal, while Trump rejected Iran's latest seven-day reopening proposal. Attacks have stayed elevated rather than fading: Reuters counted at least 12 strikes on oil, LNG and LPG tankers in the week of 28 Sep-5 Oct, the highest weekly total since the war began, and UKMTO logged at least 11 further incidents in the Gulf between 11-14 October, including an Iranian-claimed strike on an ADNOC Logistics & Services VLCC. Harassment has widened beyond the strait itself to a container ship and sites off Qatar, Fujairah and Sohar, with the IRGC ordering at least one inbound tanker to turn back on 5 October. Yet despite the attacks, Kpler data show Middle East crude shipments through Hormuz recovered to roughly 80% of pre-war levels by September (~16 mb/d) as tankers sail on under US Navy-escorted convoys rather than diverting outright. For a trader, the questions are which barrels can still move (see the bypass pipelines entry), who replaces what doesn't (Atlantic Basin crude, Brazil, US, West Africa), and how freight and insurance reprice for ships that keep sailing into an active-strike zone. Update 30 Oct: another tanker was hit by an explosives-rigged boat; UKMTO logged 43 incidents involving commercial vessels in October, 30 of them on tankers. Brent settled near $117, a six-month high and a fourth straight monthly gain, on fears of renewed US-Iran fighting. Update 16 Nov: Iran denied direct talks on 11 Nov and said Hormuz stays shut until its seven conditions (sanctions relief, end of the US naval blockade) are met, though indirect contacts via Qatari mediators reportedly continue and Trump cites 'positive momentum'. Mine strikes and ship attacks were reported around 10-11 Nov. Transit counts conflict by source: trackers show ~3 transits on 8 Nov versus ~85 a day pre-war, while a US-facilitated count shows ~34 a day with a record 135 over 8-11 Nov.",
-      "source": "Reuters via gvwire (7 Oct 2026); Seatrade Maritime (2 & 13 Oct 2026); gCaptain (2 & 5 Oct 2026); Engine (15 Oct 2026); IEA Oil Market Report, Sep 2026; IMF PortWatch via straits.live, Oct 2026; The National, CNBC (30 Oct 2026); Invezz, OilPrice (6 Nov 2026); Al Jazeera (11 Nov 2026); United Against Nuclear Iran shipping update (13 Nov 2026); straits.live (16 Nov 2026)",
+      "source": "Reuters via gvwire (7 Oct 2026); Seatrade Maritime (2 & 13 Oct 2026); gCaptain (2 & 5 Oct 2026); Engine (15 Oct 2026); IEA Oil Market Report, Sep 2026; IMF PortWatch via straits.live, Oct 2026; The National, CNBC (30 Oct 2026); Invezz, OilPrice (6 Nov 2026); Al Jazeera (11 Nov 2026); United Against Nuclear Iran shipping update (13 Nov 2026); straits.live (16 Nov 2026); Lloyd's List, UANI shipping updates (14-18 Nov 2026)",
       "focus": {
         "lat": 26.4,
         "lon": 56.3,
@@ -187,6 +187,26 @@
           "lon": 56.4,
           "approx": true,
           "source": "Al Jazeera (11 Nov 2026); UKMTO via CBS News"
+        },
+        {
+          "date": "14 Nov 2026",
+          "type": "seizure",
+          "title": "Iran seizes tanker Talara",
+          "text": "Iranian forces diverted the Marshall Islands-flagged tanker Talara into Iranian waters while it transited the Gulf of Oman, the first seizure in months.",
+          "lat": 25.3,
+          "lon": 57.2,
+          "approx": true,
+          "source": "Lloyd's List; CBS News (14 Nov 2026)"
+        },
+        {
+          "date": "16-17 Nov 2026",
+          "type": "attack",
+          "title": "Tankers burn, LPG carrier struck",
+          "text": "A tanker was set ablaze near Hormuz on 16 Nov and Iran claimed three tankers hit mines; on 17 Nov the Panama-flagged LPG tanker TARA GAS was struck twice by the IRGC off Khasab, Oman.",
+          "lat": 26.2,
+          "lon": 56.3,
+          "approx": true,
+          "source": "Maritime monitors via Ahram (16 Nov 2026); United Against Nuclear Iran shipping update (17-18 Nov 2026)"
         }
       ],
       "zones": [
@@ -626,7 +646,7 @@
         }
       ],
       "summary": "The Houthis' 2025 pause ended at the end of February 2026, when they announced renewed attacks on Red Sea shipping, linked to the strikes on Iran. In July they declared a complete naval blockade on Saudi Arabia, aimed squarely at the oil Saudi Arabia was rerouting to Yanbu to avoid Hormuz, and in September seized the port of Mokha plus Mayun (Perim) island and the Hanish islands, giving them effective control of both shores of Bab-el-Mandeb despite a Saudi-backed counter-offensive claim on 4 October. The conflict escalated sharply in early October: Houthi missiles struck Riyadh's airport twice (9–10 Oct), killing at least 13 people, and the group has warned airlines and travelers to avoid all Saudi airports and airspace except Mecca and Medina — widening this from a shipping chokepoint into an aviation one too. Bab-el-Mandeb traffic has fallen to roughly 32 ships/day from a pre-blockade ~50. Around 30 tankers near Yanbu sit within Houthi strike range, and most Asia–Europe tankers and container ships still go round the Cape, adding about 10–14 days. That ties up ships and lifts freight rates on every route, not just this one. Update 16 Nov: container capacity back on Suez/Red Sea routings is reported at ~63% (Alphaliner) as carriers return despite the Saudi-Houthi war, with Houthi-run offices being emailed for transit assurances that carry no international standing.",
-      "source": "CNN (10 Oct 2026); PBS NewsHour (2026); Reuters via aaj.tv (11 Aug 2026); CNBC (22 Jul 2026); CFR; Lloyd's List Intelligence Red Sea brief (Aug 2026); JMIC / Gulf News (5 Nov 2026); Seatrade Maritime (22 Oct 2026); Maritime Gateway (6 Nov 2026)",
+      "source": "CNN (10 Oct 2026); PBS NewsHour (2026); Reuters via aaj.tv (11 Aug 2026); CNBC (22 Jul 2026); CFR; Lloyd's List Intelligence Red Sea brief (Aug 2026); JMIC / Gulf News (5 Nov 2026); Seatrade Maritime (22 Oct 2026); Maritime Gateway (6 Nov 2026); Lloyd's List Red Sea Brief (12 Nov 2026)",
       "focus": {
         "lat": 17.0,
         "lon": 41.5,
@@ -736,6 +756,15 @@
           "lon": 43.0,
           "approx": true,
           "source": "JMIC advisory via Gulf News (5 Nov 2026)"
+        },
+        {
+          "date": "12 Nov 2026",
+          "type": "info",
+          "title": "Suez traffic 34% below pre-crisis",
+          "text": "Lloyd's List Intelligence: October 2026 Suez Canal transits were 1,338, up 63% year on year but 34% below pre-Houthi levels. Maersk and Hapag-Lloyd are returning three more Gemini services to the Red Sea.",
+          "lat": 30.0,
+          "lon": 32.55,
+          "source": "Lloyd's List Intelligence Red Sea Brief (12 Nov 2026); gCaptain (16 Nov 2026)"
         }
       ],
       "zones": [
